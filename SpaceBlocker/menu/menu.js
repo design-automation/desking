@@ -3,3 +3,10 @@
  */
 
 
+var LoadFloor=function (value) {
+
+
+}
+
+
+
