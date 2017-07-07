@@ -1,0 +1,27 @@
+#mainPaneContainer{
+    border-bottom: 5px solid #C9C5C5;
+    overflow: hidden;
+}
+#headerPane{
+    overflow: hidden;
+}
+.pane{
+    padding:5px;
+}
+
+.panel-heading{
+    border-radius: 0px;
+    padding: 5px;
+}
+
+.lecture-item{
+    border-bottom: 1px dashed #ccc;
+}
+
+.lecture-item.highlighted{
+    background-color: #4BAA4B;
+}
+
+.lecture-item:hover{
+    background: #ccc;
+}
