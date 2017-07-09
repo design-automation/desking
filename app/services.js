@@ -24,8 +24,8 @@ spaceBlocker.factory("timeService", function() {
 
 
 	var o = {
-		time: new Date(1496293639599),
-		timeline: getDates( new Date(), (new Date()).addDays(1) ).map(function(d){ return d.getTime() })
+		time: new Date(1496319120556),
+		timeline: getDates( new Date(), (new Date()).addDays(30) ).map(function(d){ return d.getTime() })
 	}
 
 	var p = {};
@@ -184,8 +184,88 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 
 
 	p.setJsonData  = function(jsonData){
+
+
 		o.jsonData =jsonData;
+
+		var lowest = new Date(), highest = new Date();
+		var rows=[];
+		var chart = [];
+
+		for(x in jsonData){
+
+			if(x=="Overview"){
+
+				continue;
+			}
+
+			jsonData[x].map(function(obj){
+
+				rows.push(obj);
+			});
+
+		}
+
+
+		for(var i=0; i<rows.length; i++){
+
+			var row = rows[i];
+
+			if(row == undefined || row['Date'] == undefined || row['Time'] == undefined)
+				continue;
+
+
+			var date = row['Date'].split("/");
+			var time = row['Time'].split(":");
+
+			var newdate = new Date();
+			newdate.setDate(date[0]);
+			newdate.setMonth(date[1]-1);
+			newdate.setYear(date[2]);
+			// newdate.setHours(time[0]);
+			// newdate.setMinutes(time[1]);
+			// newdate.setSeconds(time[2]);
+
+
+
+			if(i==0){
+				highest = newdate;
+				lowest = newdate;
+			}
+			else{
+				if(newdate > highest)
+					highest = newdate;
+				else if(newdate < lowest)
+					lowest = newdate;
+			}
+
+			row['formattedDate'] = newdate.getTime();
+
+
+			// add values for chart
+			if(chart[Object.keys(row)[3]] == undefined){
+				chart[Object.keys(row)[3]] = [];
+				chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
+			}
+			else if(chart[Object.keys(row)[3]][row['formattedDate']] == undefined){
+				chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
+			}
+			else
+				chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
+		}
+
+		timeService.setTimelineRange(highest, lowest);
+
+
+		o.rows = rows;
+
 		notifyObservers();
+		updateStackedAreaChart(chart);
+
+
+
+
+
 	}
 
 
@@ -244,14 +324,42 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 		}
 
 
+
+
 		timeService.setTimelineRange(highest, lowest);
 		notifyObservers();
 
 		// this needs to be after timeline has been set
 		updateChart(chart);
 
+
 		return o.rows;
 	}
+
+
+	var updateStackedAreaChart = function(data){
+
+		o.chartData = [];
+		var timelineRange = timeService.getTimeline();
+		for(key in data){
+			var obj = { "key":key, "values": []};
+			for(var t=0; t<timelineRange.length; t++){
+				var time = timelineRange[t];
+				if(data[key][String(time)] !== undefined){
+
+					obj.values.push([ time, data[key][time] ]);
+				}
+				else{
+					obj.values.push([ time, 0 ]);
+				}
+			}
+			o.chartData.push(obj);
+		}
+		// c = o.chartData;
+		notifyObservers("graph");
+	}
+
+
 
 	var updateChart = function(data){
 

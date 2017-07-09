@@ -23,8 +23,6 @@ spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',
 
 			reader.onload = function (e){
 
-				console.log("reading  workbook");
-
 				/* read workbook */
 				var bstr = e.target.result;
 				var wb = XLSX.read(bstr, {type:'binary'});
@@ -86,7 +84,6 @@ spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',
 		$scope.groups=[];
 		updateTable();
 
-
 	}
 
 	var updateTable = function () {
@@ -103,23 +100,23 @@ spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',
 			newgroup.headers=Object.keys($scope.jsonData[x][0]);
 			newgroup.rows=$scope.jsonData[x];
 			newgroup.isOpen=false;
-
-			console.log(newgroup);
-
 			$scope.groups.push(newgroup);
-
 
 		}
 
-
 		$scope.$apply();
 
+	}
+
+	var selectedRow = function(row){
+
+		timeService.setTime(row['formattedDate']);
 
 
+	}
 
-
-
-
+	var highlight = function(){
+		$scope.activeDate = timeService.getTime()
 	}
 
 
@@ -127,8 +124,10 @@ spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',
 
 
 	$scope.init = init;
+	$scope.selectedRow=selectedRow;
 
 	dataService.registerObserverCallback(init);
+	timeService.registerObserverCallback(highlight);
 
 
 

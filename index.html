@@ -11,6 +11,7 @@
     <!--stylesheet-->
     <link rel="stylesheet" href="assets/js/ui-layout/ui-layout.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.css"/>
     <link rel="stylesheet" href="assets/css/app.css">
 
     <!--jquery-->
@@ -49,7 +50,9 @@
             <div ui-layout-container id="graphPane"  class="pane" ></div>
         </div>
     </div>
-    <div ui-layout-container size="100px" id="sliderPane" ></div>
+    <div ui-layout-container  id="sliderPane" size="100px">
+        <ng-include src="'app/templates/slider.html'"></ng-include>
+    </div>
 
 </div>
 
@@ -69,6 +72,9 @@
 <!--SheetsJs for reading and writing excel-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.7/xlsx.full.min.js"></script>
 
+<!--RzSlider-->
+<script src="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.js"></script>
+
 <!--app-->
 <script type="text/javascript" src="app/app.js"></script>
 <script type="text/javascript" src="app/services.js"></script>
@@ -76,6 +82,7 @@
 
 <!--controllers-->
 <script type="text/javascript" src="app/controllers/dataDisplayCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/sliderCtrl.js"></script>
 
 </body>
 
