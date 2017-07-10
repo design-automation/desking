@@ -104,6 +104,7 @@ spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',
 
 		}
 
+
 		$scope.$apply();
 
 	}

@@ -257,6 +257,7 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 		timeService.setTimelineRange(highest, lowest);
 
 
+
 		o.rows = rows;
 
 		notifyObservers();
@@ -327,6 +328,7 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 
 
 		timeService.setTimelineRange(highest, lowest);
+
 		notifyObservers();
 
 		// this needs to be after timeline has been set
@@ -355,11 +357,9 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 			}
 			o.chartData.push(obj);
 		}
-		// c = o.chartData;
+		c = o.chartData;
 		notifyObservers("graph");
 	}
-
-
 
 	var updateChart = function(data){
 
@@ -399,11 +399,11 @@ spaceBlocker.factory("graphService",['timeService','dataService',function(timeSe
 			options: discreteBarChartOptions,
 			data: discreteBarChartData
 		},
-		// stackedAreaChart:{
-		// 	options: stackedAreaChartOptions,
-		// 	data: stackedAreaChartData
-		//
-		// },
+		stackedAreaChart:{
+			options: stackedAreaChartOptions,
+			data: stackedAreaChartData
+
+		},
 		pieChart: {
 			options: pieChartOptions,
 			data: pieChartData
@@ -602,7 +602,10 @@ spaceBlocker.factory("graphService",['timeService','dataService',function(timeSe
 
 		}
 	}
-	function stackedAreaChartData(){}
+	function stackedAreaChartData(){
+
+		return dataService.getChartData();
+	}
 
 	function pieChartOptions() {
 		return {
@@ -765,5 +768,9 @@ spaceBlocker.factory("graphService",['timeService','dataService',function(timeSe
 			{"date": 15953, "open": 165.85, "high": 166.4, "low": 165.73, "close": 165.96, "volume": 62930500, "adjusted": 165.96}
 		]}];
 	}
+
+
+
+
 
 }]);

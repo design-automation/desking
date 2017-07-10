@@ -2,7 +2,7 @@
  * Created by sereb on 9/7/2017.
  */
 
-spaceBlocker.controller('sliderCtrl', ['$scope', '$filter', 'timeService', function ($scope, $filter, timeService) {
+spaceBlocker.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval', function ($scope, $filter, timeService,$interval) {
 
 	//Slider config with custom display function
 	$scope.slider_translate = {
@@ -27,22 +27,42 @@ spaceBlocker.controller('sliderCtrl', ['$scope', '$filter', 'timeService', funct
 	var updateSliderValue =function(){
 		$scope.slider_translate.value=timeService.getTime();
 
-
-
 	}
 
-	$scope.activeDate = timeService.getTimeline();
+	// $scope.activeDate = timeService.getTime();
 
 
 
 
-	// var playAnimation=function(){
-	//
-	// 	for(i=$scope.timeline[0];i<=$scope.timeline[1];i=i+86400000){
-	//
-	// 	}
-	//
-	// }
+
+	$scope.playAnimation= function(){
+
+		$scope.timeLine = timeService.getTimeline();
+
+		var play=0;
+
+			var anime=$interval(function(){
+				timeService.setTime($scope.timeLine[play]);
+
+				if(play<=$scope.timeLine.length){
+					play++;
+
+				}
+				else{
+					console.log($scope.timeLine.length);
+					timeService.setTime($scope.timeLine[0]);
+					console.log(play);
+					console.log("anime time cleared");
+					clearInterval(anime);
+				}
+
+			}, 250);
+
+
+
+
+
+	};
 
 
 	timeService.registerObserverCallback(updateSliderValue);
