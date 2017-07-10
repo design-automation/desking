@@ -77,6 +77,82 @@ spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',
 
 
 	}
+	$scope.saveExcelFile =function(){
+		$scope.jsonData=dataService.getJsonData();
+
+		var fileName='ClassScheduleData ';
+		var today = new Date();
+
+		fileName +=today.toString()+'.xlsx';
+		var wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
+
+		var wb = XLSX.utils.book_new();
+
+
+		for(sheet in $scope.jsonData){
+
+			var sheetName = sheet;
+			var arrArr=[]
+
+			for(x=0;x<$scope.jsonData[sheet].length;x++){
+
+				var arr=[];
+				if(x==0){
+					var header=Object.keys($scope.jsonData[sheet][0]);
+					header.pop();
+					arrArr.push(header);
+				}
+				for(y in $scope.jsonData[sheet][x]){
+							arr.push($scope.jsonData[sheet][x][y]);
+				}
+				arr.pop();
+				arrArr.push(arr);
+			}
+
+
+
+
+			// for(x in $scope.jsonData[sheet]){
+			//
+			// 	var arr=[];
+			// 	console.log($scope.jsonData[sheet][x]);
+			// 	if(x==0){
+			// 		arrArr.push(Object.keys($scope.jsonData[sheet][0]));
+			// 	}
+			// 	for(y in $scope.jsonData[sheet][x]){
+			// 		arr.push($scope.jsonData[sheet][x][y]);
+			// 	}
+			// 	arrArr.push(arr);
+			// }
+
+			ws=XLSX.utils.aoa_to_sheet(arrArr);
+
+			XLSX.utils.book_append_sheet(wb, ws, sheetName);
+
+		}
+
+		var wbout = XLSX.write(wb,wopts);
+		console.log(fileName);
+		saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), fileName);
+
+
+	}
+
+	var s2ab= function (s){
+		if(typeof ArrayBuffer !== 'undefined') {
+			var buf = new ArrayBuffer(s.length);
+			var view = new Uint8Array(buf);
+			for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+			return buf;
+		} else {
+			var buf = new Array(s.length);
+			for (var i=0; i!=s.length; ++i) buf[i] = s.charCodeAt(i) & 0xFF;
+			return buf;
+		}
+	}
+
+
+
 
 	var init = function(){
 

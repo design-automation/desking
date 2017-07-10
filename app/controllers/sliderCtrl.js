@@ -44,22 +44,15 @@ spaceBlocker.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$inte
 			var anime=$interval(function(){
 				timeService.setTime($scope.timeLine[play]);
 
-				if(play<=$scope.timeLine.length){
+				if(play<$scope.timeLine.length-1){
 					play++;
 
 				}
 				else{
-					console.log($scope.timeLine.length);
-					timeService.setTime($scope.timeLine[0]);
-					console.log(play);
-					console.log("anime time cleared");
-					clearInterval(anime);
+					$interval.cancel(anime);
 				}
 
-			}, 250);
-
-
-
+			}, 100);
 
 
 	};

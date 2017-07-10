@@ -96,6 +96,7 @@ spaceBlocker.controller('graphCtrl', ['dataService', 'timeService', '$scope',fun
 
 
 
+
 	var updatePiechart = function(){
 
 
