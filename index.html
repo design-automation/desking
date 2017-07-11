@@ -1,189 +1,109 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="spaceBlocker" xmlns="http://www.w3.org/1999/html" ng-controller="myCtrl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
+    <title>SpaceBlockerV1.0</title>
 
-    <title>SpaceBlocker</title>
 
-    <!-- stylesheet -->
-    <link rel="stylesheet" href="assets/css/menu.css">
+
+
+
+    <!--stylesheet-->
+    <link rel="stylesheet" href="assets/js/ui-layout/ui-layout.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://rawgithub.com/angular-ui/ui-layout/v1.0.5/ui-layout.css">
+    <link rel="stylesheet" href="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.css"/>
-    <link rel="stylesheet" href="assets/css/ui-layout.css">
-    <link rel="stylesheet" href="assets/css/fileBrowseButton.css">
-    <link rel="stylesheet" href="assets/css/table.css">
-    <link rel="stylesheet" href="assets/css/slider.css">
+    <link rel="stylesheet" href="assets/css/app.css">
 
-
-    <!-- jquery -->
-    <script type="text/javascript" src="assets/js/jquery/jquery.js"></script>
+    <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <!--<script type="text/javascript" src="assets/js/jquery/jquery.js"></script>-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>document.write('<base href="' + document.location + '" />');</script>
+    <!--<script type="text/javascript" src="assets/js/bootstrap/bootstrap.js"></script>-->
+
 
 </head>
-<body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#" ng-click="showDetails = ! showDetails">SpaceBlocker</a>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-
-        </div>
-    </div>
-</nav>
-<div ui-layout id="layout" style="margin-top:50px" >
-    <div ui-layout="{ flow : 'row'}">
-        <div ui-layout-container size="85%">
-            <div ui-layout="{flow : 'column'}" >
-                <div ui-layout-container id="TabelPane" >
-                    <div  ng-controller="tableCtrl">
-                        <div id="smartTable">
-                            <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th st-sort="course">Course</th>
-                                    <th st-sort="students">Students</th>
-                                    <th st-sort="time">ScheduleTime</th>
-                                    <th st-sort="duration">Duration</th>
-                                    <th st-sort="desks">Desks</th>
-                                </tr>
-                                <!--<tr>-->
-                                    <!--<th colspan="5"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>-->
-                                <!--</tr>-->
-                                </thead>
-                                <tbody>
-                                <tr ng-repeat="row in displayedCollection">
-
-                                    <td>{{row.course}}</td>
-                                    <td>{{row.students}}</td>
-                                    <td>{{row.time}}</td>
-                                    <td>{{row.duration}}</td>
-                                    <td>{{row.desks}}</td>
-                                    <td>
-                                        <button type="button" ng-click="removeItem(row)" class="btn btn-sm btn-danger">
-                                            <i class="glyphicon glyphicon-remove-circle">
-                                            </i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <button type="button" ng-click="addRandomItem(row)" class="btn btn-sm btn-success">
-                                    <i class="glyphicon glyphicon-plus">
-                                    </i> Add another Row
-                                </button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button id="btnExport" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-list-alt"></i> Export to xls</button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button id="btnImport" ng-click="importFromCSV(row)" class="btn btn-sm btn-success" ><i class="glyphicon glyphicon-search"></i> Import from CSV</button>
-                                <input type="file" id="fileImport" name="excel[]" style=" visibility: hidden ; position: absolute" >  </input>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div id="table_wrapper"style="position:relative">
-                        <table class="table table-responsive table-striped table-bordered table-hover table-condensed">
-
-                        </table>
-                    </div>
-
+<body ng-app="spaceBlocker" >
+<div ui-layout="{ flow : 'row', dividerSize:0}" >
+    <div ui-layout-container size="50px" id="headerPane">
+        <nav class="navbar navbar-inverse"  >
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">SpaceBlocker</a>
                 </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
 
-                <div ui-layout-container id="LayoutPane"  >
-                    <div ng-controller="layoutCtrl">
-                        <h5>Layout</h5>
-                        <div ng-repeat="floor in floorList" style="position:relative">
-                            <!--<div style="background-image: url({{floor.floorImage}}); background-size: contain;"></div>-->
-                            <img style="position:absolute;min-height: 450px; height: 25%;width:100%"  ng-src="{{floor.floorImage}}"/>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div ui-layout-container id="GraphPane">
-                    <div ng-controller="graphCtrl">
-                        <h5>Space Occupancy Statistics</h5>
-                        <nvd3 options="options" data="data" events="events"></nvd3>
-                        <p>sliderValue: {{ sliderValue }}</p>
-                        <p>mouseMoveValue: {{ scrollValue }}</p>
-
-
-                    </div>
                 </div>
             </div>
-        </div>
-        <div ui-layout-container id="TimeSliderPane">
-            <div  ng-controller="sliderCtrl as slider" >
-                <article>
-                    <h5>Time</h5>
-                    <rzslider   rz-slider-model="slider_translate.minValue" rz-slider-high="slider_translate.maxValue" rz-slider-options="slider_translate.options"></rzslider>
-                </article>
-
+        </nav>
+    </div>
+    <div ui-layout-container>
+        <div ui-layout="{ flow : 'column'}" id="mainPaneContainer">
+            <div ui-layout-container id="dataDisplayPane" class="pane" >
+                <ng-include src="'app/templates/dataDisplayPane.html'"></ng-include>
+            </div>
+            <div ui-layout-container id="layoutPane"  class="pane" >
+                <ng-include src="'app/templates/layoutPane.html'"></ng-include>
+            </div>
+            <div ui-layout-container id="graphPane"  class="pane" >
+                <ng-include src="'app/templates/graphPane.html'"></ng-include>
             </div>
         </div>
     </div>
+    <div ui-layout-container  id="sliderPane" size="80px">
+        <ng-include src="'app/templates/slider.html'"></ng-include>
+    </div>
+
 </div>
 
+<!--angularJS-->
+<!--<script type="text/javascript" src="assets/js/angular/angular.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
 
-<!-- angularJs -->
-<!--<script type="application/javascript" src="assets/js/angular/angular.js"></script>-->
-<!--<script type="text/javascript" src="assets/js/angular/angular-sanitize.min.js"></script>-->
-<!--<script type="application/javascript" src="assets/js/angular/angular-route.min.js"></script>-->
-<!--<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>-->
-<script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
 
 <!-- UI-Bootstrap -->
 <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.js"></script>
 
-<!-- menu -->
-<script type=text/javascript" src="SpaceBlocker/menu/menu.js"></script>
+<!--ui-layout-->
+<script type="text/javascript" src="assets/js/ui-layout/ui-layout.js"></script>
 
-<!-- d3 -->
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://d3js.org/d3.v4.min.js"></script>
+<!--SheetsJs for reading and writing excel-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.10.7/xlsx.full.min.js"></script>
 
-<!-- app -->
-<script src="SpaceBlocker/app/app.js"></script>
+<!--FileSaver-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js"></script>
 
-<!-- Ui-layout -->
-<script type="application/javascript" src="https://rawgithub.com/angular-ui/ui-layout/v1.0.5/ui-layout.min.js"></script>
+<!--RzSlider-->
+<script src="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.js"></script>
 
-
-<!-- Export to XLS -->
-<script src="assets/js/exportToXLS.js"></script>
-
-<!--  Read from excel -->
-<script src="assets/js/simple-excel.js"></script>
-
-
-<!--  Slider -->
-<script src="assets/js/rzslider.js"></script>
-
-<!--  Smart Table -->
-<script src="assets/js/smart-table.debug.js"></script>
-
-<!--  nvd3 -->
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+<!--NVD3-->
+<!--<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.js"></script>-->
-<script src="assets/js/nv.d3.js"></script>
-<!--<script src="https://rawgit.com/krispo/angular-nvd3/v1.0.7/dist/angular-nvd3.js"></script>-->
-<script src="assets/js/angular-nvd3.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.js"></script>
+<script src="https://rawgit.com/krispo/angular-nvd3/v1.0.7/dist/angular-nvd3.js"></script>
+
+<!--  Gridster -->
+<script src="https://raw.githack.com/ManifestWebDesign/angular-gridster/v0.13.5/dist/angular-gridster.min.js"></script>
+
+<!--app-->
+<script type="text/javascript" src="app/app.js"></script>
+<script type="text/javascript" src="app/services.js"></script>
+
+
+<!--controllers-->
+<script type="text/javascript" src="app/controllers/dataDisplayCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/sliderCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/graphCtrl.js"></script>
+<script type="text/javascript" src="app/controllers/layoutCtrl.js"></script>
 
 
 </body>
+
 </html>
