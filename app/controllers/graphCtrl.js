@@ -143,17 +143,24 @@ spaceBlocker.controller('graphCtrl', ['dataService', 'timeService', '$scope',fun
 
 		});
 
-		var totalStudents=0;
+		$scope.SDE3Level1Desks=132;
+		$scope.SDE3Level2Desks=264;
+		$scope.SDE4Level6Desks=108;
+
+
+		$scope.totalDesks=$scope.SDE3Level1Desks+$scope.SDE3Level2Desks+$scope.SDE4Level6Desks;
+		$scope.occupiedDesks=0;
+
 		for (i = 0; i < $scope.pieData.length; i++) {
-			totalStudents += $scope.pieData[i].y;
+			$scope.occupiedDesks += $scope.pieData[i].y;
 		}
 
-		if(totalStudents>=0){
+		if($scope.occupiedDesks>=0){
 
 
 			var emptySeats={
 				key: "EmptySeats",
-				y: 200-totalStudents
+				y: $scope.totalDesks-$scope.occupiedDesks
 
 			}
 

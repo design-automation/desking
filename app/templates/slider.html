@@ -1,7 +1,30 @@
-<div  ng-controller="sliderCtrl" >
-    <button type="button" id="btnAnimation" ng-click="playAnimation()" class="btn btn-sm ">Play <i class="glyphicon glyphicon-play-circle"></i></button>
-    <article>
-        <rzslider rz-slider-model="slider_translate.value"  rz-slider-options="slider_translate.options"></rzslider>
-    </article>
+<div  ng-controller="sliderCtrl" class=".container-fluid" >
+    <div class="row" >
+        <div class="col-sm-1 playButton ">
+            <div >
+                <button type="button" id="btnAnimation" class="btn btn-md btn-block" ng-click="playAnimation()" >Play <i class="glyphicon glyphicon-play-circle text-center"></i></button>
+            </div>
+        </div>
+        <div class="col-sm-2 datePicker">
+            <div >
+                <p class="input-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" datepicker-options="dateOptions" close-text="Close" popup-placement="bottom-left" datepicker-append-to-body="true"/>
+                    <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-9 ">
+            <rzslider rz-slider-model="slider_translate.value"  rz-slider-options="slider_translate.options"></rzslider>
+        </div>
+    </div>
+
+
+
+
 
 </div>

@@ -1,5 +1,5 @@
 #mainPaneContainer{
-    border-bottom: 5px solid #C9C5C5;
+    border-bottom: 5px solid #888;
     overflow: hidden;
 }
 #headerPane{
@@ -7,6 +7,7 @@
 }
 .pane{
     padding:5px;
+    overflow: hidden;
 }
 
 .panel-heading{
@@ -26,6 +27,8 @@
     background: #ccc;
 }
 
+/* CSS for Layout pane svg holder*/
+
 .svg-holder {
     width: 100%;
     height: 100%;
@@ -38,7 +41,42 @@
     width:inherit;
     /*align-items: stretch;*/
 
+}
+/* CSS for Date Picker*/
 
+.full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+}
+.partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+}
 
+/*CSS for UI -layout*/
+
+.ui-layout-column > .ui-splitbar{
+    background: #888;
+}
+
+/*DatePicker*/
+
+.datePicker{
+    height: 55px;
+    padding: 18px 0px 15px 0px;
+}
+
+/*playButton*/
+
+.playButton{
+    height:55px;
+      padding:18px;
+
+  }
+
+.playButton button {
+    margin-left: 15px;
 
 }

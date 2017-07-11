@@ -260,8 +260,11 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 
 		o.rows = rows;
 
-		notifyObservers();
 		updateStackedAreaChart(chart);
+
+		notifyObservers();
+
+
 
 
 
@@ -358,7 +361,9 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 			o.chartData.push(obj);
 		}
 		c = o.chartData;
+
 		notifyObservers("graph");
+
 	}
 
 	var updateChart = function(data){
