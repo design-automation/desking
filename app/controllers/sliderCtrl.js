@@ -4,13 +4,42 @@
 
 desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval', function ($scope, $filter, timeService, $interval) {
 
+
+	//Angualar material Datepicker
+
+	$scope.myDate = new Date();
+	$scope.minDate = new Date();
+
+	$scope.maxDate = new Date(
+		$scope.myDate.getFullYear(),
+		$scope.myDate.getMonth(),
+		$scope.myDate.getDate()+30
+	);
+
+
+	$scope.onlyWeekdaysPredicate = function(date) {
+		var day = date.getDay();
+		return day !== 0 && day !== 6;
+	};
+
+
+	$scope.$watch("myDate",function(newVal,oldVal){
+		console.log(newVal.getTime());
+
+	});
+
+
+
+
 	//Slider config with custom display function
+	$scope.timeLine=[];
 	$scope.slider_translate = {
 		value: 0,
 		options: {
 			stepsArray: timeService.getTimeline(),
 			onChange:  function(sliderId, modelValue, highValue, pointerType){
 				timeService.setTime(modelValue);
+
 			},
 			translate: function (value) {
 				return   $filter('date')(value, 'dd-MM-yyyy');;
@@ -21,12 +50,15 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	var updateSlider = function(){
 		$scope.slider_translate.options.stepsArray = timeService.getTimeline();
-
+		$scope.timeLine=timeService.getTimeline();
+		$scope.minDate = new Date(timeService.getTimeline()[0]);
+		$scope.myDate =$scope.minDate;
+		$scope.maxDate = new Date(timeService.getTimeline()[timeService.getTimeline().length-1]);
 	}
 
 	var updateSliderValue =function(){
 		$scope.slider_translate.value=timeService.getTime();
-
+		$scope.myDate =new Date(timeService.getTime());
 	}
 
 	$scope.playAnimation= function(){
@@ -52,106 +84,10 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	};
 
-	//Date Picker part
-
-	$scope.today = function() {
-		$scope.dt = new Date();
-
-	};
-	$scope.today();
-
-	$scope.clear = function() {
-		$scope.dt = null;
-	};
-
-	$scope.inlineOptions = {
-		customClass: getDayClass,
-		minDate: new Date(),
-		showWeeks: true
-	};
-
-	$scope.dateOptions = {
-		dateDisabled: disabled,
-		formatYear: 'yy',
-		// maxDate: new Date(2020, 7, 22),
-		// minDate: new Date(),
-		startingDay: 1
-	};
-
-	// Disable weekend selection
-	function disabled(data) {
-		var date = data.date,
-			mode = data.mode;
-		return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-	}
-
-	$scope.toggleMin = function() {
-		$scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
-		$scope.dateOptions.minDate = $scope.inlineOptions.minDate;
-	};
-
-	$scope.toggleMin();
-
-	$scope.open1 = function() {
-		$scope.popup1.opened = true;
 
 
-	};
 
-	$scope.open2 = function() {
-		$scope.popup2.opened = true;
-	};
 
-	$scope.setDate = function(year, month, day) {
-		$scope.dt = new Date(year, month, day);
-		timeService.setTime($scope.dt);
-
-	};
-
-	$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-	$scope.format = $scope.formats[0];
-	$scope.altInputFormats = ['M!/d!/yyyy'];
-
-	$scope.popup1 = {
-		opened: false
-	};
-
-	$scope.popup2 = {
-		opened: false
-	};
-
-	var tomorrow = new Date();
-	tomorrow.setDate(tomorrow.getDate() + 1);
-	var afterTomorrow = new Date();
-	afterTomorrow.setDate(tomorrow.getDate() + 1);
-	$scope.events = [
-		{
-			date: tomorrow,
-			status: 'full'
-		},
-		{
-			date: afterTomorrow,
-			status: 'partially'
-		}
-	];
-
-	function getDayClass(data) {
-		var date = data.date,
-			mode = data.mode;
-		if (mode === 'day') {
-			var dayToCheck = new Date(date).setHours(0,0,0,0);
-
-			for (var i = 0; i < $scope.events.length; i++) {
-				var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-				if (dayToCheck === currentDay) {
-					return $scope.events[i].status;
-				}
-			}
-		}
-
-		return '';
-	}
 
 
 

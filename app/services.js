@@ -24,8 +24,8 @@ desking.factory("timeService", function() {
 
 
 	var o = {
-		time: new Date(1496319120556),
-		timeline: getDates( new Date(), (new Date()).addDays(30) ).map(function(d){ return d.getTime() })
+		time: new Date(),
+		timeline: getDates( new Date(), (new Date()).addDays(30) ).map(function(d){ return d.getTime() }),
 	}
 
 	var p = {};
@@ -66,6 +66,7 @@ desking.factory("timeService", function() {
 		return o.timeline;
 	}
 
+
 	p.setTime = function(time){
 		o.time = time;
 		notifyObservers();
@@ -81,6 +82,7 @@ desking.factory("timeService", function() {
 	p.setTimelineRange = function(highest, lowest){
 		var dateArray = getDates( lowest, highest );
 		p.setTimeline(dateArray.map(function(d){ return d.getTime() }));
+
 	}
 
 	return p;
@@ -214,7 +216,6 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 			if(row == undefined || row['Date'] == undefined || row['Time'] == undefined)
 				continue;
 
-
 			var date = row['Date'].split("/");
 			var time = row['Time'].split(":");
 
@@ -225,8 +226,6 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 			// newdate.setHours(time[0]);
 			// newdate.setMinutes(time[1]);
 			// newdate.setSeconds(time[2]);
-
-
 
 			if(i==0){
 				highest = newdate;
@@ -255,8 +254,6 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 		}
 
 		timeService.setTimelineRange(highest, lowest);
-
-
 
 		o.rows = rows;
 
