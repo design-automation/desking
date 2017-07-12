@@ -2,7 +2,7 @@
  * Created by sereb on 10/7/2017.
  */
 
-spaceBlocker.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', function ($scope, dataService, timeService) {
+desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', function ($scope, dataService, timeService) {
 
 
 	$scope.activeDate = 1025409600000;

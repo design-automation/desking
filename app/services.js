@@ -2,7 +2,7 @@
  * Created by sereb on 6/7/2017.
  */
 
-spaceBlocker.factory("timeService", function() {
+desking.factory("timeService", function() {
 
 	Date.prototype.addDays = function(days) {
 		var dat = new Date(this.valueOf())
@@ -87,7 +87,7 @@ spaceBlocker.factory("timeService", function() {
 
 });
 
-spaceBlocker.factory("dataService", ['timeService', function(timeService) {
+desking.factory("dataService", ['timeService','$timeout', function(timeService, $timeout) {
 
 	var o = {
 		floors : [
@@ -262,7 +262,15 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 
 		updateStackedAreaChart(chart);
 
+		// $timeout(notifyObservers(),1000);
+
 		notifyObservers();
+
+
+
+
+
+
 
 
 
@@ -393,7 +401,7 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 
 }]);
 
-spaceBlocker.factory("graphService",['timeService','dataService',function(timeService,dataService){
+desking.factory("graphService",['timeService','dataService',function(timeService, dataService){
 
 	return {
 		lineChart: {

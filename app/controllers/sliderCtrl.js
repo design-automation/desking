@@ -2,7 +2,7 @@
  * Created by sereb on 9/7/2017.
  */
 
-spaceBlocker.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval', function ($scope, $filter, timeService,$interval) {
+desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval', function ($scope, $filter, timeService, $interval) {
 
 	//Slider config with custom display function
 	$scope.slider_translate = {
@@ -48,7 +48,7 @@ spaceBlocker.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$inte
 					$interval.cancel(anime);
 				}
 
-			}, 1000);
+			}, 400);
 
 
 	};

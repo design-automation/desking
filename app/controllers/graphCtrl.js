@@ -2,7 +2,7 @@
  * Created by sereb on 10/7/2017.
  */
 
-spaceBlocker.controller('graphCtrl', ['dataService', 'timeService', '$scope',function(dataService, timeService,$scope) {
+desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function(dataService, timeService, $scope) {
 
 	$scope.width = $("#graphPane").width();
 	$scope.height = $("#graphPane").height();
@@ -56,12 +56,12 @@ spaceBlocker.controller('graphCtrl', ['dataService', 'timeService', '$scope',fun
 			xAxis: {
 				showMaxMin: true,
 				tickFormat: function(d) {
-					return d3.time.format('%x')(new Date(d))
+					return d3.time.format('%d/%m/%Y')(new Date(d))
 				}
 			},
 			yAxis: {
 				tickFormat: function(d){
-					return d3.format(',.2f')(d);
+					return d3.format('d')(d);
 				}
 			},
 			zoom: {
