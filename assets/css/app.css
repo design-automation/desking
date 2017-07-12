@@ -27,6 +27,17 @@
     background: #ccc;
 }
 
+
+/*CSS for navigation bar*/
+
+.navbar-brand{
+    color: white !important;
+}
+
+.navbar-brand:hover{
+    color: black !important;
+}
+
 /* CSS for Layout pane svg holder*/
 
 .svg-holder {
