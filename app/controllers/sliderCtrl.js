@@ -39,7 +39,6 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 				timeService.setTime($scope.timeLine[play]);
 
 				if(play<$scope.timeLine.length-1){
-					console.log(play);
 					play++;
 
 				}
@@ -105,6 +104,8 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	$scope.setDate = function(year, month, day) {
 		$scope.dt = new Date(year, month, day);
+		timeService.setTime($scope.dt);
+
 	};
 
 	$scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
