@@ -1,2 +1,2 @@
-# spaceblocker
-A webapp for blocking desks in hot-desking spaces. 
+# desking
+A webapp for hot-desking spaces. 
