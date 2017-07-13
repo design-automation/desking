@@ -101,10 +101,10 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 	var o = {
 		floors : [
 
-			{floorImage:"assets/images/SDE3_2ndFloor.svg" },
-			{floorImage:"assets/images/SDE3_6thFloor.svg" },
-			{floorImage:"assets/images/SDE3_1stFloor.svg"},
-			{floorImage:"assets/images/Overall.svg"}
+			// {floorImage:"assets/images/SDE3_2ndFloor.svg" },
+			// {floorImage:"assets/images/SDE3_6thFloor.svg" },
+			// {floorImage:"assets/images/SDE3_1stFloor.svg"},
+			// {floorImage:"assets/images/Overall.svg"}
 		],
 		rows: [],
 		chartData: [
