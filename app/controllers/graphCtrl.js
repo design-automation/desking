@@ -2,7 +2,7 @@
  * Created by sereb on 10/7/2017.
  */
 
-spaceBlocker.controller('graphCtrl', ['dataService', 'timeService', '$scope',function(dataService, timeService,$scope) {
+desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function(dataService, timeService, $scope) {
 
 	$scope.width = $("#graphPane").width();
 	$scope.height = $("#graphPane").height();
@@ -56,12 +56,12 @@ spaceBlocker.controller('graphCtrl', ['dataService', 'timeService', '$scope',fun
 			xAxis: {
 				showMaxMin: true,
 				tickFormat: function(d) {
-					return d3.time.format('%x')(new Date(d))
+					return d3.time.format('%d/%m/%Y')(new Date(d))
 				}
 			},
 			yAxis: {
 				tickFormat: function(d){
-					return d3.format(',.2f')(d);
+					return d3.format('d')(d);
 				}
 			},
 			zoom: {
@@ -143,17 +143,24 @@ spaceBlocker.controller('graphCtrl', ['dataService', 'timeService', '$scope',fun
 
 		});
 
-		var totalStudents=0;
+		$scope.SDE3Level1Desks=132;
+		$scope.SDE3Level2Desks=264;
+		$scope.SDE4Level6Desks=108;
+
+
+		$scope.totalDesks=$scope.SDE3Level1Desks+$scope.SDE3Level2Desks+$scope.SDE4Level6Desks;
+		$scope.occupiedDesks=0;
+
 		for (i = 0; i < $scope.pieData.length; i++) {
-			totalStudents += $scope.pieData[i].y;
+			$scope.occupiedDesks += $scope.pieData[i].y;
 		}
 
-		if(totalStudents>=0){
+		if($scope.occupiedDesks>=0){
 
 
 			var emptySeats={
 				key: "EmptySeats",
-				y: 200-totalStudents
+				y: $scope.totalDesks-$scope.occupiedDesks
 
 			}
 

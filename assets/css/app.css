@@ -1,5 +1,5 @@
 #mainPaneContainer{
-    border-bottom: 5px solid #C9C5C5;
+    border-bottom: 5px solid #888;
     overflow: hidden;
 }
 #headerPane{
@@ -7,6 +7,7 @@
 }
 .pane{
     padding:5px;
+    overflow: hidden;
 }
 
 .panel-heading{
@@ -26,6 +27,19 @@
     background: #ccc;
 }
 
+
+/*CSS for navigation bar*/
+
+.navbar-brand{
+    color: white !important;
+}
+
+.navbar-brand:hover{
+    color: black !important;
+}
+
+/* CSS for Layout pane svg holder*/
+
 .svg-holder {
     width: 100%;
     height: 100%;
@@ -38,7 +52,68 @@
     width:inherit;
     /*align-items: stretch;*/
 
+}
 
 
 
+/*CSS for UI -layout*/
+
+.ui-layout-column > .ui-splitbar{
+    background: #888;
+}
+
+/*DatePicker*/
+
+.datePicker{
+    height: 55px;
+    padding: 18px 0px 15px 0px;
+}
+
+/*playButton*/
+
+.playButton{
+    height:55px;
+      padding:18px;
+
+  }
+
+.playButton button {
+    margin-left: 15px;
+
+}
+
+
+
+
+/*For Desktooltip*/
+
+.deskInfo {
+    position: absolute;
+    color:rgba(0,0,0,1);
+    text-align: left;
+    width: auto;
+    height: auto;
+    padding: 3px 5px 3px 5px;
+    font: 1em sans-serif;
+    border: 1px;
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    background: rgba(255,255,255,.9);
+    z-index:2;
+}
+
+
+
+g.mouseover g rect {
+    fill: rgb(247, 148, 32) !important;
+    stroke-width: 2;
+}
+
+g.mouseoff g rect {
+    /*stroke: #000000 !important;*/
+}
+
+g.deskClicked g rect {
+    fill: steelblue !important;
 }

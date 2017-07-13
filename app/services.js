@@ -2,7 +2,7 @@
  * Created by sereb on 6/7/2017.
  */
 
-spaceBlocker.factory("timeService", function() {
+desking.factory("timeService", function() {
 
 	Date.prototype.addDays = function(days) {
 		var dat = new Date(this.valueOf())
@@ -10,22 +10,29 @@ spaceBlocker.factory("timeService", function() {
 		return dat;
 	}
 
+	Date.prototype.addTimeMinutes = function(time) {
+		var dat = new Date(this.valueOf())
+		dat.setMinutes(dat.getMinutes()+time);
+		return dat;
+	}
+
+
 	function getDates(startDate, stopDate) {
 		var dateArray = new Array();
 		var currentDate = startDate;
 		while (currentDate <= stopDate) {
+
 			dateArray.push( new Date (currentDate) )
 			currentDate = currentDate.addDays(1);
 		}
-
 		return dateArray;
 	}
 
 
 
 	var o = {
-		time: new Date(1496319120556),
-		timeline: getDates( new Date(), (new Date()).addDays(30) ).map(function(d){ return d.getTime() })
+		time: new Date(),
+		timeline: getDates( new Date(), (new Date()).addDays(30) ).map(function(d){ return d.getTime() }),
 	}
 
 	var p = {};
@@ -66,6 +73,7 @@ spaceBlocker.factory("timeService", function() {
 		return o.timeline;
 	}
 
+
 	p.setTime = function(time){
 		o.time = time;
 		notifyObservers();
@@ -81,21 +89,22 @@ spaceBlocker.factory("timeService", function() {
 	p.setTimelineRange = function(highest, lowest){
 		var dateArray = getDates( lowest, highest );
 		p.setTimeline(dateArray.map(function(d){ return d.getTime() }));
+
 	}
 
 	return p;
 
 });
 
-spaceBlocker.factory("dataService", ['timeService', function(timeService) {
+desking.factory("dataService", ['timeService','$timeout', function(timeService, $timeout) {
 
 	var o = {
 		floors : [
 
-			{floorImage:"assets/images/SDE3_2ndFloor.svg" },
-			{floorImage:"assets/images/SDE3_6thFloor.svg" },
-			{floorImage:"assets/images/SDE3_1stFloor.svg"},
-			{floorImage:"assets/images/Overall.svg"}
+			// {floorImage:"assets/images/SDE3_2ndFloor.svg" },
+			// {floorImage:"assets/images/SDE3_6thFloor.svg" },
+			// {floorImage:"assets/images/SDE3_1stFloor.svg"},
+			// {floorImage:"assets/images/Overall.svg"}
 		],
 		rows: [],
 		chartData: [
@@ -214,7 +223,6 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 			if(row == undefined || row['Date'] == undefined || row['Time'] == undefined)
 				continue;
 
-
 			var date = row['Date'].split("/");
 			var time = row['Time'].split(":");
 
@@ -225,8 +233,6 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 			// newdate.setHours(time[0]);
 			// newdate.setMinutes(time[1]);
 			// newdate.setSeconds(time[2]);
-
-
 
 			if(i==0){
 				highest = newdate;
@@ -256,12 +262,21 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 
 		timeService.setTimelineRange(highest, lowest);
 
-
-
 		o.rows = rows;
 
-		notifyObservers();
 		updateStackedAreaChart(chart);
+
+		// $timeout(notifyObservers(),1000);
+
+		notifyObservers();
+
+
+
+
+
+
+
+
 
 
 
@@ -358,7 +373,9 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 			o.chartData.push(obj);
 		}
 		c = o.chartData;
+
 		notifyObservers("graph");
+
 	}
 
 	var updateChart = function(data){
@@ -388,7 +405,7 @@ spaceBlocker.factory("dataService", ['timeService', function(timeService) {
 
 }]);
 
-spaceBlocker.factory("graphService",['timeService','dataService',function(timeService,dataService){
+desking.factory("graphService",['timeService','dataService',function(timeService, dataService){
 
 	return {
 		lineChart: {

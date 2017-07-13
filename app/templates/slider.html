@@ -1,7 +1,24 @@
-<div  ng-controller="sliderCtrl" >
-    <button type="button" id="btnAnimation" ng-click="playAnimation()" class="btn btn-sm ">Play <i class="glyphicon glyphicon-play-circle"></i></button>
-    <article>
-        <rzslider rz-slider-model="slider_translate.value"  rz-slider-options="slider_translate.options"></rzslider>
-    </article>
+<div  ng-controller="sliderCtrl as ctrl" class=".container-fluid" >
+    <div class="row" >
+        <div class="col-sm-1 playButton ">
+            <div >
+                <button type="button" id="btnAnimation" class="btn btn-md btn-block" ng-click="playAnimation()" >Play <i class="glyphicon glyphicon-play-circle text-center"></i></button>
+            </div>
+        </div>
+        <div class="col-sm-2 datePicker">
+            <div flex-gt-xs>
+                <md-datepicker ng-model="myDate" md-placeholder="Enter date"
+                               md-min-date="minDate" md-max-date="maxDate" md-date-filter="onlyWeekdaysPredicate"></md-datepicker>
+            </div>
+        </div>
+
+        <div class="col-sm-9 ">
+            <rzslider rz-slider-model="slider_translate.value"  rz-slider-options="slider_translate.options"></rzslider>
+        </div>
+    </div>
+
+
+
+
 
 </div>

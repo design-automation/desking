@@ -2,18 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>SpaceBlockerV1.0</title>
-
-
-
-
+    <title>Desking</title>
 
     <!--stylesheet-->
-    <link rel="stylesheet" href="assets/js/ui-layout/ui-layout.css">
+    <link rel="stylesheet" href="assets/js/ui-layout/ui-layout.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.css"/>
-    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.4/angular-material.css"/>
+    <link rel="stylesheet" href="assets/css/app.css"/>
 
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -23,10 +20,10 @@
 
 
 </head>
-<body ng-app="spaceBlocker" >
+<body ng-app="desking" >
 <div ui-layout="{ flow : 'row', dividerSize:0}" >
-    <div ui-layout-container size="50px" id="headerPane">
-        <nav class="navbar navbar-inverse"  >
+    <div ui-layout-container size="5%" id="headerPane" >
+        <nav class="navbar navbar-inverse" style="background: #888"  >
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -34,7 +31,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">SpaceBlocker</a>
+                    <a class="navbar-brand" href="#">Desking</a>
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
 
@@ -55,18 +52,22 @@
             </div>
         </div>
     </div>
-    <div ui-layout-container  id="sliderPane" size="80px">
+    <div ui-layout-container  id="sliderPane" class="pane" size="7.5%">
         <ng-include src="'app/templates/slider.html'"></ng-include>
     </div>
 
 </div>
 
-<!--angularJS-->
+<!--AngularJS-->
 <!--<script type="text/javascript" src="assets/js/angular/angular.js"></script>-->
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
 
+<!--AngularJS Material-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.4/angular-material.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-messages/1.6.5/angular-messages.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
 
 <!-- UI-Bootstrap -->
 <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.js"></script>

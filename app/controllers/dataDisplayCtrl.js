@@ -3,11 +3,26 @@
  * Created by sereb on 6/7/2017.
  */
 
-spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',function($scope,timeService,dataService){
+desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',function($scope, timeService, dataService){
 
 	$scope.jsonData = undefined;
 	$scope.groups = undefined;
 	$scope.activeDate = undefined;
+
+	// To load the table during loading of the page
+	$( document ).ready(function() {
+
+		$.ajax({
+			url:"assets/data/intialDataFile.txt",
+			type:'GET',
+			dataType:"text",
+			success:function(data){
+				var jsonData =JSON.parse(data);
+				dataService.setJsonData(jsonData);
+			}
+		});
+
+	});
 
 	$scope.getExcelFile = function () {
 
@@ -66,8 +81,8 @@ spaceBlocker.controller('dataDisplayCtrl',['$scope','timeService','dataService',
 				 });*/
 			};
 
-
 			reader.readAsBinaryString(fileInputExcel.files[0]);
+
 
 
 
