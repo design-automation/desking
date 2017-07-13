@@ -2,7 +2,7 @@
  * Created by sereb on 10/7/2017.
  */
 
-desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', function ($scope, dataService, timeService) {
+desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeout', function ($scope, dataService, timeService,$timeout) {
 
 
 	$scope.activeDate = 1025409600000;
@@ -15,8 +15,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', functi
 		$scope.activeDate = timeService.getTime();
 
 		// desksNeeded();
-
-
 	}
 
 	var dataChanged = function(){
@@ -160,8 +158,9 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', functi
 			var element =  document.getElementById("svg1");
 			element.appendChild(xml.documentElement);
 
-		});
+			console.log("svg is inserted");
 
+		});
 
 
 
@@ -169,35 +168,34 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', functi
 
 	}
 
-	$( document ).ready(function() {
-		var div=d3.select("html").append("div").attr("class", "deskInfo").style("opacity", 0);
-		var desks = d3.selectAll('g.cluster');
+
+
+
+	$timeout(function(){
+		var div=d3.select("body").append("div").attr("class", "deskInfo").style("opacity", 0);
+
+		var desks = d3.selectAll('g g.cluster');
+		console.log(desks);
+
 
 		desks.on('mouseover',function(){
-
-
 
 			var desk = d3.select(this);
 			desk.attr("class", "mouseover");
 			// console.log(desk[0][0].id);
-
-
 
 			div.transition()
 				.duration(200)
 				.style("opacity", 0.9);
 			// div.html("<span class='firstLine'>4Mouse on Desk with id :  <br><span class='secondLine'>Desk Status:</span>")
 			div.html("")
-				.style("left", (d3.event.pageX + 5) + "px")
+				.style("left", (d3.event.pageX + 10) + "px")
 				.style("top", (d3.event.pageY - 15) + "px");
-
 
 			var tooltip=div.append("svg")
 				.attr("class", "deskInfoSVG")
-				.attr("width", 200)
+				.attr("width", 110)
 				.attr("height", 75);
-
-
 
 			tooltip.append("text")
 				.attr("x", 0)
@@ -212,66 +210,85 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', functi
 
 		desks.on('mouseout',function(){
 
-
 			var desk = d3.select(this);
+
 			desk.attr("class", "mouseoff");
 
 			div.transition()
 				.duration(500)
 				.style("opacity", 0);
 
-
 		});
-
-
-
-
-
-	});
-
-
-
-	var desksMouseOver = function(){
-
-
-		var desks = d3.selectAll('g.cluster');
-
-
-		desks.on('mouseover',function(){
-
-
+		desks.on('click',function(){
 
 			var desk = d3.select(this);
-			desk.attr("class", "mouseover");
-
-
-
-			div.transition()
-				.duration(200)
-				.style("opacity", 0.9);
-			div.html("<span class='firstLine'>Mouse on Desk </span><br><span class='secondLine'>Desk Status:</span>")
-			// div.html("")
-				.style("left", (d3.event.pageX + 5) + "px")
-				.style("top", (d3.event.pageY - 15) + "px");
-
-
-
-		});
-
-
-		desks.on('mouseout',function(){
-
-
-			var desk = d3.select(this);
-			desk.attr("class", "mouseoff");
+			desk.attr("class", "deskClicked");
 
 			div.transition()
 				.duration(500)
 				.style("opacity", 0);
 
+			// alert("ClusterID : "+desk[0][0].id+" is clicked");
+
 
 		});
-	}
+
+	},500);
+
+
+	// $( document ).ready(function(){
+	//
+	// 	var div=d3.select("html").append("div").attr("class", "deskInfo").style("opacity", 0);
+	//
+	// 	var desks = d3.selectAll('g g.cluster');
+	// 	console.log(d3.selectAll('g g.cluster'));
+	//
+	//
+	// 	desks.on('mouseover',function(){
+	//
+	// 		var desk = d3.select(this);
+	// 		desk.attr("class", "mouseover");
+	// 		// console.log(desk[0][0].id);
+	//
+	// 		div.transition()
+	// 			.duration(200)
+	// 			.style("opacity", 0.9);
+	// 		// div.html("<span class='firstLine'>4Mouse on Desk with id :  <br><span class='secondLine'>Desk Status:</span>")
+	// 		div.html("")
+	// 			.style("left", (d3.event.pageX + 5) + "px")
+	// 			.style("top", (d3.event.pageY - 15) + "px");
+	//
+	// 		var tooltip=div.append("svg")
+	// 			.attr("class", "deskInfoSVG")
+	// 			.attr("width", 200)
+	// 			.attr("height", 75);
+	//
+	// 		tooltip.append("text")
+	// 			.attr("x", 0)
+	// 			.attr("y", 9)
+	// 			.attr("dy", ".25em")
+	// 			.style("text-anchor", "start")
+	// 			.text("ClusterID : "+desk[0][0].id);
+	//
+	//
+	// 	});
+	//
+	//
+	// 	desks.on('mouseout',function(){
+	//
+	// 		var desk = d3.select(this);
+	// 		desk.attr("class", "mouseoff");
+	//
+	// 		div.transition()
+	// 			.duration(500)
+	// 			.style("opacity", 0);
+	//
+	// 	});
+	//
+	// });
+
+
+
 
 
 
@@ -312,7 +329,14 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService', functi
 
 	}
 
-	insertSVG();
+	$scope.init=function(){
+		insertSVG();
+
+	}
+
+
+
+
 
 
 

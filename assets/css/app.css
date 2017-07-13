@@ -53,18 +53,8 @@
     /*align-items: stretch;*/
 
 }
-/* CSS for Date Picker*/
 
-.full button span {
-    background-color: limegreen;
-    border-radius: 32px;
-    color: black;
-}
-.partially button span {
-    background-color: orange;
-    border-radius: 32px;
-    color: black;
-}
+
 
 /*CSS for UI -layout*/
 
@@ -92,7 +82,38 @@
 
 }
 
-/*For datepicker*/
-.dropdowm-menu{
-    top:500px;
+
+
+
+/*For Desktooltip*/
+
+.deskInfo {
+    position: absolute;
+    color:rgba(0,0,0,1);
+    text-align: left;
+    width: auto;
+    height: auto;
+    padding: 3px 5px 3px 5px;
+    font: 1em sans-serif;
+    border: 1px;
+    border-radius: 4px;
+    pointer-events: none;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+    background: rgba(255,255,255,.9);
+    z-index:2;
+}
+
+
+
+g.mouseover g rect {
+    fill: rgb(247, 148, 32) !important;
+    stroke-width: 2;
+}
+
+g.mouseoff g rect {
+    /*stroke: #000000 !important;*/
+}
+
+g.deskClicked g rect {
+    fill: steelblue !important;
 }

@@ -10,14 +10,21 @@ desking.factory("timeService", function() {
 		return dat;
 	}
 
+	Date.prototype.addTimeMinutes = function(time) {
+		var dat = new Date(this.valueOf())
+		dat.setMinutes(dat.getMinutes()+time);
+		return dat;
+	}
+
+
 	function getDates(startDate, stopDate) {
 		var dateArray = new Array();
 		var currentDate = startDate;
 		while (currentDate <= stopDate) {
+
 			dateArray.push( new Date (currentDate) )
 			currentDate = currentDate.addDays(1);
 		}
-
 		return dateArray;
 	}
 

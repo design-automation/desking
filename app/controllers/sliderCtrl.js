@@ -5,9 +5,12 @@
 desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval', function ($scope, $filter, timeService, $interval) {
 
 
+	$scope.activeDate = undefined;
+
+
 	//Angualar material Datepicker
 
-	$scope.myDate = new Date();
+	$scope.myDate = new Date(timeService.getTime());
 	$scope.minDate = new Date();
 
 	$scope.maxDate = new Date(
@@ -24,7 +27,6 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 
 	$scope.$watch("myDate",function(newVal,oldVal){
-		console.log(newVal.getTime());
 
 	});
 
@@ -58,7 +60,8 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	var updateSliderValue =function(){
 		$scope.slider_translate.value=timeService.getTime();
-		$scope.myDate =new Date(timeService.getTime());
+		$scope.myDate= new Date($scope.slider_translate.value);
+
 	}
 
 	$scope.playAnimation= function(){
