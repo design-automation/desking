@@ -71,7 +71,6 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 					jsonData[wsname]=data;
 				}
 
-
 				dataService.setJsonData(jsonData);
 
 				/* update scope */

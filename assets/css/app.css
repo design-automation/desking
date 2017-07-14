@@ -1,13 +1,13 @@
 #mainPaneContainer{
     border-bottom: 5px solid #888;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 #headerPane{
     overflow: hidden;
 }
 .pane{
     padding:5px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 .panel-heading{
@@ -116,4 +116,12 @@ g.mouseoff g rect {
 
 g.deskClicked g rect {
     fill: steelblue !important;
+}
+
+g.occupied g rect {
+    fill: steelblue !important;
+
+}
+g.unoccupied g rect {
+    fill: white !important;
 }
