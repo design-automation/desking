@@ -10,6 +10,11 @@
     /*overflow: hidden;*/
 }
 
+.pane#sliderPane{
+
+    overflow: hidden;
+}
+
 .panel-heading{
     border-radius: 0px;
     padding: 5px;
