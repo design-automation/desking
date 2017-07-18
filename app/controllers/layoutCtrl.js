@@ -10,9 +10,16 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 	$scope.floorList = dataService.getFloors();
 	$scope.deskArray=[];
 
+	Date.prototype.addTimeMinutes = function(time) {
+		var dat = new Date(this.valueOf())
+		dat.setMinutes(dat.getMinutes()+time);
+		return dat;
+	};
+
 
 	var timeChanged = function(){
 		$scope.activeDate = timeService.getTime();
+
 		occupiedClusters();
 
 
@@ -30,11 +37,31 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		$scope.clusterIdArray=[];
 
 		if($scope.rowCollection!=undefined){
+
 			$scope.rowCollection.map(function(row){
-				if(row.formattedDate==$scope.activeDate){
+
+				// console.log(row);
+				var startTime=row.formattedDate;
+				// console.log(new Date(startTime));
+				var endTime=new Date(row.formattedDate);
+				endTime=endTime.setMinutes(endTime.getMinutes()+ parseInt(row.Duration));
+				// console.log(new Date(endTime));
+
+				// if(row.formattedDate==$scope.activeDate){
+				//
+				//
+				// }
+				if(startTime<=$scope.activeDate && $scope.activeDate<=endTime){
+					// console.log(row);
+					// console.log(new Date(startTime));
+					// console.log(new Date($scope.activeDate));
+					// console.log(new Date(endTime));
 
 					$scope.clusterIdArray = row['Desks'].split(",");
+
+
 				}
+
 			});
 		}
 		else{
