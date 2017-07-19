@@ -116,7 +116,7 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
                     $scope.play=0;
                 }
 
-            }, 400);
+            }, 200);
 		}
 		else{
             $interval.cancel($scope.anime);

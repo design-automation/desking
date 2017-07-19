@@ -31,11 +31,16 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	var occupiedClusters = function(){
 
+		$scope.totalClustersOccupied=[];
+
 		$scope.clusterIdArray=[];
+
 
 		if($scope.rowCollection!=undefined){
 
 			$scope.rowCollection.map(function(row){
+
+                var clusterIdArray=[];
 
 				// console.log(row);
 				var startTime=row.formattedDate;
@@ -54,12 +59,17 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 					// console.log(new Date($scope.activeDate));
 					// console.log(new Date(endTime));
 
-					$scope.clusterIdArray = row['Desks'].split(",");
+                    clusterIdArray = row['Desks'] == undefined ? [] : row["Desks"].split(",");
+                    clusterIdArray.map(function(id){
 
+                        $scope.totalClustersOccupied.push(id);
+
+                    } );
 
 				}
 
-			});
+            });
+
 		}
 		else{
 			return;
@@ -69,12 +79,11 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 		clusters[0].map(function(cluster){
 
-
 			var resetCluster=d3.select(cluster);
 			resetCluster.classed("occupied", false);
 			resetCluster.classed("mouseover", false);
 
-			$scope.clusterIdArray.map(function(Id){
+			$scope.totalClustersOccupied.map(function(Id){
 
 				if(Id==cluster.id){
 					var occupiedCluster=d3.select(cluster);
@@ -82,7 +91,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 				}
 			});
 		});
-
 	}
 	var insertSVG =function (){
 

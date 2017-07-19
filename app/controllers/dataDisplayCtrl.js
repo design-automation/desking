@@ -192,11 +192,30 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 			var newgroup = {name: x};
 			newgroup.headers=Object.keys($scope.jsonData[x][0]);
 			newgroup.rows=$scope.jsonData[x];
-			newgroup.isOpen=false;
+			if(x!=="Overview"){
+                newgroup.clusterIdArray =$scope.jsonData[x][0][newgroup.headers[4]] == undefined ? [] : $scope.jsonData[x][0][newgroup.headers[4]].split(",");
+                newgroup.totalDesksNeeded=$scope.jsonData[x][0][newgroup.headers[3]];
+                newgroup.desksAlloted=0;
+                var clusters = d3.selectAll('g g.cluster');
+                clusters[0].map(function(cluster){
+
+                    if(newgroup.clusterIdArray.length>0){
+                        newgroup.clusterIdArray.map(function(Id){
+
+                            if(Id==cluster.id){
+                                var desksAllotedCluster=d3.select(cluster);
+                                newgroup.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                            }
+                        });
+                    }
+
+                });
+
+
+			}
 			$scope.groups.push(newgroup);
 
 		}
-
 
 		$scope.$apply();
 

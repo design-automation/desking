@@ -291,8 +291,6 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 
 
 
-
-
 		o.rows = rows;
 		var dateArray = new Array();
 		var currentDate = lowest;

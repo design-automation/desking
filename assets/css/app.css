@@ -106,7 +106,7 @@
     z-index:2;
 }
 
-
+/*For Layout filling*/
 
 g.mouseover g rect {
     fill: rgb(247, 148, 32) !important;
@@ -127,4 +127,13 @@ g.occupied g rect {
 }
 g.unoccupied g rect {
     fill: white !important;
+}
+
+/* For Displaying whether desks need to be allocated or not*/
+
+.allotmentNeeded{
+    color: red;
+}
+.allotmentNotNeeded{
+
 }
