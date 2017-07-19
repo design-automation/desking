@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cb21cb9f-d38a-4e90-8e03-620a396e5d0d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/layoutCtrl.js" afterPath="$PROJECT_DIR$/app/controllers/layoutCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/sliderCtrl.js" afterPath="$PROJECT_DIR$/app/controllers/sliderCtrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/services.js" afterPath="$PROJECT_DIR$/app/services.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/templates/slider.html" afterPath="$PROJECT_DIR$/app/templates/slider.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/css/app.css" afterPath="$PROJECT_DIR$/assets/css/app.css" />
-    </list>
+    <list default="true" id="cb21cb9f-d38a-4e90-8e03-620a396e5d0d" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -87,17 +80,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="slider.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="slider.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/slider.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="6" lean-forward="true" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
+            <state relative-caret-position="272">
+              <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="layoutCtrl.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="layoutCtrl.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/layoutCtrl.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
@@ -462,12 +455,12 @@
       <workItem from="1500252051425" duration="31186000" />
       <workItem from="1500360617197" duration="4938000" />
       <workItem from="1500428548795" duration="597000" />
-      <workItem from="1500429914401" duration="5932000" />
+      <workItem from="1500429914401" duration="6555000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="228971000" />
+    <option name="totallyTimeSpent" value="229594000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -847,20 +840,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/layoutCtrl.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="20" column="50" lean-forward="false" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#41#0" expanded="false" />
-            <element signature="e#2011#3496#0" expanded="false" />
-            <element signature="e#6711#6939#0" expanded="false" />
-            <element signature="e#7032#7675#0" expanded="false" />
-            <element signature="e#7714#8346#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/services.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -928,9 +907,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/slider.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="6" lean-forward="true" selection-start-line="23" selection-start-column="6" selection-end-line="23" selection-end-column="6" />
+        <state relative-caret-position="272">
+          <caret line="16" column="14" lean-forward="true" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/layoutCtrl.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="20" column="50" lean-forward="false" selection-start-line="20" selection-start-column="50" selection-end-line="20" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#41#0" expanded="false" />
+            <element signature="e#2011#3496#0" expanded="false" />
+            <element signature="e#6711#6939#0" expanded="false" />
+            <element signature="e#7032#7675#0" expanded="false" />
+            <element signature="e#7714#8346#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
