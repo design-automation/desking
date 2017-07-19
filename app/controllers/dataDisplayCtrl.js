@@ -69,9 +69,11 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 					}
 
 					jsonData[wsname]=data;
+
+					//console.log("got sheet ", j);
 				}
 
-
+				//console.log("setting json data");
 				dataService.setJsonData(jsonData);
 
 				/* update scope */

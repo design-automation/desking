@@ -10,105 +10,80 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 	$scope.floorList = dataService.getFloors();
 	$scope.deskArray=[];
 
+	Date.prototype.addTimeMinutes = function(time) {
+		var dat = new Date(this.valueOf())
+		dat.setMinutes(dat.getMinutes()+time);
+		return dat;
+	};
+
 
 	var timeChanged = function(){
 		$scope.activeDate = timeService.getTime();
-
+		occupiedClusters();
 		// desksNeeded();
 	}
 
 	var dataChanged = function(){
-
 		$scope.rowCollection = dataService.getRows();
+		$scope.jsonData=dataService.getJsonData();
 		timeChanged();
-
 	}
 
-	var desksNeeded = function(){
+	var occupiedClusters = function(){
 
-		$scope.rowCollection = dataService.getRows();
-		$scope.deskArray=[];
-		$scope.totaldesks=0;
+		$scope.clusterIdArray=[];
 
-		$scope.rowCollection.map(function(row){
+		if($scope.rowCollection!=undefined){
 
-			if(row.formattedDate==$scope.activeDate){
-				$scope.deskArray.push(parseInt(row.desks));
-				$scope.totaldesks=$scope.totaldesks+parseInt(row.desks);
-			}
+			$scope.rowCollection.map(function(row){
+
+				// console.log(row);
+				var startTime=row.formattedDate;
+				// console.log(new Date(startTime));
+				var endTime=new Date(row.formattedDate);
+				endTime=endTime.setMinutes(endTime.getMinutes()+ parseInt(row.Duration));
+				// console.log(new Date(endTime));
+
+				// if(row.formattedDate==$scope.activeDate){
+				//
+				//
+				// }
+				if(startTime<=$scope.activeDate && $scope.activeDate<=endTime){
+					// console.log(row);
+					// console.log(new Date(startTime));
+					// console.log(new Date($scope.activeDate));
+					// console.log(new Date(endTime));
+
+					$scope.clusterIdArray = row['Desks'].split(",");
+
+
+				}
+
+			});
+		}
+		else{
+			return;
+		}
+
+		var clusters = d3.selectAll('g g.cluster');
+
+		clusters[0].map(function(cluster){
+
+
+			var resetCluster=d3.select(cluster);
+			resetCluster.classed("occupied", false);
+			resetCluster.classed("mouseover", false);
+
+			$scope.clusterIdArray.map(function(Id){
+
+				if(Id==cluster.id){
+					var occupiedCluster=d3.select(cluster);
+					occupiedCluster.classed("occupied", !occupiedCluster.classed("occupied"));
+				}
+			});
 		});
-		// fillSVGElements($scope.totaldesks);
-		fillDesks($scope.totaldesks);
-
-
 
 	}
-
-	function getSubDocument(embedding_element) {
-		if (embedding_element.contentDocument)
-		{
-			return embedding_element.contentDocument;
-		}
-		else
-		{
-			var subdoc = null;
-			try {
-				subdoc = embedding_element.getSVGDocument();
-			} catch(e) {}
-			return subdoc;
-		}
-	}
-
-
-	// fetches the document for the given embedding_element
-	function fillSVGElements(desks) {
-		var elms = document.querySelectorAll(".emb");
-		for (var i = 0; i < elms.length; i++)
-		{
-			var subdoc = getSubDocument(elms[i])
-
-			if (subdoc )
-			{
-				for(i=1;i<=156;i++){
-					if(subdoc.getElementById(i)==null){
-						return;
-					}
-					subdoc.getElementById(i).setAttribute("stroke", "black");
-					subdoc.getElementById(i).setAttribute("fill", "rgb(247,148,32)");
-
-				}
-
-				for(i=1;i<=desks;i++){
-
-					if(subdoc.getElementById(i)==null){
-						return;
-					}
-					subdoc.getElementById(i).setAttribute("stroke", "black");
-					subdoc.getElementById(i).setAttribute("fill", "lime");
-				}
-			}
-			else{
-				return;
-			}
-
-
-		}
-
-
-
-
-
-	}
-
-
-	timeService.registerObserverCallback(timeChanged);
-	// dataService.registerObserverCallback(dataChanged);
-
-
-
-
-
-
 	var insertSVG =function (){
 
 
@@ -158,8 +133,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 			var element =  document.getElementById("svg1");
 			element.appendChild(xml.documentElement);
 
-			console.log("svg is inserted");
-
 		});
 
 
@@ -169,20 +142,21 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 	}
 
 
-
-
 	$timeout(function(){
 		var div=d3.select("body").append("div").attr("class", "deskInfo").style("opacity", 0);
 
-		var desks = d3.selectAll('g g.cluster');
-		console.log(desks);
+		var clusters = d3.selectAll('g g.cluster');
+
+		clusters.on('mouseover',function(){
+
+			var cluster = d3.select(this);
 
 
-		desks.on('mouseover',function(){
+			if(!cluster.classed("occupied")){
+				cluster.classed("mouseover", true);
+			}
 
-			var desk = d3.select(this);
-			desk.attr("class", "mouseover");
-			// console.log(desk[0][0].id);
+			// console.log(cluster[0][0].id);
 
 			div.transition()
 				.duration(200)
@@ -202,27 +176,30 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 				.attr("y", 9)
 				.attr("dy", ".25em")
 				.style("text-anchor", "start")
-				.text("ClusterID : "+desk[0][0].id);
+				.text("ClusterID : "+cluster[0][0].id);
 
 
 		});
 
 
-		desks.on('mouseout',function(){
+		clusters.on('mouseout',function(){
 
-			var desk = d3.select(this);
+			var cluster = d3.select(this);
 
-			desk.attr("class", "mouseoff");
+			if(cluster.classed("mouseover")){
+				cluster.classed("mouseover", false);
+
+			}
 
 			div.transition()
 				.duration(500)
 				.style("opacity", 0);
 
 		});
-		desks.on('click',function(){
+		clusters.on('click',function(){
 
-			var desk = d3.select(this);
-			desk.attr("class", "deskClicked");
+			var cluster = d3.select(this);
+			cluster.attr("class", "deskClicked");
 
 			div.transition()
 				.duration(500)
@@ -292,6 +269,84 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 
 
+
+
+	$scope.init=function(){
+		insertSVG();
+
+	}
+
+
+
+	var desksNeeded = function(){
+
+		$scope.rowCollection = dataService.getRows();
+		$scope.deskArray=[];
+		$scope.totaldesks=0;
+
+		$scope.rowCollection.map(function(row){
+
+			if(row.formattedDate==$scope.activeDate){
+				$scope.deskArray.push(parseInt(row.desks));
+				$scope.totaldesks=$scope.totaldesks+parseInt(row.desks);
+			}
+		});
+		// fillSVGElements($scope.totaldesks);
+		fillDesks($scope.totaldesks);
+
+	}
+
+	function getSubDocument(embedding_element) {
+		if (embedding_element.contentDocument)
+		{
+			return embedding_element.contentDocument;
+		}
+		else
+		{
+			var subdoc = null;
+			try {
+				subdoc = embedding_element.getSVGDocument();
+			} catch(e) {}
+			return subdoc;
+		}
+	}
+
+
+	// fetches the document for the given embedding_element
+	function fillSVGElements(desks) {
+		var elms = document.querySelectorAll(".emb");
+		for (var i = 0; i < elms.length; i++)
+		{
+			var subdoc = getSubDocument(elms[i])
+
+			if (subdoc )
+			{
+				for(i=1;i<=156;i++){
+					if(subdoc.getElementById(i)==null){
+						return;
+					}
+					subdoc.getElementById(i).setAttribute("stroke", "black");
+					subdoc.getElementById(i).setAttribute("fill", "rgb(247,148,32)");
+
+				}
+
+				for(i=1;i<=desks;i++){
+
+					if(subdoc.getElementById(i)==null){
+						return;
+					}
+					subdoc.getElementById(i).setAttribute("stroke", "black");
+					subdoc.getElementById(i).setAttribute("fill", "lime");
+				}
+			}
+			else{
+				return;
+			}
+
+		}
+
+	}
+
 	var fillDesks = function(deksToFill){
 
 		for(i=1;i<=156;i++){
@@ -329,10 +384,11 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	}
 
-	$scope.init=function(){
-		insertSVG();
 
-	}
+	timeService.registerObserverCallback(timeChanged);
+	dataService.registerObserverCallback(dataChanged);
+
+
 
 
 

@@ -194,7 +194,7 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 
 	p.setJsonData  = function(jsonData){
 
-
+		//console.log('setting json data');
 		o.jsonData =jsonData;
 
 		var lowest = new Date(), highest = new Date();
@@ -204,12 +204,10 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 		for(x in jsonData){
 
 			if(x=="Overview"){
-
 				continue;
 			}
-
 			jsonData[x].map(function(obj){
-
+				obj.name=x;
 				rows.push(obj);
 			});
 
@@ -225,14 +223,36 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 
 			var date = row['Date'].split("/");
 			var time = row['Time'].split(":");
+			var duration=+row['Duration'];
 
 			var newdate = new Date();
 			newdate.setDate(date[0]);
 			newdate.setMonth(date[1]-1);
 			newdate.setYear(date[2]);
-			// newdate.setHours(time[0]);
-			// newdate.setMinutes(time[1]);
-			// newdate.setSeconds(time[2]);
+			newdate.setHours(+time[0]);
+			newdate.setMinutes(+time[1]);
+			newdate.setSeconds(+time[2]);
+			newdate.setMilliseconds(0);
+
+
+			row['formattedDate'] = newdate.getTime();
+
+			var startTime=newdate;
+			var endTime=newdate.addTimeMinutes(duration);
+
+			while (startTime <= endTime) {
+				if(chart[Object.keys(row)[3]] == undefined){
+					chart[Object.keys(row)[3]] = [];
+					chart[Object.keys(row)[3]][startTime.getTime()] = parseInt(row[Object.keys(row)[3]]);
+				}
+				else if(chart[Object.keys(row)[3]][startTime.getTime()] == undefined){
+					chart[Object.keys(row)[3]][startTime.getTime()] = parseInt(row[Object.keys(row)[3]]);
+				}
+				else{
+					chart[Object.keys(row)[3]][startTime.getTime()] += parseInt(row[Object.keys(row)[3]]);
+				}
+				startTime = startTime.addTimeMinutes(30);
+			}
 
 			if(i==0){
 				highest = newdate;
@@ -240,46 +260,67 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 			}
 			else{
 				if(newdate > highest)
-					highest = newdate;
+					highest = newdate.addTimeMinutes(duration);
 				else if(newdate < lowest)
 					lowest = newdate;
 			}
 
-			row['formattedDate'] = newdate.getTime();
-
-
 			// add values for chart
-			if(chart[Object.keys(row)[3]] == undefined){
-				chart[Object.keys(row)[3]] = [];
-				chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
-			}
-			else if(chart[Object.keys(row)[3]][row['formattedDate']] == undefined){
-				chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
-			}
-			else
-				chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
+			// if(chart[Object.keys(row)[3]] == undefined){
+			// 	chart[Object.keys(row)[3]] = [];
+			// 	chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
+			// }
+			// else if(chart[Object.keys(row)[3]][row['formattedDate']] == undefined){
+			// 	chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
+			// }
+			// else
+			// 	chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
 		}
 
-		timeService.setTimelineRange(highest, lowest);
+
+
+		rows.sort(function(a,b){
+			if (a['formattedDate'] === b['formattedDate']) {
+				return 0;
+			}
+			else {
+				return (a['formattedDate'] < b['formattedDate']) ? -1 : 1;
+			}
+
+		});
+
+
+
+
 
 		o.rows = rows;
+		var dateArray = new Array();
+		var currentDate = lowest;
+		while (currentDate <= highest) {
+			dateArray.push( new Date (currentDate).getTime() );
+			currentDate = currentDate.addTimeMinutes(30);
+			if(currentDate.getHours()>=18){
+				var date=new Date(currentDate);
+				date.setHours(date.getHours()+15)
+				 currentDate = date;
+			}
+		}
+
+		timeService.setTimeline(dateArray);
+
+
+
+
+		// timeService.setTimelineRange(highest, lowest);
+
+		/*console.log(chart);*/
+
 
 		updateStackedAreaChart(chart);
 
 		// $timeout(notifyObservers(),1000);
 
 		notifyObservers();
-
-
-
-
-
-
-
-
-
-
-
 
 
 	}
@@ -356,8 +397,11 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 
 	var updateStackedAreaChart = function(data){
 
+		//console.log("formatting chart data");
+
 		o.chartData = [];
 		var timelineRange = timeService.getTimeline();
+
 		for(key in data){
 			var obj = { "key":key, "values": []};
 			for(var t=0; t<timelineRange.length; t++){
@@ -372,13 +416,15 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 			}
 			o.chartData.push(obj);
 		}
+
 		c = o.chartData;
+		//console.log("chart data update completed")
 
 		notifyObservers("graph");
 
 	}
 
-	var updateChart = function(data){
+	/*var updateChart = function(data){
 
 		o.chartData = [];
 		var timelineRange = timeService.getTimeline();
@@ -399,7 +445,7 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 		c = o.chartData;
 		notifyObservers("graph");
 
-	}
+	}*/
 
 	return p;
 
