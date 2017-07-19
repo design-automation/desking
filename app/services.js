@@ -224,8 +224,6 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 			var date = row['Date'].split("/");
 			var time = row['Time'].split(":");
 			var duration=+row['Duration'];
-			console.log(duration);
-
 
 			var newdate = new Date();
 			newdate.setDate(date[0]);
@@ -278,6 +276,7 @@ desking.factory("dataService", ['timeService','$timeout', function(timeService, 
 			// else
 			// 	chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
 		}
+
 
 
 		rows.sort(function(a,b){

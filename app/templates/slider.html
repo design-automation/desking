@@ -2,7 +2,7 @@
     <div class="row" >
         <div class="col-sm-1 playButton ">
             <div >
-                <button type="button" id="btnAnimation" class="btn btn-md btn-block" ng-click="playAnimation()" >Play <i class="glyphicon glyphicon-play-circle text-center"></i></button>
+                <button type="button" id="btnAnimation" class="btn btn-md btn-block" ng-click="playAnimation()" >{{opt}} <i  ng-class="{'glyphicon glyphicon-play': toggle, 'glyphicon glyphicon-stop': !toggle}" class="text-center"></i></button>
             </div>
         </div>
         <div class="col-sm-2 datePicker">

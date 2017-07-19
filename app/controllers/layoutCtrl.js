@@ -19,10 +19,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	var timeChanged = function(){
 		$scope.activeDate = timeService.getTime();
-
 		occupiedClusters();
-
-
 		// desksNeeded();
 	}
 
@@ -87,11 +84,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		});
 
 	}
-
-
-
-
-
 	var insertSVG =function (){
 
 

@@ -7,6 +7,9 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	$scope.activeDate = undefined;
 	$scope.sliderTimeline=[];
+	$scope.toggle =true;
+    $scope.opt="play"
+	$scope.play=0;
 
 	Date.prototype.addTimeMinutes = function(time) {
 		var dat = new Date(this.valueOf())
@@ -88,23 +91,42 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	$scope.playAnimation= function(){
 
-		$scope.timeLine = timeService.getTimeline();
+        $scope.toggle=!$scope.toggle;
+        $scope.timeLine = timeService.getTimeline();
 
-		var play=0;
+		if($scope.toggle){
+            $scope.opt="play";
+		}
+		else{
+            $scope.opt="stop";
 
-			var anime=$interval(function(){
-				timeService.setTime($scope.timeLine[play]);
+        }
 
-				if(play<$scope.timeLine.length-1){
-					play++;
+        if($scope.play==0){
+            $scope.anime=$interval(function(){
+                timeService.setTime($scope.timeLine[$scope.play]);
 
-				}
-				else{
-					timeService.setTime($scope.timeLine[0]);
-					$interval.cancel(anime);
-				}
+                if($scope.play<$scope.timeLine.length-1){
+                    $scope.play++;
 
-			}, 400);
+                }
+                else{
+                    timeService.setTime($scope.timeLine[0]);
+                    $interval.cancel($scope.anime);
+                    $scope.play=0;
+                }
+
+            }, 400);
+		}
+		else{
+            $interval.cancel($scope.anime);
+            $scope.play=0;
+		}
+
+
+
+
+
 
 
 	};
