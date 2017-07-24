@@ -3,11 +3,12 @@
  * Created by sereb on 6/7/2017.
  */
 
-desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',function($scope, timeService, dataService){
+desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','selectionService',function($scope, timeService, dataService,selectionService){
 
 	$scope.jsonData = undefined;
 	$scope.groups = undefined;
 	$scope.activeDate = undefined;
+
 
 	// To load the table during loading of the page
 	$( document ).ready(function() {
@@ -54,16 +55,26 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 
 					/* grab first row and generate column headers */
 					var aoa = XLSX.utils.sheet_to_json(ws, {header:1, raw:false});
+
 					var cols = [];
-					for(var i = 0; i < aoa[0].length; ++i) cols[i] = { field: aoa[0][i] };
+					for(var i = 0; i < aoa[0].length; ++i){
+
+                        cols[i] = { field: aoa[0][i] };
+
+
+					}
 
 					/* generate rest of the data */
 					var data = [];
 					for(var r = 1; r < aoa.length; ++r) {
 						data[r-1] = {};
-						for(i = 0; i < aoa[r].length; ++i) {
-							if(aoa[r][i] == null) continue;
-							data[r-1][aoa[0][i]] = aoa[r][i]
+						for(i = 0; i < aoa[0].length; ++i) {
+							if(aoa[r][i] == null)
+							{
+                                data[r-1][aoa[0][i]]=[];
+
+                            }
+							data[r-1][aoa[0][i]] = aoa[r][i];
 						}
 
 					}
@@ -73,8 +84,9 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 					//console.log("got sheet ", j);
 				}
 
-				//console.log("setting json data");
+
 				dataService.setJsonData(jsonData);
+
 
 				/* update scope */
 				/*$scope.$apply(function() {
@@ -211,6 +223,13 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 
                 });
 
+                if(newgroup.desksAlloted < newgroup.totalDesksNeeded){
+                    newgroup.mode="selection"
+				}
+				else{
+                    newgroup.mode="display"
+				}
+
 
 			}
 			$scope.groups.push(newgroup);
@@ -232,6 +251,47 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 		$scope.activeDate = timeService.getTime()
 	}
 
+	$scope.allotDesks=function(group){
+
+
+        if(group.mode=="selection"){
+
+            selectionService.setSelectionGroup(group);
+       }
+       else
+		{
+            selectionService.setMode(group.mode);
+		}
+
+
+
+		return group;
+	}
+
+    var updateGroups = function(){
+
+        var updatedGroup=selectionService.getGroup();
+
+
+        $scope.groups.map(function(group){
+
+        	if(group.name==updatedGroup.name){
+                group=updatedGroup;
+			}
+
+		});
+
+        $scope.$apply();
+
+
+
+    }
+
+
+
+
+
+
 
 
 
@@ -241,6 +301,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService',funct
 
 	dataService.registerObserverCallback(init);
 	timeService.registerObserverCallback(highlight);
+	selectionService.registerObserverCallback(updateGroups);
 
 
 

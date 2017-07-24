@@ -15,6 +15,11 @@
     overflow: hidden;
 }
 
+.pane#layoutPane{
+
+    overflow: hidden;
+}
+
 .panel-heading{
     border-radius: 0px;
     padding: 5px;
@@ -119,10 +124,12 @@ g.mouseoff g rect {
 
 g.deskClicked g rect {
     fill: steelblue !important;
+    stroke:white !important ;
 }
 
 g.occupied g rect {
     fill: steelblue !important;
+
 
 }
 g.unoccupied g rect {

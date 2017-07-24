@@ -24,7 +24,7 @@
 
                 <uib-accordion-heading ><i class="glyphicon-plus"></i> {{ group.name }}
                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen}"></i>
-                    <i class="pull-right" ng-if='!$first' ng-class='group.desksAlloted < group.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"'> Desks:{{group.desksAlloted}}/{{group.totalDesksNeeded}}</i>
+                    <i class="pull-right" ng-if='!$first' ng-class='group.desksAlloted < group.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > Desks:<span style='z-index:10' ng-click="allotDesks(group)">{{group.desksAlloted}}</span>/{{group.totalDesksNeeded}}</i>
                 </uib-accordion-heading>
 
                 <div ng-if='$first'  >

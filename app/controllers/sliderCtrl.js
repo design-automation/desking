@@ -41,6 +41,7 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 		$scope.sliderTimeline=popualteSliderTimeline(new Date(newVal));
 		$scope.slider_translate.options.stepsArray = $scope.sliderTimeline;
 
+
 	});
 
 
@@ -122,10 +123,6 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
             $interval.cancel($scope.anime);
             $scope.play=0;
 		}
-
-
-
-
 
 
 
