@@ -142,6 +142,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			 "key" : "PhD" ,
 			 "values" : [ [ 1025409600000 , 0] , [ 1028088000000 , 1] , [ 1030766400000 , 1] , [ 1033358400000 , 1] , [ 1036040400000 , 1] , [ 1038632400000 , 1] , [ 1041310800000 , 0] , [ 1043989200000 , 0] , [ 1046408400000 , 0] , [ 1049086800000 , 2] , [ 1051675200000 , 2] , [ 1054353600000 , 2] , [ 1056945600000 , 2] , [ 1059624000000 , 2] , [ 1062302400000 , 2] , [ 1064894400000 , 2] , [ 1067576400000 , 2] , [ 1070168400000 , 2] , [ 1072846800000 , 1] , [ 1075525200000 , 1] , [ 1078030800000 , 2] , [ 1080709200000 , 1] , [ 1083297600000 , 1] , [ 1085976000000 , 1] , [ 1088568000000 , 1] , [ 1091246400000 , 1] , [ 1093924800000 , 1] , [ 1096516800000 , 1] , [ 1099195200000 , 1] , [ 1101790800000 , 1] , [ 1104469200000 , 3] , [ 1107147600000 , 3] , [ 1109566800000 , 3] , [ 1112245200000 , 3] , [ 1114833600000 , 3] , [ 1117512000000 , 3] , [ 1120104000000 , 4] , [ 1122782400000 , 4] , [ 1125460800000 , 4] , [ 1128052800000 , 4] , [ 1130734800000 , 4] , [ 1133326800000 , 5] , [ 1136005200000 , 3] , [ 1138683600000 , 3] , [ 1141102800000 , 3] , [ 1143781200000 , 2] , [ 1146369600000 , 2] , [ 1149048000000 , 2] , [ 1151640000000 , 3] , [ 1154318400000 , 3] , [ 1156996800000 , 3] , [ 1159588800000 , 2] , [ 1162270800000 , 2] , [ 1164862800000 , 2] , [ 1167541200000 , 1] , [ 1170219600000 , 1] , [ 1172638800000 , 1] , [ 1175313600000 , 2] , [ 1177905600000 , 2] , [ 1180584000000 , 2] , [ 1183176000000 , 3] , [ 1185854400000 , 3] , [ 1188532800000 , 3] , [ 1191124800000 , 4] , [ 1193803200000 , 4] , [ 1196398800000 , 4] , [ 1199077200000 , 5] , [ 1201755600000 , 5] , [ 1204261200000 , 5] , [ 1206936000000 , 3] , [ 1209528000000 , 3] , [ 1212206400000 , 3] , [ 1214798400000 , 4] , [ 1217476800000 , 4] , [ 1220155200000 , 4] , [ 1222747200000 , 3] , [ 1225425600000 , 3] , [ 1228021200000 , 3] , [ 1230699600000 , 1] , [ 1233378000000 , 1] , [ 1235797200000 , 1] , [ 1238472000000 , 0] , [ 1241064000000 , 0] , [ 1243742400000 ,2] , [ 1246334400000 , 2] , [ 1249012800000 , 2] , [ 1251691200000 , 2] , [ 1254283200000 , 1] , [ 1256961600000 , 1] , [ 1259557200000 , 1] , [ 1262235600000 , 0] , [ 1264914000000 , 0] , [ 1267333200000 , 0] , [ 1270008000000 , 0] , [ 1272600000000 , 0] , [ 1275278400000 , 0] , [ 1277870400000 , 0] , [ 1280548800000 , 0] , [ 1283227200000 , 0] , [ 1285819200000 , 0] , [ 1288497600000 , 1] , [ 1291093200000 , 1] , [ 1293771600000 , 1] , [ 1296450000000 , 0] , [ 1298869200000 , 0] , [ 1301544000000 , 0] , [ 1304136000000 , 0] , [ 1306814400000 , 0] , [ 1309406400000 , 0] , [ 1312084800000 , 0] , [ 1314763200000 , 2] , [ 1317355200000 , 0] , [ 1320033600000 , 0] , [ 1322629200000 , 0] , [ 1325307600000 , 0] , [ 1327986000000 , 0] , [ 1330491600000 , 0] , [ 1333166400000 , 0] , [ 1335758400000 , 0]]
 			 }*/	], // to be replaced, dummy data
+        displayGroups:[],
 		jsonData:[]
 	}
 
@@ -150,6 +151,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 	// --------- Observers
 	var observerCallbacks = [];
 	var graphObserverCallbacks = [];
+    var groupsObserverCallbacks = [];
 
 	// call this when you know data has been changed
 	var notifyObservers = function(observers){
@@ -158,6 +160,8 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			observers = observerCallbacks;
 		else if(observers == "graph")
 			observers = graphObserverCallbacks;
+        else if(observers == "groupsUpdated")
+            observers = groupsObserverCallbacks;
 
 		angular.forEach(observers, function(callback){
 			callback();
@@ -173,6 +177,11 @@ desking.factory("dataService", ['timeService', function(timeService) {
 	p.registerGraphObserverCallback = function(callback){
 		graphObserverCallbacks.push(callback);
 	};
+
+    // register an observer
+    p.registerGroupsObserverCallback = function(callback){
+        groupsObserverCallbacks.push(callback);
+    };
 
 
 	p.getFloors = function(){
@@ -299,16 +308,11 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			}
 		}
 
+
 		timeService.setTimeline(dateArray);
 
-		// timeService.setTimelineRange(highest, lowest);
-
-		/*console.log(chart);*/
-
-
 		updateStackedAreaChart(chart);
-
-		// $timeout(notifyObservers(),1000);
+		updateDisplayGroups();
 
 		notifyObservers();
 
@@ -384,10 +388,17 @@ desking.factory("dataService", ['timeService', function(timeService) {
 		return o.rows;
 	}
 
+    p.setDisplayGroups = function(groups){
+        o.displayGroups=groups;
+        notifyObservers("groupsUpdated");
+    }
+
+    p.getDisplayGroups= function(){
+        return o.displayGroups;
+    }
+
 
 	var updateStackedAreaChart = function(data){
-
-		//console.log("formatting chart data");
 
 		o.chartData = [];
 		var timelineRange = timeService.getTimeline();
@@ -408,10 +419,52 @@ desking.factory("dataService", ['timeService', function(timeService) {
 		}
 
 		c = o.chartData;
-		//console.log("chart data update completed")
 
 		notifyObservers("graph");
 
+	}
+
+	var updateDisplayGroups = function(){
+		o.displayGroups=[];
+        if(Object.keys(o.jsonData).length == 0)
+            return;
+
+        for(x in o.jsonData){
+
+            var newgroup = {name: x};
+            newgroup.headers=Object.keys(o.jsonData[x][0]);
+            newgroup.rows=o.jsonData[x];
+            if(x!=="Overview"){
+                newgroup.clusterIdArray =o.jsonData[x][0]['Desks'] == undefined ? [] : o.jsonData[x][0]['Desks'].split(",");
+                newgroup.totalDesksNeeded=o.jsonData[x][0][newgroup.headers[4]];
+                newgroup.desksAlloted=0;
+                var clusters = d3.selectAll('g g.cluster');
+                clusters[0].map(function(cluster){
+
+                    if(newgroup.clusterIdArray.length>0){
+                        newgroup.clusterIdArray.map(function(Id){
+
+                            if(Id==cluster.id){
+                                var desksAllotedCluster=d3.select(cluster);
+                                newgroup.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                            }
+                        });
+                    }
+
+                });
+
+                if(newgroup.desksAlloted < newgroup.totalDesksNeeded){
+                    newgroup.mode="selection"
+                }
+                else{
+                    newgroup.mode="display"
+                }
+
+            }
+            o.displayGroups.push(newgroup);
+
+        }
+        notifyObservers("groupsUpdated");
 	}
 
 	/*var updateChart = function(data){
@@ -441,11 +494,10 @@ desking.factory("dataService", ['timeService', function(timeService) {
 
 }]);
 
-desking.factory("selectionService",['timeService','dataService',function(timeService, dataService){
+desking.factory("displayService",['timeService','dataService',function(timeService, dataService){
     var o = {
         mode: [],
-        group:[],
-		displayGroups:[],
+        groups:[],
 		selectionGroup:[],
 		updatedGroup:[]
     }
@@ -455,7 +507,7 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
     // --------- Observers
     var observerCallbacks = [];
     var modeObserverCallbacks = [];
-    var groupsObserverCallbacks = [];
+
 
     // register an observer
     p.registerObserverCallback = function(callback){
@@ -465,10 +517,7 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
     p.registerModeObserverCallback = function(callback){
         modeObserverCallbacks.push(callback);
     };
-    // register an observer
-    p.registerGroupsObserverCallback = function(callback){
-        groupsObserverCallbacks.push(callback);
-    };
+
 
     var notifyObservers = function(observers){
 
@@ -476,8 +525,6 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
             observers = observerCallbacks;
         else if(observers == "mode")
             observers = modeObserverCallbacks;
-        else if(observers == "groupsUpdated")
-            observers = groupsObserverCallbacks;
 
         angular.forEach(observers, function(callback){
             callback();
@@ -494,22 +541,19 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
         notifyObservers("mode");
     }
 
-    p.getGroup= function(){
-        return o.group;
+    p.getGroups= function(){
+        return o.groups;
     }
 
-    p.setGroup= function(group){
-
-        o.group=group;
-        p.setMode(group.mode);
+    p.setGroups= function(groups){
+        o.groups=groups;
         notifyObservers();
 
     }
 
     p.setSelectionGroup= function(group){
-        o.group=group;
         o.selectionGroup=group;
-        console.log(o.selectionGroup);
+        o.updatedGroup=group;
         p.setMode(group.mode);
     }
 
@@ -518,14 +562,16 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
     }
 
     p.setUpdatedGroup= function(group){
-        o.group=group;
         o.updatedGroup=group;
-        console.log(o.updatedGroup);
+        o.groups=dataService.getDisplayGroups();
+
         o.groups.map(function(group){
             if(group.name==o.updatedGroup.name){
                 group=o.updatedGroup;
             }
         });
+
+        dataService.setDisplayGroups(o.groups);
 
     }
 
@@ -533,28 +579,16 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
         return o.updatedGroup;
     }
 
-    p.setGroups = function(groups){
-    	console.log("groups are loaded in to the selection service");
-    	o.groups=groups;
-        notifyObservers("groupsUpdated");
-	}
-
-	p.getGroups= function(){
-    	return o.groups;
-	}
-
-
     p.updateJson=function(){
 
-    	var group=o.group;
-        console.log(group.mode);
-        if(group.desksAlloted < group.totalDesksNeeded){
-            group.mode="selection"
-        }
-        else{
-            group.mode="display"
-        }
-        p.setMode(group.mode);
+    	var group=o.updatedGroup;
+        // if(group.desksAlloted < group.totalDesksNeeded){
+        //     group.mode="selection"
+        // }
+        // else{
+        //     group.mode="display"
+        // }
+        // p.setMode(group.mode);
         var jsonData=dataService.getJsonData();
         var clusterString=group.clusterIdArray.toString();
 

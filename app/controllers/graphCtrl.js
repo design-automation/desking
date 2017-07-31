@@ -21,8 +21,6 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function
 		$scope.api.refresh();
 		$scope.pieApi.refresh();
 
-
-
 	}, true);
 
 
@@ -35,7 +33,6 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function
 		updatePiechart();
 
 	}
-
 
 	$scope.options = {
 		chart: {
@@ -91,11 +88,6 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function
 	};
 
 	$scope.data = dataService.getChartData();
-
-
-
-
-
 
 	var updatePiechart = function(){
 
@@ -174,18 +166,6 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function
 
 
 	}
-
-
-
-
-
-
-
-
-
-
-
-
 
 	dataService.registerGraphObserverCallback(updateGraph);
 	timeService.registerObserverCallback(updatePiechart);

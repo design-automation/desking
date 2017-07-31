@@ -3,7 +3,7 @@
  * Created by sereb on 6/7/2017.
  */
 
-desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','selectionService',function($scope, timeService, dataService,selectionService){
+desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','displayService',function($scope, timeService, dataService,displayService){
 
 	$scope.jsonData = undefined;
 	$scope.groups = undefined;
@@ -107,7 +107,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 
 	}
 	$scope.saveExcelFile =function(){
-		$scope.jsonData=dataService.getJsonData();
+		 var jsonData=dataService.getJsonData();
 
 		var fileName='ClassScheduleData ';
 		var today = new Date();
@@ -118,21 +118,21 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 		var wb = XLSX.utils.book_new();
 
 
-		for(sheet in $scope.jsonData){
+		for(sheet in jsonData){
 
 			var sheetName = sheet;
 			var arrArr=[]
 
-			for(x=0;x<$scope.jsonData[sheet].length;x++){
+			for(x=0;x<jsonData[sheet].length;x++){
 
 				var arr=[];
 				if(x==0){
-					var header=Object.keys($scope.jsonData[sheet][0]);
+					var header=Object.keys(jsonData[sheet][0]);
 					header.pop();
 					arrArr.push(header);
 				}
-				for(y in $scope.jsonData[sheet][x]){
-							arr.push($scope.jsonData[sheet][x][y]);
+				for(y in jsonData[sheet][x]){
+							arr.push(jsonData[sheet][x][y]);
 				}
 				arr.pop();
 				arrArr.push(arr);
@@ -180,61 +180,14 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 		}
 	}
 
-	var init = function(){
+	var populateTable = function () {
 
-		$scope.jsonData=dataService.getJsonData();
-		$scope.groups=[];
-		updateTable();
-
-	}
-
-	var updateTable = function () {
-
-		$scope.jsonData=dataService.getJsonData();
-		$scope.groups=[];
-
-		if(Object.keys($scope.jsonData).length == 0)
-			return;
-
-		for(x in $scope.jsonData){
-
-			var newgroup = {name: x};
-			newgroup.headers=Object.keys($scope.jsonData[x][0]);
-			newgroup.rows=$scope.jsonData[x];
-			if(x!=="Overview"){
-                newgroup.clusterIdArray =$scope.jsonData[x][0]['Desks'] == undefined ? [] : $scope.jsonData[x][0]['Desks'].split(",");
-                newgroup.totalDesksNeeded=$scope.jsonData[x][0][newgroup.headers[4]];
-                newgroup.desksAlloted=0;
-                var clusters = d3.selectAll('g g.cluster');
-                clusters[0].map(function(cluster){
-
-                    if(newgroup.clusterIdArray.length>0){
-                        newgroup.clusterIdArray.map(function(Id){
-
-                            if(Id==cluster.id){
-                                var desksAllotedCluster=d3.select(cluster);
-                                newgroup.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
-                            }
-                        });
-                    }
-
-                });
-
-                if(newgroup.desksAlloted < newgroup.totalDesksNeeded){
-                    newgroup.mode="selection"
-				}
-				else{
-                    newgroup.mode="display"
-				}
-
-			}
-			$scope.groups.push(newgroup);
-
+		if(dataService.getDisplayGroups().length == 0){
+			console.log("no groups to display");
+            return;
 		}
-
-		selectionService.setGroups($scope.groups);
-
-		$scope.$apply();
+		$scope.groups=dataService.getDisplayGroups();
+		// $scope.$apply();
 
 	}
 
@@ -249,26 +202,27 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 		$scope.activeDate = timeService.getTime()
 	}
 
-	$scope.allotDesks=function(group){
+	var allotDesks=function(group){
 
+        if(group.mode=="selection" && !group.isOpen){
 
-        if(group.mode=="selection"){
-
-            selectionService.setSelectionGroup(group);
+            displayService.setSelectionGroup(group);
        }
+       else if(group.mode=="selection" && group.isOpen){
+            displayService.setMode("display");
+		}
        else
 		{
-            selectionService.setMode(group.mode);
+            displayService.setMode(group.mode);
+
 		}
-
-
 
 		return group;
 	}
 
     var updateGroups = function(){
 
-        var updatedGroup=selectionService.getGroup();
+        var updatedGroup=displayService.getGroup();
 
 
         $scope.groups.map(function(group){
@@ -279,35 +233,19 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 
 		});
 
-        // $scope.$apply();
-
-
-    }
-
-    var updateGroups1 = function(){
-
-    	var groups=selectionService.getGroups();
-
+        $scope.$apply();
 
 
     }
 
 
-
-
-
-
-
-
-
-
-	$scope.init = init;
 	$scope.selectedRow=selectedRow;
+    $scope.populateTable=populateTable;
+    $scope.allotDesks =allotDesks;
 
-	dataService.registerObserverCallback(init);
 	timeService.registerObserverCallback(highlight);
-	selectionService.registerObserverCallback(updateGroups);
-	// selectionService.registerGroupsObserverCallback(updateGroups1);
+    displayService.registerObserverCallback(updateGroups);
+    dataService.registerGroupsObserverCallback(populateTable);
 
 
 

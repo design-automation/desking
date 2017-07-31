@@ -2,14 +2,14 @@
  * Created by sereb on 10/7/2017.
  */
 
-desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeout','selectionService', function ($scope, dataService, timeService,$timeout,selectionService) {
+desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeout','displayService', function ($scope, dataService, timeService,$timeout,displayService) {
 
 
 	$scope.activeDate = 1025409600000;
 	$scope.rowCollection = undefined;
 	$scope.floorList = dataService.getFloors();
-	$scope.deskArray=[];
-    $scope.saveButton=false;
+	// $scope.deskArray=[];
+    $scope.selectionButtonsDisplay=false;
 
 	Date.prototype.addTimeMinutes = function(time) {
 		var dat = new Date(this.valueOf())
@@ -32,30 +32,24 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	var modeChanged = function(){
 
-		if(selectionService.getMode()=="selection"){
-            $scope.saveButton=true;
-            console.log($scope.saveButton);
+		if(displayService.getMode()=="selection"){
+            $scope.selectionButtonsDisplay=true;
 		}
 		else{
-            $scope.saveButton=false;
-            console.log($scope.saveButton);
+            $scope.selectionButtonsDisplay=false;
 		}
 
 
 	}
 
     $scope.saveCurrentSelection=function(){
-
-        selectionService.updateJson();
-        selectionService.setMode("display");
-
-        $scope.saveButton=false;
-
+        displayService.setMode("display");
+        displayService.updateJson();
     }
 
     $scope.cancelCurrentSelection=function(){
 
-        var group=selectionService.getGroup(group);
+        var group=displayService.getUpdatedGroup(group);
         var clusters = d3.selectAll('g g.cluster');
 
         clusters[0].map(function(element){
@@ -85,11 +79,9 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
         });
 
-
-        selectionService.setGroup(group);
-        selectionService.setMode("display");
-        $scope.saveButton=false;
-
+        group.isOpen=false;
+        displayService.setUpdatedGroup(group);
+        displayService.setMode("display");
 
     }
 
@@ -160,22 +152,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 	}
 	var insertSVG =function (){
 
-
-		// d3.xml("assets/images/SDE3_6thFloor.svg").mimeType("image/svg+xml").get(function(error, xml) {
-		// 	if (error) throw error;
-		//
-		// 	// document.getElementById("#d3svg").appendChild(xml.documentElement);
-		// 	// document.body.appendChild(xml.documentElement);
-		//
-		// 	var element =  document.getElementById("d3svg");
-		// 	element.appendChild(xml.documentElement);
-		//
-		// 	// var d3Element =d3.select("#d3svg").insert("svg",xml.documentElement);
-		//
-		// });
-		//
-
-
 		// d3.xml("assets/images/SDE3_2ndFloor.svg").mimeType("image/svg+xml").get(function(error, xml) {
 		// 	if (error) throw error;
 		//
@@ -183,22 +159,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		// 	element.appendChild(xml.documentElement);
 		//
 		// });
-		//
-		// d3.xml("assets/images/SDE3_6thFloor.svg").mimeType("image/svg+xml").get(function(error, xml) {
-		// 	if (error) throw error;
-		//
-		// 	var element =  document.getElementById("svg3");
-		// 	element.appendChild(xml.documentElement);
-		//
-		// });
-		//
-		// d3.xml("assets/images/SDE3_1stFloor.svg").mimeType("image/svg+xml").get(function(error, xml) {
-		// 	if (error) throw error;
-		//
-		// 	var element =  document.getElementById("svg4");
-		// 	element.appendChild(xml.documentElement);
-		//
-		// });
+
 
 
 		d3.xml("assets/data/combined_plan4.svg").mimeType("image/svg+xml").get(function(error, xml) {
@@ -259,23 +220,20 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
             });
             clusters.on('click',function(){
 
-				var group=selectionService.getGroup(group);
+				var group=displayService.getSelectionGroup(group);
 
-                if(group.desksAlloted < group.totalDesksNeeded){
+                if(group.desksAlloted < group.totalDesksNeeded && $scope.selectionButtonsDisplay==true ){
 
                     var cluster = d3.select(this);
 
                     if(!cluster.classed("deskClicked")){
                         group.clusterIdArray.push(cluster[0][0].id);
-                        $scope.deskArray.push(cluster[0][0].id);
 
                         cluster.classed("deskClicked", true);
                         div.transition()
                             .duration(500)
                             .style("opacity", 0);
 
-                        console.log(group.clusterIdArray);
-                        console.log($scope.deskArray);
                         group.desksAlloted=0;
 
                         clusters[0].map(function(cluster){
@@ -292,15 +250,11 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
                         });
 
-                        console.log(group.desksAlloted);
-
                     }
                     else{
 
                         var index = group.clusterIdArray.indexOf(cluster[0][0].id);
                         group.clusterIdArray.splice(index, 1);
-                        index=$scope.deskArray.indexOf(cluster[0][0].id);
-                        $scope.deskArray.splice(index,1);
 
 
                         console.log(group.clusterIdArray);
@@ -328,12 +282,9 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 					}
 
-                    selectionService.setGroup(group);
+                    displayService.setUpdatedGroup(group);
 
                 }
-
-                // alert("ClusterID : "+desk[0][0].id+" is clicked");
-
 
             });
 
@@ -458,7 +409,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	timeService.registerObserverCallback(timeChanged);
 	dataService.registerObserverCallback(dataChanged);
-    selectionService.registerModeObserverCallback(modeChanged);
+    displayService.registerModeObserverCallback(modeChanged);
 
 
 
