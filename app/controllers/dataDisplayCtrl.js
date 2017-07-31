@@ -180,9 +180,6 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 		}
 	}
 
-
-
-
 	var init = function(){
 
 		$scope.jsonData=dataService.getJsonData();
@@ -205,8 +202,8 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 			newgroup.headers=Object.keys($scope.jsonData[x][0]);
 			newgroup.rows=$scope.jsonData[x];
 			if(x!=="Overview"){
-                newgroup.clusterIdArray =$scope.jsonData[x][0][newgroup.headers[4]] == undefined ? [] : $scope.jsonData[x][0][newgroup.headers[4]].split(",");
-                newgroup.totalDesksNeeded=$scope.jsonData[x][0][newgroup.headers[3]];
+                newgroup.clusterIdArray =$scope.jsonData[x][0]['Desks'] == undefined ? [] : $scope.jsonData[x][0]['Desks'].split(",");
+                newgroup.totalDesksNeeded=$scope.jsonData[x][0][newgroup.headers[4]];
                 newgroup.desksAlloted=0;
                 var clusters = d3.selectAll('g g.cluster');
                 clusters[0].map(function(cluster){
@@ -230,11 +227,12 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
                     newgroup.mode="display"
 				}
 
-
 			}
 			$scope.groups.push(newgroup);
 
 		}
+
+		selectionService.setGroups($scope.groups);
 
 		$scope.$apply();
 
@@ -281,7 +279,14 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 
 		});
 
-        $scope.$apply();
+        // $scope.$apply();
+
+
+    }
+
+    var updateGroups1 = function(){
+
+    	var groups=selectionService.getGroups();
 
 
 
@@ -302,9 +307,10 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','sele
 	dataService.registerObserverCallback(init);
 	timeService.registerObserverCallback(highlight);
 	selectionService.registerObserverCallback(updateGroups);
+	// selectionService.registerGroupsObserverCallback(updateGroups1);
 
 
 
-
+//
 
 }]);

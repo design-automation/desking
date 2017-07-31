@@ -194,7 +194,6 @@ desking.factory("dataService", ['timeService', function(timeService) {
 
 	p.setJsonData  = function(jsonData){
 
-		//console.log('setting json data');
 		o.jsonData =jsonData;
 
 		var lowest = new Date(), highest = new Date();
@@ -241,15 +240,15 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			var endTime=newdate.addTimeMinutes(duration);
 
 			while (startTime <= endTime) {
-				if(chart[Object.keys(row)[3]] == undefined){
-					chart[Object.keys(row)[3]] = [];
-					chart[Object.keys(row)[3]][startTime.getTime()] = parseInt(row[Object.keys(row)[3]]);
+				if(chart[Object.keys(row)[4]] == undefined){
+					chart[Object.keys(row)[4]] = [];
+					chart[Object.keys(row)[4]][startTime.getTime()] = parseInt(row[Object.keys(row)[4]]);
 				}
-				else if(chart[Object.keys(row)[3]][startTime.getTime()] == undefined){
-					chart[Object.keys(row)[3]][startTime.getTime()] = parseInt(row[Object.keys(row)[3]]);
+				else if(chart[Object.keys(row)[4]][startTime.getTime()] == undefined){
+					chart[Object.keys(row)[4]][startTime.getTime()] = parseInt(row[Object.keys(row)[4]]);
 				}
 				else{
-					chart[Object.keys(row)[3]][startTime.getTime()] += parseInt(row[Object.keys(row)[3]]);
+					chart[Object.keys(row)[4]][startTime.getTime()] += parseInt(row[Object.keys(row)[4]]);
 				}
 				startTime = startTime.addTimeMinutes(30);
 			}
@@ -277,8 +276,6 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			// 	chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
 		}
 
-
-
 		rows.sort(function(a,b){
 			if (a['formattedDate'] === b['formattedDate']) {
 				return 0;
@@ -288,8 +285,6 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			}
 
 		});
-
-
 
 		o.rows = rows;
 		var dateArray = new Array();
@@ -305,9 +300,6 @@ desking.factory("dataService", ['timeService', function(timeService) {
 		}
 
 		timeService.setTimeline(dateArray);
-
-
-
 
 		// timeService.setTimelineRange(highest, lowest);
 
@@ -452,7 +444,10 @@ desking.factory("dataService", ['timeService', function(timeService) {
 desking.factory("selectionService",['timeService','dataService',function(timeService, dataService){
     var o = {
         mode: [],
-        group:[]
+        group:[],
+		displayGroups:[],
+		selectionGroup:[],
+		updatedGroup:[]
     }
 
     var p = {};
@@ -460,6 +455,7 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
     // --------- Observers
     var observerCallbacks = [];
     var modeObserverCallbacks = [];
+    var groupsObserverCallbacks = [];
 
     // register an observer
     p.registerObserverCallback = function(callback){
@@ -469,6 +465,10 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
     p.registerModeObserverCallback = function(callback){
         modeObserverCallbacks.push(callback);
     };
+    // register an observer
+    p.registerGroupsObserverCallback = function(callback){
+        groupsObserverCallbacks.push(callback);
+    };
 
     var notifyObservers = function(observers){
 
@@ -476,6 +476,8 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
             observers = observerCallbacks;
         else if(observers == "mode")
             observers = modeObserverCallbacks;
+        else if(observers == "groupsUpdated")
+            observers = groupsObserverCallbacks;
 
         angular.forEach(observers, function(callback){
             callback();
@@ -500,21 +502,48 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
 
         o.group=group;
         p.setMode(group.mode);
-
-
         notifyObservers();
 
     }
 
     p.setSelectionGroup= function(group){
-
         o.group=group;
+        o.selectionGroup=group;
+        console.log(o.selectionGroup);
         p.setMode(group.mode);
+    }
 
-        console.log("selection group sent to services");
-        console.log(group.mode);
+    p.getSelectionGroup= function(){
+        return o.selectionGroup;
+    }
+
+    p.setUpdatedGroup= function(group){
+        o.group=group;
+        o.updatedGroup=group;
+        console.log(o.updatedGroup);
+        o.groups.map(function(group){
+            if(group.name==o.updatedGroup.name){
+                group=o.updatedGroup;
+            }
+        });
 
     }
+
+    p.getUpdatedGroup= function(){
+        return o.updatedGroup;
+    }
+
+    p.setGroups = function(groups){
+    	console.log("groups are loaded in to the selection service");
+    	o.groups=groups;
+        notifyObservers("groupsUpdated");
+	}
+
+	p.getGroups= function(){
+    	return o.groups;
+	}
+
+
     p.updateJson=function(){
 
     	var group=o.group;
@@ -530,18 +559,13 @@ desking.factory("selectionService",['timeService','dataService',function(timeSer
         var clusterString=group.clusterIdArray.toString();
 
         jsonData[group.name].map(function(row){
-            row[group.headers[4]]=clusterString;
+            row['Desks']=clusterString;
         });
 
+        console.log("jsondata is updated");
         dataService.setJsonData(jsonData);
 
-        console.log("jsondata is updated");
-
-
 	}
-
-
-
 
     return p;
 

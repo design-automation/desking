@@ -1,5 +1,13 @@
 <div ng-controller="layoutCtrl" class="svg-holder" id="svg1" ng-init="init()">
-    <button type="submit" style="float: right" ng-click="saveCurrentSelection()" ng-show=saveButton>Save</button>
+
+    <!-- section for controls -->
+    <section class="text-right" ng-show=saveButton id="selectionButtons">
+
+        <button type="button" style="float: right; margin-outside:5px " ng-click="cancelCurrentSelection()">Cancel</button>
+        <button type="submit" style="float: right" ng-click="saveCurrentSelection()" >Save</button>
+
+    </section>
+
 
 
 </div>

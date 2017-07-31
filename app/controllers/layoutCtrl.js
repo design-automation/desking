@@ -48,7 +48,48 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
         selectionService.updateJson();
         selectionService.setMode("display");
+
         $scope.saveButton=false;
+
+    }
+
+    $scope.cancelCurrentSelection=function(){
+
+        var group=selectionService.getGroup(group);
+        var clusters = d3.selectAll('g g.cluster');
+
+        clusters[0].map(function(element){
+
+            var cluster = d3.select(element);
+
+            if(cluster.classed("deskClicked")){
+                cluster.classed("deskClicked", false);
+                var index = group.clusterIdArray.indexOf(cluster.id);
+                group.clusterIdArray.splice(index, 1);
+            }
+
+        });
+
+        group.desksAlloted=0;
+        clusters[0].map(function(cluster){
+
+            if(group.clusterIdArray.length>0){
+                group.clusterIdArray.map(function(Id){
+
+                    if(Id==cluster.id){
+                        var desksAllotedCluster=d3.select(cluster);
+                        group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                    }
+                });
+            }
+
+        });
+
+
+        selectionService.setGroup(group);
+        selectionService.setMode("display");
+        $scope.saveButton=false;
+
 
     }
 
@@ -166,7 +207,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 			var element =  document.getElementById("svg1");
 			element.appendChild(xml.documentElement);
 
-
             var div=d3.select("body").append("div").attr("class", "deskInfo").style("opacity", 0);
 
             var clusters = d3.selectAll('g g.cluster');
@@ -174,7 +214,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
             clusters.on('mouseover',function(){
 
                 var cluster = d3.select(this);
-
 
                 if(!cluster.classed("occupied")){
                     cluster.classed("mouseover", true);
@@ -223,39 +262,73 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 				var group=selectionService.getGroup(group);
 
                 if(group.desksAlloted < group.totalDesksNeeded){
+
                     var cluster = d3.select(this);
 
-                    group.clusterIdArray.push(cluster[0][0].id);
+                    if(!cluster.classed("deskClicked")){
+                        group.clusterIdArray.push(cluster[0][0].id);
+                        $scope.deskArray.push(cluster[0][0].id);
 
-                    cluster.classed("deskClicked", true);
-                    div.transition()
-                        .duration(500)
-                        .style("opacity", 0);
+                        cluster.classed("deskClicked", true);
+                        div.transition()
+                            .duration(500)
+                            .style("opacity", 0);
 
-                    console.log(group.clusterIdArray);
-                    group.desksAlloted=0;
+                        console.log(group.clusterIdArray);
+                        console.log($scope.deskArray);
+                        group.desksAlloted=0;
 
-                    clusters[0].map(function(cluster){
+                        clusters[0].map(function(cluster){
 
-                        if(group.clusterIdArray.length>0){
-                            group.clusterIdArray.map(function(Id){
+                            if(group.clusterIdArray.length>0){
+                                group.clusterIdArray.map(function(Id){
 
-                                if(Id==cluster.id){
-                                    var desksAllotedCluster=d3.select(cluster);
-                                    group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
-                                }
-                            });
-                        }
+                                    if(Id==cluster.id){
+                                        var desksAllotedCluster=d3.select(cluster);
+                                        group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                                    }
+                                });
+                            }
 
-                    });
+                        });
 
-                    console.log(group.desksAlloted);
+                        console.log(group.desksAlloted);
+
+                    }
+                    else{
+
+                        var index = group.clusterIdArray.indexOf(cluster[0][0].id);
+                        group.clusterIdArray.splice(index, 1);
+                        index=$scope.deskArray.indexOf(cluster[0][0].id);
+                        $scope.deskArray.splice(index,1);
 
 
+                        console.log(group.clusterIdArray);
+                        console.log($scope.deskArray);
+                        group.desksAlloted=0;
+
+                        clusters[0].map(function(cluster){
+
+                            if(group.clusterIdArray.length>0){
+                                group.clusterIdArray.map(function(Id){
+
+                                    if(Id==cluster.id){
+                                        var desksAllotedCluster=d3.select(cluster);
+                                        group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                                    }
+                                });
+                            }
+
+                        });
+                        console.log(group.desksAlloted);
+
+						console.log( index);
+
+                        cluster.classed("deskClicked", false);
+
+					}
 
                     selectionService.setGroup(group);
-
-
 
                 }
 
