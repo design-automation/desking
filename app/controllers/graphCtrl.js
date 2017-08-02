@@ -2,7 +2,7 @@
  * Created by sereb on 10/7/2017.
  */
 
-desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function(dataService, timeService, $scope) {
+desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeout',function(dataService, timeService, $scope,$timeout) {
 
 	$scope.width = $("#graphPane").width();
 	$scope.height = $("#graphPane").height();
@@ -10,7 +10,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function
 
 	$scope.$watch(function(){
 		return $('#graphPane').width();
-	}, function (newValue, oldValue, scope) {
+	}, function (newValue, oldValue, $scope) {
 
 		$scope.width = $("#graphPane").width();
 		if($scope.api==undefined ||$scope.pieApi==undefined ){
@@ -18,8 +18,16 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function
 			return;
 		}
 
-		$scope.api.refresh();
-		$scope.pieApi.refresh();
+        $timeout(function(){
+
+
+
+        },200);
+
+        $scope.api.refresh();
+        $scope.pieApi.refresh();
+
+
 
 	}, true);
 
@@ -85,7 +93,11 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope',function
 				},
 			}
 		}
+
 	};
+
+
+
 
 	$scope.data = dataService.getChartData();
 

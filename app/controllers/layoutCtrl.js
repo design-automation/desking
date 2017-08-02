@@ -80,8 +80,9 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
         });
 
         group.isOpen=false;
-        displayService.setUpdatedGroup(group);
         displayService.setMode("display");
+        displayService.setUpdatedGroup(group);
+
 
     }
 

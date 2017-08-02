@@ -44,7 +44,7 @@
                     <div ng-repeat="row in group.rows" ng-class='activeDate==row["formattedDate"] ? "row lecture-item highlighted" : "row lecture-item"'
                          ng-click="selectedRow(row)" >
                         <div class='col-sm-2 text-center' ng-if='$index <5' ng-repeat="head in group.headers">{{ row[head]}}</div>
-                        <div class='col-sm-2 text-center' ng-if='$index ==5' ng-repeat="head in group.headers"> Need to work on</div>
+                        <div class='col-sm-2 text-center' ng-if='$index ==5' ng-repeat="head in group.headers" ng-class='row.desksAlloted < row.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > <span style='z-index:10' ng-click="selectDesks(group,row)">{{row.desksAlloted}}</span>/{{row.totalDesksNeeded}}</div>
                     </div>
                 </div>
 

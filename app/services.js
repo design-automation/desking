@@ -435,6 +435,34 @@ desking.factory("dataService", ['timeService', function(timeService) {
             newgroup.headers=Object.keys(o.jsonData[x][0]);
             newgroup.rows=o.jsonData[x];
             if(x!=="Overview"){
+
+                newgroup.rows.map(function(row){
+                    row.clusterIdArray =row['Desks'] == undefined ? [] : row['Desks'].split(",");
+                    row.totalDesksNeeded=row[newgroup.headers[4]];
+                    row.desksAlloted=0;
+                    var clusters = d3.selectAll('g g.cluster');
+                    clusters[0].map(function(cluster){
+
+                        if(row.clusterIdArray.length>0){
+                            row.clusterIdArray.map(function(Id){
+
+                                if(Id==cluster.id){
+                                    var desksAllotedCluster=d3.select(cluster);
+                                    row.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                                }
+                            });
+                        }
+
+                    });
+
+                    if(row.desksAlloted < row.totalDesksNeeded){
+                        row.mode="selection"
+                    }
+                    else{
+                        row.mode="display"
+                    }
+
+				});
                 newgroup.clusterIdArray =o.jsonData[x][0]['Desks'] == undefined ? [] : o.jsonData[x][0]['Desks'].split(",");
                 newgroup.totalDesksNeeded=o.jsonData[x][0][newgroup.headers[4]];
                 newgroup.desksAlloted=0;
@@ -464,6 +492,8 @@ desking.factory("dataService", ['timeService', function(timeService) {
             o.displayGroups.push(newgroup);
 
         }
+
+        console.log(o.displayGroups);
         notifyObservers("groupsUpdated");
 	}
 
@@ -547,6 +577,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 
     p.setGroups= function(groups){
         o.groups=groups;
+        console.log("notified observers are called in dispaly service");
         notifyObservers();
 
     }

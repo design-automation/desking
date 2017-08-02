@@ -186,8 +186,8 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 			console.log("no groups to display");
             return;
 		}
-		$scope.groups=dataService.getDisplayGroups();
-		// $scope.$apply();
+		$scope.groups=dataService.getDisplayGroups()
+		$scope.$apply();
 
 	}
 
@@ -220,6 +220,22 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 		return group;
 	}
 
+    var selectDesks=function(group,row){
+
+        if(row.mode=="selection" ){
+
+            console.log("Desks need to be alloted");
+        }
+        else
+        {
+            console.log("Desks are already alloted");
+            displayService.setMode(row.mode);
+
+        }
+
+        return group;
+    }
+
     var updateGroups = function(){
 
         var updatedGroup=displayService.getGroup();
@@ -242,6 +258,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 	$scope.selectedRow=selectedRow;
     $scope.populateTable=populateTable;
     $scope.allotDesks =allotDesks;
+    $scope.selectDesks =selectDesks;
 
 	timeService.registerObserverCallback(highlight);
     displayService.registerObserverCallback(updateGroups);
