@@ -5,8 +5,8 @@
 
 desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','displayService',function($scope, timeService, dataService,displayService){
 
-	$scope.jsonData = undefined;
-	$scope.groups = undefined;
+	// $scope.jsonData = undefined;
+	$scope.groups = [];
 	$scope.activeDate = undefined;
 
 
@@ -58,10 +58,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
 					var cols = [];
 					for(var i = 0; i < aoa[0].length; ++i){
-
                         cols[i] = { field: aoa[0][i] };
-
-
 					}
 
 					/* generate rest of the data */
@@ -182,13 +179,15 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
 	var populateTable = function () {
 
-		if(dataService.getDisplayGroups().length == 0){
-			console.log("no groups to display");
+		if(dataService.getDisplayGroups().length == 0) {
+            console.log("no groups to display");
             return;
+        }
+        else{
+            $scope.groups=dataService.getDisplayGroups();
+            console.log("groups array is populated");
 		}
-		$scope.groups=dataService.getDisplayGroups()
-		$scope.$apply();
-
+		// $scope.$apply();
 	}
 
 	var selectedRow = function(row){
@@ -224,7 +223,10 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
         if(row.mode=="selection" ){
 
-            console.log("Desks need to be alloted");
+        	console.log("Desks are need to be alloted for the selected row");
+
+            displayService.setSelectionGroup(group);
+            displayService.setSelectionRow(row);
         }
         else
         {
@@ -249,8 +251,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
 		});
 
-        $scope.$apply();
-
+        // $scope.$apply();
 
     }
 
@@ -260,8 +261,9 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
     $scope.allotDesks =allotDesks;
     $scope.selectDesks =selectDesks;
 
-	timeService.registerObserverCallback(highlight);
+
     displayService.registerObserverCallback(updateGroups);
+    timeService.registerObserverCallback(highlight);
     dataService.registerGroupsObserverCallback(populateTable);
 
 

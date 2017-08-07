@@ -1,4 +1,4 @@
-<div ng-controller="dataDisplayCtrl"   >
+<div ng-controller="dataDisplayCtrl" ng-init="populateTable()"  >
 
     <!-- section for controls -->
     <section class="text-right" id="controlButtons">
@@ -24,7 +24,8 @@
 
                 <uib-accordion-heading ><i class="glyphicon-plus"></i> {{ group.name }}
                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': group.isOpen, 'glyphicon-chevron-right': !group.isOpen}"></i>
-                    <i class="pull-right" ng-if='!$first' ng-class='group.desksAlloted < group.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > Desks:<span style='z-index:10' ng-click="allotDesks(group)">{{group.desksAlloted}}</span>/{{group.totalDesksNeeded}}</i>
+                    <!--<i class="pull-right" ng-if='!$first' ng-class='group.desksAlloted < group.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > Desks:<span style='z-index:10' ng-click="allotDesks(group)">{{group.desksAlloted}}</span>/{{group.totalDesksNeeded}}</i>-->
+                <!---->
                 </uib-accordion-heading>
 
                 <div ng-if='$first'  >
@@ -41,10 +42,9 @@
                         <div class='col-sm-2 text-center' ng-if='$index <6' ng-repeat="head in group.headers">{{head}}</div>
                     </div>
 
-                    <div ng-repeat="row in group.rows" ng-class='activeDate==row["formattedDate"] ? "row lecture-item highlighted" : "row lecture-item"'
-                         ng-click="selectedRow(row)" >
+                    <div ng-repeat="row in group.rows" ng-class='activeDate==row["formattedDate"] ? "row lecture-item highlighted" : "row lecture-item"' ng-click="selectedRow(row)" >
                         <div class='col-sm-2 text-center' ng-if='$index <5' ng-repeat="head in group.headers">{{ row[head]}}</div>
-                        <div class='col-sm-2 text-center' ng-if='$index ==5' ng-repeat="head in group.headers" ng-class='row.desksAlloted < row.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > <span style='z-index:10' ng-click="selectDesks(group,row)">{{row.desksAlloted}}</span>/{{row.totalDesksNeeded}}</div>
+                        <div class='col-sm-2 text-center' ng-if='$index ==5' ng-repeat="head in group.headers" ng-class='row.desksAlloted < row.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > <span style='z-index:10' ng-click="selectDesks(group,row)"><u>{{row.desksAlloted}}</u></span>/{{row.totalDesksNeeded}}</div>
                     </div>
                 </div>
 

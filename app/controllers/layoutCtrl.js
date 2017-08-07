@@ -49,7 +49,8 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
     $scope.cancelCurrentSelection=function(){
 
-        var group=displayService.getUpdatedGroup(group);
+        var group=displayService.getSelectionGroup();
+        var row=displayService.getUpdatedRow();
         var clusters = d3.selectAll('g g.cluster');
 
         clusters[0].map(function(element){
@@ -58,21 +59,21 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
             if(cluster.classed("deskClicked")){
                 cluster.classed("deskClicked", false);
-                var index = group.clusterIdArray.indexOf(cluster.id);
-                group.clusterIdArray.splice(index, 1);
+                var index = row.clusterIdArray.indexOf(cluster.id);
+                row.clusterIdArray.splice(index, 1);
             }
 
         });
 
-        group.desksAlloted=0;
+        row.desksAlloted=0;
         clusters[0].map(function(cluster){
 
-            if(group.clusterIdArray.length>0){
-                group.clusterIdArray.map(function(Id){
+            if(row.clusterIdArray.length>0){
+                row.clusterIdArray.map(function(Id){
 
                     if(Id==cluster.id){
                         var desksAllotedCluster=d3.select(cluster);
-                        group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                        row.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
                     }
                 });
             }
@@ -81,6 +82,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
         group.isOpen=false;
         displayService.setMode("display");
+        displayService.setUpdatedRow(row);
         displayService.setUpdatedGroup(group);
 
 
@@ -221,30 +223,93 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
             });
             clusters.on('click',function(){
 
-				var group=displayService.getSelectionGroup(group);
+				var group=displayService.getSelectionGroup();
+				var row=displayService.getSelectionRow();
+				console.log(group.name);
 
-                if(group.desksAlloted < group.totalDesksNeeded && $scope.selectionButtonsDisplay==true ){
+                // if(group.desksAlloted < group.totalDesksNeeded && $scope.selectionButtonsDisplay==true ){
+                //
+                //     var cluster = d3.select(this);
+                //
+                //     if(!cluster.classed("deskClicked")){
+                //         group.clusterIdArray.push(cluster[0][0].id);
+                //
+                //         cluster.classed("deskClicked", true);
+                //         div.transition()
+                //             .duration(500)
+                //             .style("opacity", 0);
+                //
+                //         group.desksAlloted=0;
+                //
+                //         clusters[0].map(function(cluster){
+                //
+                //             if(group.clusterIdArray.length>0){
+                //                 group.clusterIdArray.map(function(Id){
+                //
+                //                     if(Id==cluster.id){
+                //                         var desksAllotedCluster=d3.select(cluster);
+                //                         group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                //                     }
+                //                 });
+                //             }
+                //
+                //         });
+                //
+                //     }
+                //     else{
+                //
+                //         var index = group.clusterIdArray.indexOf(cluster[0][0].id);
+                //         group.clusterIdArray.splice(index, 1);
+                //
+                //
+                //         console.log(group.clusterIdArray);
+                //         console.log($scope.deskArray);
+                //         group.desksAlloted=0;
+                //
+                //         clusters[0].map(function(cluster){
+                //
+                //             if(group.clusterIdArray.length>0){
+                //                 group.clusterIdArray.map(function(Id){
+                //
+                //                     if(Id==cluster.id){
+                //                         var desksAllotedCluster=d3.select(cluster);
+                //                         group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                //                     }
+                //                 });
+                //             }
+                //
+                //         });
+                //         console.log(group.desksAlloted);
+                //
+					// 	console.log( index);
+                //
+                //         cluster.classed("deskClicked", false);
+                //
+					// }
+                //
+                //     displayService.setUpdatedGroup(group);
+                //
+                // }
 
+                if(row.desksAlloted < row.totalDesksNeeded && $scope.selectionButtonsDisplay==true ){
                     var cluster = d3.select(this);
-
                     if(!cluster.classed("deskClicked")){
-                        group.clusterIdArray.push(cluster[0][0].id);
-
+                        row.clusterIdArray.push(cluster[0][0].id);
                         cluster.classed("deskClicked", true);
                         div.transition()
                             .duration(500)
                             .style("opacity", 0);
 
-                        group.desksAlloted=0;
+                        row.desksAlloted=0;
 
                         clusters[0].map(function(cluster){
 
-                            if(group.clusterIdArray.length>0){
-                                group.clusterIdArray.map(function(Id){
+                            if(row.clusterIdArray.length>0){
+                                row.clusterIdArray.map(function(Id){
 
                                     if(Id==cluster.id){
                                         var desksAllotedCluster=d3.select(cluster);
-                                        group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                                        row.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
                                     }
                                 });
                             }
@@ -254,38 +319,42 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
                     }
                     else{
 
-                        var index = group.clusterIdArray.indexOf(cluster[0][0].id);
-                        group.clusterIdArray.splice(index, 1);
+                        var index = row.clusterIdArray.indexOf(cluster[0][0].id);
+                        row.clusterIdArray.splice(index, 1);
 
 
-                        console.log(group.clusterIdArray);
+                        console.log(row.clusterIdArray);
                         console.log($scope.deskArray);
-                        group.desksAlloted=0;
+                        row.desksAlloted=0;
 
                         clusters[0].map(function(cluster){
 
-                            if(group.clusterIdArray.length>0){
-                                group.clusterIdArray.map(function(Id){
+                            if(row.clusterIdArray.length>0){
+                                row.clusterIdArray.map(function(Id){
 
                                     if(Id==cluster.id){
                                         var desksAllotedCluster=d3.select(cluster);
-                                        group.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                                        row.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
                                     }
                                 });
                             }
 
                         });
-                        console.log(group.desksAlloted);
+                        console.log(row.desksAlloted);
 
-						console.log( index);
+                        console.log( index);
 
                         cluster.classed("deskClicked", false);
 
-					}
+                    }
 
-                    displayService.setUpdatedGroup(group);
+                    displayService.setUpdatedRow(row);
+
 
                 }
+
+
+
 
             });
 

@@ -208,19 +208,59 @@ desking.factory("dataService", ['timeService', function(timeService) {
 		var lowest = new Date(), highest = new Date();
 		var rows=[];
 		var chart = [];
+		var displayGroups =[];
 
 		for(x in jsonData){
+            var newgroup = {name: x};
+            newgroup.headers=Object.keys(jsonData[x][0]);
+            newgroup.rows=jsonData[x];
 
 			if(x=="Overview"){
+                displayGroups.push(newgroup);
 				continue;
+			}
+			else{
+
+                newgroup.rows.map(function(row){
+                    row.clusterIdArray =row['Desks'] == undefined ? [] : row['Desks'].split(",");
+                    row.totalDesksNeeded=row[newgroup.headers[4]];
+                    row.desksAlloted=0;
+                    var clusters = d3.selectAll('g g.cluster');
+                    clusters[0].map(function(cluster){
+
+                        if(row.clusterIdArray.length>0){
+                            row.clusterIdArray.map(function(Id){
+
+                                if(Id==cluster.id){
+                                    var desksAllotedCluster=d3.select(cluster);
+                                    row.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+                                }
+                            });
+                        }
+
+                    });
+
+                    if(row.desksAlloted < row.totalDesksNeeded){
+                        row.mode="selection"
+                    }
+                    else{
+                        row.mode="display"
+                    }
+
+                });
+
+
 			}
 			jsonData[x].map(function(obj){
 				obj.name=x;
 				rows.push(obj);
 			});
 
+            displayGroups.push(newgroup);
 		}
-
+		console.log(displayGroups);
+		o.displayGroups=displayGroups;
+        notifyObservers("groupsUpdated");
 
 		for(var i=0; i<rows.length; i++){
 
@@ -292,7 +332,6 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			else {
 				return (a['formattedDate'] < b['formattedDate']) ? -1 : 1;
 			}
-
 		});
 
 		o.rows = rows;
@@ -312,7 +351,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 		timeService.setTimeline(dateArray);
 
 		updateStackedAreaChart(chart);
-		updateDisplayGroups();
+		// updateDisplayGroups();
 
 		notifyObservers();
 
@@ -424,78 +463,77 @@ desking.factory("dataService", ['timeService', function(timeService) {
 
 	}
 
-	var updateDisplayGroups = function(){
-		o.displayGroups=[];
-        if(Object.keys(o.jsonData).length == 0)
-            return;
-
-        for(x in o.jsonData){
-
-            var newgroup = {name: x};
-            newgroup.headers=Object.keys(o.jsonData[x][0]);
-            newgroup.rows=o.jsonData[x];
-            if(x!=="Overview"){
-
-                newgroup.rows.map(function(row){
-                    row.clusterIdArray =row['Desks'] == undefined ? [] : row['Desks'].split(",");
-                    row.totalDesksNeeded=row[newgroup.headers[4]];
-                    row.desksAlloted=0;
-                    var clusters = d3.selectAll('g g.cluster');
-                    clusters[0].map(function(cluster){
-
-                        if(row.clusterIdArray.length>0){
-                            row.clusterIdArray.map(function(Id){
-
-                                if(Id==cluster.id){
-                                    var desksAllotedCluster=d3.select(cluster);
-                                    row.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
-                                }
-                            });
-                        }
-
-                    });
-
-                    if(row.desksAlloted < row.totalDesksNeeded){
-                        row.mode="selection"
-                    }
-                    else{
-                        row.mode="display"
-                    }
-
-				});
-                newgroup.clusterIdArray =o.jsonData[x][0]['Desks'] == undefined ? [] : o.jsonData[x][0]['Desks'].split(",");
-                newgroup.totalDesksNeeded=o.jsonData[x][0][newgroup.headers[4]];
-                newgroup.desksAlloted=0;
-                var clusters = d3.selectAll('g g.cluster');
-                clusters[0].map(function(cluster){
-
-                    if(newgroup.clusterIdArray.length>0){
-                        newgroup.clusterIdArray.map(function(Id){
-
-                            if(Id==cluster.id){
-                                var desksAllotedCluster=d3.select(cluster);
-                                newgroup.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
-                            }
-                        });
-                    }
-
-                });
-
-                if(newgroup.desksAlloted < newgroup.totalDesksNeeded){
-                    newgroup.mode="selection"
-                }
-                else{
-                    newgroup.mode="display"
-                }
-
-            }
-            o.displayGroups.push(newgroup);
-
-        }
-
-        console.log(o.displayGroups);
-        notifyObservers("groupsUpdated");
-	}
+	// var updateDisplayGroups = function(){
+	// 	o.displayGroups=[];
+     //    if(Object.keys(o.jsonData).length == 0)
+     //        return;
+    //
+     //    for(x in o.jsonData){
+    //
+     //        var newgroup = {name: x};
+     //        newgroup.headers=Object.keys(o.jsonData[x][0]);
+     //        newgroup.rows=o.jsonData[x];
+     //        if(x!=="Overview"){
+    //
+     //            newgroup.rows.map(function(row){
+     //                row.clusterIdArray =row['Desks'] == undefined ? [] : row['Desks'].split(",");
+     //                row.totalDesksNeeded=row[newgroup.headers[4]];
+     //                row.desksAlloted=0;
+     //                var clusters = d3.selectAll('g g.cluster');
+     //                clusters[0].map(function(cluster){
+    //
+     //                    if(row.clusterIdArray.length>0){
+     //                        row.clusterIdArray.map(function(Id){
+    //
+     //                            if(Id==cluster.id){
+     //                                var desksAllotedCluster=d3.select(cluster);
+     //                                row.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+     //                            }
+     //                        });
+     //                    }
+    //
+     //                });
+    //
+     //                if(row.desksAlloted < row.totalDesksNeeded){
+     //                    row.mode="selection"
+     //                }
+     //                else{
+     //                    row.mode="display"
+     //                }
+    //
+	// 			});
+     //            newgroup.clusterIdArray =o.jsonData[x][0]['Desks'] == undefined ? [] : o.jsonData[x][0]['Desks'].split(",");
+     //            newgroup.totalDesksNeeded=o.jsonData[x][0][newgroup.headers[4]];
+     //            newgroup.desksAlloted=0;
+     //            var clusters = d3.selectAll('g g.cluster');
+     //            clusters[0].map(function(cluster){
+    //
+     //                if(newgroup.clusterIdArray.length>0){
+     //                    newgroup.clusterIdArray.map(function(Id){
+    //
+     //                        if(Id==cluster.id){
+     //                            var desksAllotedCluster=d3.select(cluster);
+     //                            newgroup.desksAlloted+=desksAllotedCluster.selectAll('g rect')[0].length;
+     //                        }
+     //                    });
+     //                }
+    //
+     //            });
+    //
+     //            if(newgroup.desksAlloted < newgroup.totalDesksNeeded){
+     //                newgroup.mode="selection"
+     //            }
+     //            else{
+     //                newgroup.mode="display"
+     //            }
+    //
+     //        }
+     //        o.displayGroups.push(newgroup);
+    //
+     //    }
+    //
+     //    notifyObservers("groupsUpdated");
+	// }
 
 	/*var updateChart = function(data){
 
@@ -529,7 +567,9 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         mode: [],
         groups:[],
 		selectionGroup:[],
-		updatedGroup:[]
+        updatedRowupdatedGroup:[],
+		selectionRow:[],
+		updatedRow:[]
     }
 
     var p = {};
@@ -588,8 +628,18 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         p.setMode(group.mode);
     }
 
+    p.setSelectionRow= function(row){
+        o.selectionRow=row;
+        o.updatedRow=row;
+        p.setMode(row.mode);
+        console.log(o.mode);
+    }
+
     p.getSelectionGroup= function(){
         return o.selectionGroup;
+    }
+    p.getSelectionRow= function(){
+        return o.selectionRow;
     }
 
     p.setUpdatedGroup= function(group){
@@ -606,30 +656,50 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 
     }
 
+    p.setUpdatedRow= function(row){
+        o.updatedRow=row;
+        o.groups=dataService.getDisplayGroups();
+
+        o.groups.map(function(group){
+            if(group.name==o.selectionGroup.name){
+
+            	console.log(group);
+                group.rows.map(function(row){
+                    if(row['formattedDate']==o.updatedRow['formattedDate']){
+                        row=o.updatedRow;
+                    }
+                });
+
+            }
+        });
+
+        dataService.setDisplayGroups(o.groups);
+
+    }
+
+
     p.getUpdatedGroup= function(){
         return o.updatedGroup;
+    }
+    p.getUpdatedRow= function(){
+        return o.updatedRow;
     }
 
     p.updateJson=function(){
 
     	var group=o.updatedGroup;
-        // if(group.desksAlloted < group.totalDesksNeeded){
-        //     group.mode="selection"
-        // }
-        // else{
-        //     group.mode="display"
-        // }
-        // p.setMode(group.mode);
+    	var updatedRow=o.updatedRow;
         var jsonData=dataService.getJsonData();
-        var clusterString=group.clusterIdArray.toString();
+        // var clusterString=group.clusterIdArray.toString();
+        var clusterString=updatedRow.clusterIdArray.toString();
 
         jsonData[group.name].map(function(row){
-            row['Desks']=clusterString;
+        	if(row['formattedDate']==updatedRow['formattedDate']){
+                row['Desks']=clusterString;
+			}
         });
 
-        console.log("jsondata is updated");
         dataService.setJsonData(jsonData);
-
 	}
 
     return p;
