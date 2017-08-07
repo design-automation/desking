@@ -187,7 +187,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
             $scope.groups=dataService.getDisplayGroups();
             console.log("groups array is populated");
 		}
-		// $scope.$apply();
+		$scope.$apply();
 	}
 
 	var selectedRow = function(row){
@@ -251,7 +251,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
 		});
 
-        // $scope.$apply();
+        $scope.$apply();
 
     }
 
