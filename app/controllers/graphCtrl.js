@@ -7,7 +7,6 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 	$scope.width = $("#graphPane").width();
 	$scope.height = $("#graphPane").height();
 
-
 	$scope.$watch(function(){
 		return $('#graphPane').width();
 	}, function (newValue, oldValue, $scope) {
@@ -18,14 +17,15 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 			return;
 		}
 
-        $timeout(function(){
-
-
-
-        },200);
+        // $timeout(function(){
+        //
+        //
+        // },10);
 
         $scope.api.refresh();
         $scope.pieApi.refresh();
+
+
 
 
 
@@ -160,22 +160,13 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 		}
 
 		if($scope.occupiedDesks>=0){
-
-
 			var emptySeats={
 				key: "EmptySeats",
 				y: $scope.totalDesks-$scope.occupiedDesks
 
 			}
-
 			$scope.pieData.push(emptySeats);
-
-
-
-
 		}
-
-
 
 	}
 

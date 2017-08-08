@@ -3,10 +3,10 @@
  * Created by sereb on 6/7/2017.
  */
 
-desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','displayService',function($scope, timeService, dataService,displayService){
-
+desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','displayService','$timeout',function($scope, timeService, dataService,displayService,$timeout){
 	// $scope.jsonData = undefined;
-	$scope.groups = [];
+	// $scope.groups = [];
+	$scope.display={groups:null};
 	$scope.activeDate = undefined;
 
 
@@ -180,14 +180,14 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 	var populateTable = function () {
 
 		if(dataService.getDisplayGroups().length == 0) {
-            console.log("no groups to display");
             return;
         }
         else{
-            $scope.groups=dataService.getDisplayGroups();
-            console.log("groups array is populated");
+            $timeout(function(){
+                $scope.display.groups=dataService.getDisplayGroups();
+                console.log($scope.display.groups);
+            },1);
 		}
-		$scope.$apply();
 	}
 
 	var selectedRow = function(row){
@@ -222,28 +222,22 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
     var selectDesks=function(group,row){
 
         if(row.mode=="selection" ){
-
-        	console.log("Desks are need to be alloted for the selected row");
-
             displayService.setSelectionGroup(group);
             displayService.setSelectionRow(row);
         }
         else
         {
-            console.log("Desks are already alloted");
             displayService.setMode(row.mode);
-
         }
 
-        return group;
+        return group,row;
     }
 
     var updateGroups = function(){
 
         var updatedGroup=displayService.getGroup();
 
-
-        $scope.groups.map(function(group){
+        $scope.display.groups.map(function(group){
 
         	if(group.name==updatedGroup.name){
                 group=updatedGroup;
@@ -251,8 +245,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
 		});
 
-        $scope.$apply();
-
+        return $scope.display.groups;
     }
 
 

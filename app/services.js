@@ -28,8 +28,6 @@ desking.factory("timeService", function() {
 		return dateArray;
 	}
 
-
-
 	var o = {
 		time: new Date(),
 		timeline: getDates( new Date(), (new Date()).addDays(30) ).map(function(d){ return d.getTime() }),
@@ -184,23 +182,29 @@ desking.factory("dataService", ['timeService', function(timeService) {
     };
 
 
-	p.getFloors = function(){
-		return o.floors;
-	}
+
 
 	p.getRows = function(){
 		return o.rows;
 	}
+    p.setRows = function(rows){
+        o.rows = rows;
+        return o.rows;
+    }
 
-	p.getChartData = function(){
-		return o.chartData;
-	}
+    p.getDisplayGroups= function(){
+        return o.displayGroups;
+    }
+    p.setDisplayGroups = function(groups){
+        o.displayGroups=groups;
+        console.log("display groups are updated in DataService");
+        notifyObservers("groupsUpdated");
+        return o.displayGroups;
+    }
 
 	p.getJsonData = function(){           // added to get Json Data
 		return o.jsonData;
 	}
-
-
 	p.setJsonData  = function(jsonData){
 
 		o.jsonData =jsonData;
@@ -258,9 +262,8 @@ desking.factory("dataService", ['timeService', function(timeService) {
 
             displayGroups.push(newgroup);
 		}
-		console.log(displayGroups);
-		o.displayGroups=displayGroups;
-        notifyObservers("groupsUpdated");
+
+        p.setDisplayGroups(displayGroups);
 
 		for(var i=0; i<rows.length; i++){
 
@@ -334,7 +337,8 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			}
 		});
 
-		o.rows = rows;
+        p.setRows(rows);
+
 		var dateArray = new Array();
 		var currentDate = lowest;
 		while (currentDate <= highest) {
@@ -355,86 +359,24 @@ desking.factory("dataService", ['timeService', function(timeService) {
 
 		notifyObservers();
 
+        return o.jsonData;
 
 	}
-
-
-	p.setRows = function(rows){
-
-		o.rows = rows;
-
-		var chart = [];
-
-		var lowest = new Date(), highest = new Date();
-		for(var i=0; i<rows.length; i++){
-
-			var row = rows[i];
-
-			if(row == undefined || row.date == undefined || row.time == undefined)
-				continue;
-
-			var date = row.date.split("/");
-			var time = row.time.split(":");
-
-			var newdate = new Date();
-			newdate.setDate(date[0]);
-			newdate.setMonth(date[1]-1);
-			newdate.setYear(date[2]);
-			// newdate.setHours(time[0]);
-			// newdate.setMinutes(time[1]);
-			// newdate.setSeconds(time[2]);
-
-
-
-			if(i==0){
-				highest = newdate;
-				lowest = newdate;
-			}
-			else{
-				if(newdate > highest)
-					highest = newdate;
-				else if(newdate < lowest)
-					lowest = newdate;
-			}
-
-			row.formattedDate = newdate.getTime();
-
-
-
-			// add values for chart
-			if(chart[row.year] == undefined){
-				chart[row.year] = [];
-				chart[row.year][row.formattedDate] = parseInt(row.desks);
-			}
-			else if(chart[row.year][row.formattedDate] == undefined){
-				chart[row.year][row.formattedDate] = parseInt(row.desks);
-			}
-			else
-				chart[row.year][row.formattedDate] += parseInt(row.desks);
-		}
-
-
-
-
-		timeService.setTimelineRange(highest, lowest);
-
-		notifyObservers();
-
-		// this needs to be after timeline has been set
-		updateChart(chart);
-
-
-		return o.rows;
-	}
-
-    p.setDisplayGroups = function(groups){
-        o.displayGroups=groups;
-        notifyObservers("groupsUpdated");
+    p.updateJsonData =function(jsonData){
+        o.jsonData =jsonData;
+        return o.jsonData;
     }
 
-    p.getDisplayGroups= function(){
-        return o.displayGroups;
+    p.getChartData = function(){
+        return o.chartData;
     }
+    p.getFloors = function(){
+        return o.floors;
+    }
+
+
+
+
 
 
 	var updateStackedAreaChart = function(data){
@@ -609,6 +551,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
     p.setMode= function(mode){
         o.mode=mode;
         notifyObservers("mode");
+        return o.mode;
     }
 
     p.getGroups= function(){
@@ -617,8 +560,8 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 
     p.setGroups= function(groups){
         o.groups=groups;
-        console.log("notified observers are called in dispaly service");
         notifyObservers();
+        return o.groups;
 
     }
 
@@ -626,13 +569,14 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         o.selectionGroup=group;
         o.updatedGroup=group;
         p.setMode(group.mode);
+        return o.selectionGroup;
     }
 
     p.setSelectionRow= function(row){
         o.selectionRow=row;
         o.updatedRow=row;
         p.setMode(row.mode);
-        console.log(o.mode);
+        return o.selectionRow;
     }
 
     p.getSelectionGroup= function(){
@@ -652,7 +596,10 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
             }
         });
 
+        notifyObservers();
         dataService.setDisplayGroups(o.groups);
+
+        return o.updatedGroup;
 
     }
 
@@ -663,7 +610,6 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         o.groups.map(function(group){
             if(group.name==o.selectionGroup.name){
 
-            	console.log(group);
                 group.rows.map(function(row){
                     if(row['formattedDate']==o.updatedRow['formattedDate']){
                         row=o.updatedRow;
@@ -674,6 +620,8 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         });
 
         dataService.setDisplayGroups(o.groups);
+
+        return o.updatedRow;
 
     }
 

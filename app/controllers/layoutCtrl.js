@@ -225,7 +225,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 				var group=displayService.getSelectionGroup();
 				var row=displayService.getSelectionRow();
-				console.log(group.name);
 
                 // if(group.desksAlloted < group.totalDesksNeeded && $scope.selectionButtonsDisplay==true ){
                 //
@@ -365,7 +364,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	$scope.init=function(){
 		insertSVG();
-
 	}
 
 
