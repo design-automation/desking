@@ -108,23 +108,26 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
                 timeService.setTime($scope.timeLine[$scope.play]);
 
                 if($scope.play<$scope.timeLine.length-1){
-                    $scope.play++;
-
+                	if(new Date($scope.timeLine[$scope.play]).getHours()>=18){
+                        $scope.play=$scope.play+30;
+                		if(new Date($scope.timeLine[$scope.play]).getDay()==6){
+                            $scope.play=$scope.play+96;
+						}
+					}else{
+                        $scope.play++;
+					}
                 }
                 else{
                     timeService.setTime($scope.timeLine[0]);
                     $interval.cancel($scope.anime);
                     $scope.play=0;
                 }
-
             }, 200);
 		}
 		else{
             $interval.cancel($scope.anime);
             $scope.play=0;
 		}
-
-
 
 	};
 

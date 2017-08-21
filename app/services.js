@@ -197,7 +197,6 @@ desking.factory("dataService", ['timeService', function(timeService) {
     }
     p.setDisplayGroups = function(groups){
         o.displayGroups=groups;
-        console.log("display groups are updated in DataService");
         notifyObservers("groupsUpdated");
         return o.displayGroups;
     }
@@ -214,10 +213,108 @@ desking.factory("dataService", ['timeService', function(timeService) {
 		var chart = [];
 		var displayGroups =[];
 
+
+		for(x in jsonData){
+            if(x=="Overview"){
+                continue;
+            }
+            jsonData[x].map(function(row){
+                var obj={}
+                var headers=Object.keys(jsonData[x][0]);
+                for(i=0;i<headers.length;i++){
+                    obj[headers[i]]=row[headers[i]];
+                }
+                obj.name=x;
+                rows.push(obj);
+
+            });
+
+		}
+
+        for(var i=0; i<rows.length; i++){
+
+            var row = rows[i];
+
+            if(row == undefined || row['Date'] == undefined || row['Time'] == undefined)
+                continue;
+
+            var date = row['Date'].split("/");
+            var time = row['Time'].split(":");
+            var duration=+row['Duration'];
+
+            var newdate = new Date();
+            newdate.setDate(date[0]);
+            newdate.setMonth(date[1]-1);
+            newdate.setYear(date[2]);
+            newdate.setHours(+time[0]);
+            newdate.setMinutes(+time[1]);
+            newdate.setSeconds(+time[2]);
+            newdate.setMilliseconds(0);
+
+
+            row['formattedDate'] = newdate.getTime();
+
+            var startTime=newdate;
+            var endTime=newdate.addTimeMinutes(duration);
+
+            while (startTime <= endTime) {
+                if(chart[Object.keys(row)[4]] == undefined){
+                    chart[Object.keys(row)[4]] = [];
+                    chart[Object.keys(row)[4]][startTime.getTime()] = parseInt(row[Object.keys(row)[4]]);
+                }
+                else if(chart[Object.keys(row)[4]][startTime.getTime()] == undefined){
+                    chart[Object.keys(row)[4]][startTime.getTime()] = parseInt(row[Object.keys(row)[4]]);
+                }
+                else{
+                    chart[Object.keys(row)[4]][startTime.getTime()] += parseInt(row[Object.keys(row)[4]]);
+                }
+                startTime = startTime.addTimeMinutes(30);
+            }
+
+            if(i==0){
+                highest = newdate;
+                lowest = newdate;
+            }
+            else{
+                if(newdate > highest)
+                    highest = newdate.addTimeMinutes(duration);
+                else if(newdate < lowest)
+                    lowest = newdate;
+            }
+
+            // add values for chart
+            // if(chart[Object.keys(row)[3]] == undefined){
+            // 	chart[Object.keys(row)[3]] = [];
+            // 	chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
+            // }
+            // else if(chart[Object.keys(row)[3]][row['formattedDate']] == undefined){
+            // 	chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
+            // }
+            // else
+            // 	chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
+        }
+
+        rows.sort(function(a,b){
+            if (a['formattedDate'] === b['formattedDate']) {
+                return 0;
+            }
+            else {
+                return (a['formattedDate'] < b['formattedDate']) ? -1 : 1;
+            }
+        });
+
+        p.setRows(rows);
+
 		for(x in jsonData){
             var newgroup = {name: x};
             newgroup.headers=Object.keys(jsonData[x][0]);
-            newgroup.rows=jsonData[x];
+            newgroup.rows=jsonData[x].map(function(row){
+            	var obj={}
+            	for(i=0;i<newgroup.headers.length;i++){
+            		obj[newgroup.headers[i]]=row[newgroup.headers[i]];
+				}
+				return obj;
+			});
 
 			if(x=="Overview"){
                 displayGroups.push(newgroup);
@@ -225,7 +322,28 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			}
 			else{
 
-                newgroup.rows.map(function(row){
+                newgroup.rows.map(function(row,index){
+
+                    if( row['Date'] != undefined || row['Time'] != undefined){
+                        var date = row['Date'].split("/");
+                        var time = row['Time'].split(":");
+
+                        var newdate = new Date();
+                        newdate.setDate(date[0]);
+                        newdate.setMonth(date[1]-1);
+                        newdate.setYear(date[2]);
+                        newdate.setHours(+time[0]);
+                        newdate.setMinutes(+time[1]);
+                        newdate.setSeconds(+time[2]);
+                        newdate.setMilliseconds(0);
+
+
+                        row['formattedDate'] = newdate.getTime();
+
+                    }
+
+
+
                     row.clusterIdArray =row['Desks'] == undefined ? [] : row['Desks'].split(",");
                     row.totalDesksNeeded=row[newgroup.headers[4]];
                     row.desksAlloted=0;
@@ -255,100 +373,31 @@ desking.factory("dataService", ['timeService', function(timeService) {
 
 
 			}
-			jsonData[x].map(function(obj){
-				obj.name=x;
-				rows.push(obj);
-			});
+
+			// jsonData[x].map(function(obj){
+			// 	obj.name=x;
+			// 	rows.push(obj);
+			// });
 
             displayGroups.push(newgroup);
 		}
 
         p.setDisplayGroups(displayGroups);
 
-		for(var i=0; i<rows.length; i++){
-
-			var row = rows[i];
-
-			if(row == undefined || row['Date'] == undefined || row['Time'] == undefined)
-				continue;
-
-			var date = row['Date'].split("/");
-			var time = row['Time'].split(":");
-			var duration=+row['Duration'];
-
-			var newdate = new Date();
-			newdate.setDate(date[0]);
-			newdate.setMonth(date[1]-1);
-			newdate.setYear(date[2]);
-			newdate.setHours(+time[0]);
-			newdate.setMinutes(+time[1]);
-			newdate.setSeconds(+time[2]);
-			newdate.setMilliseconds(0);
-
-
-			row['formattedDate'] = newdate.getTime();
-
-			var startTime=newdate;
-			var endTime=newdate.addTimeMinutes(duration);
-
-			while (startTime <= endTime) {
-				if(chart[Object.keys(row)[4]] == undefined){
-					chart[Object.keys(row)[4]] = [];
-					chart[Object.keys(row)[4]][startTime.getTime()] = parseInt(row[Object.keys(row)[4]]);
-				}
-				else if(chart[Object.keys(row)[4]][startTime.getTime()] == undefined){
-					chart[Object.keys(row)[4]][startTime.getTime()] = parseInt(row[Object.keys(row)[4]]);
-				}
-				else{
-					chart[Object.keys(row)[4]][startTime.getTime()] += parseInt(row[Object.keys(row)[4]]);
-				}
-				startTime = startTime.addTimeMinutes(30);
-			}
-
-			if(i==0){
-				highest = newdate;
-				lowest = newdate;
-			}
-			else{
-				if(newdate > highest)
-					highest = newdate.addTimeMinutes(duration);
-				else if(newdate < lowest)
-					lowest = newdate;
-			}
-
-			// add values for chart
-			// if(chart[Object.keys(row)[3]] == undefined){
-			// 	chart[Object.keys(row)[3]] = [];
-			// 	chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
-			// }
-			// else if(chart[Object.keys(row)[3]][row['formattedDate']] == undefined){
-			// 	chart[Object.keys(row)[3]][row['formattedDate']] = parseInt(row[Object.keys(row)[3]]);
-			// }
-			// else
-			// 	chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
-		}
-
-		rows.sort(function(a,b){
-			if (a['formattedDate'] === b['formattedDate']) {
-				return 0;
-			}
-			else {
-				return (a['formattedDate'] < b['formattedDate']) ? -1 : 1;
-			}
-		});
-
-        p.setRows(rows);
-
 		var dateArray = new Array();
 		var currentDate = lowest;
 		while (currentDate <= highest) {
 			dateArray.push( new Date (currentDate).getTime() );
 			currentDate = currentDate.addTimeMinutes(30);
-			if(currentDate.getHours()>=18){
-				var date=new Date(currentDate);
-				date.setHours(date.getHours()+15)
-				 currentDate = date;
-			}
+			// if(currentDate.getHours()>=18){
+			// 	var date=new Date(currentDate);
+			// 	date.setHours(date.getHours()+15)
+			// 	if(date.getDay()==6){
+             //        date.setHours(date.getHours()+48);
+             //        console.log("saturday and Sunday Removed");
+			// 	}
+			// 	 currentDate = date;
+			// }
 		}
 
 
@@ -382,24 +431,29 @@ desking.factory("dataService", ['timeService', function(timeService) {
 	var updateStackedAreaChart = function(data){
 
 		o.chartData = [];
+		c=[];
 		var timelineRange = timeService.getTimeline();
 
 		for(key in data){
 			var obj = { "key":key, "values": []};
+			var obj1={ "key":key, "values": []};
 			for(var t=0; t<timelineRange.length; t++){
 				var time = timelineRange[t];
 				if(data[key][String(time)] !== undefined){
 
 					obj.values.push([ time, data[key][time] ]);
+                    obj1.values.push([ time, data[key][time] ]);
 				}
 				else{
 					obj.values.push([ time, 0 ]);
+                    obj1.values.push([ time, 0 ]);
 				}
 			}
 			o.chartData.push(obj);
+			c.push(obj1);
 		}
 
-		c = o.chartData;
+		// c = o.chartData;
 
 		notifyObservers("graph");
 
@@ -511,7 +565,8 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 		selectionGroup:[],
         updatedRowupdatedGroup:[],
 		selectionRow:[],
-		updatedRow:[]
+		updatedRow:[],
+        clickedRow:[]
     }
 
     var p = {};
@@ -572,19 +627,29 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         return o.selectionGroup;
     }
 
+    p.getSelectionGroup= function(){
+        return o.selectionGroup;
+    }
+
     p.setSelectionRow= function(row){
         o.selectionRow=row;
         o.updatedRow=row;
         p.setMode(row.mode);
         return o.selectionRow;
     }
-
-    p.getSelectionGroup= function(){
-        return o.selectionGroup;
-    }
     p.getSelectionRow= function(){
         return o.selectionRow;
     }
+
+    p.setClickedRow= function(row){
+        o.clickedRow=row;
+        return o.clickedRow;
+    }
+    p.getClickedRow= function(){
+        return o.clickedRow;
+    }
+
+
 
     p.setUpdatedGroup= function(group){
         o.updatedGroup=group;
@@ -601,6 +666,10 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 
         return o.updatedGroup;
 
+    }
+
+    p.getUpdatedGroup= function(){
+        return o.updatedGroup;
     }
 
     p.setUpdatedRow= function(row){
@@ -625,10 +694,6 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 
     }
 
-
-    p.getUpdatedGroup= function(){
-        return o.updatedGroup;
-    }
     p.getUpdatedRow= function(){
         return o.updatedRow;
     }
@@ -637,14 +702,34 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 
     	var group=o.updatedGroup;
     	var updatedRow=o.updatedRow;
+
         var jsonData=dataService.getJsonData();
         // var clusterString=group.clusterIdArray.toString();
         var clusterString=updatedRow.clusterIdArray.toString();
+        console.log(clusterString);
 
         jsonData[group.name].map(function(row){
-        	if(row['formattedDate']==updatedRow['formattedDate']){
-                row['Desks']=clusterString;
-			}
+            console.log(row);
+            if( row['Date'] != undefined || row['Time'] != undefined){
+                var date = row['Date'].split("/");
+                var time = row['Time'].split(":");
+
+                var newdate = new Date();
+                newdate.setDate(date[0]);
+                newdate.setMonth(date[1]-1);
+                newdate.setYear(date[2]);
+                newdate.setHours(+time[0]);
+                newdate.setMinutes(+time[1]);
+                newdate.setSeconds(+time[2]);
+                newdate.setMilliseconds(0);
+
+
+                if(newdate.getTime()==updatedRow['formattedDate']){
+                    row['Desks']=clusterString;
+                }
+
+            }
+
         });
 
         dataService.setJsonData(jsonData);

@@ -125,13 +125,13 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 				var arr=[];
 				if(x==0){
 					var header=Object.keys(jsonData[sheet][0]);
-					header.pop();
+					// header.pop();
 					arrArr.push(header);
 				}
 				for(y in jsonData[sheet][x]){
 							arr.push(jsonData[sheet][x][y]);
 				}
-				arr.pop();
+				// arr.pop();
 				arrArr.push(arr);
 			}
 
@@ -185,15 +185,14 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
         else{
             $timeout(function(){
                 $scope.display.groups=dataService.getDisplayGroups();
-                console.log($scope.display.groups);
-            },1);
+            },10);
 		}
 	}
 
 	var selectedRow = function(row){
 
 		timeService.setTime(row['formattedDate']);
-
+		displayService.setClickedRow(row);
 
 	}
 

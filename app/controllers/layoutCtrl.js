@@ -26,6 +26,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	var dataChanged = function(){
 		$scope.rowCollection = dataService.getRows();
+        $scope.displayGroups = dataService.getDisplayGroups();
 		$scope.jsonData=dataService.getJsonData();
 		timeChanged();
 	}
@@ -179,10 +180,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
                 var cluster = d3.select(this);
 
-                if(!cluster.classed("occupied")){
-                    cluster.classed("mouseover", true);
-                }
-
                 div.transition()
                     .duration(200)
                     .style("opacity", 0.9);
@@ -193,8 +190,8 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
                 var tooltip=div.append("svg")
                     .attr("class", "deskInfoSVG")
-                    .attr("width", 110)
-                    .attr("height", 75);
+                    .attr("width", 165)
+                    .attr("height", 80);
 
                 tooltip.append("text")
                     .attr("x", 0)
@@ -203,10 +200,87 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
                     .style("text-anchor", "start")
                     .text("ClusterID : "+cluster[0][0].id);
 
+                if(!cluster.classed("occupied")){
+                    cluster.classed("mouseover", true);
+
+                    tooltip.append("text")
+                        .attr("x", 0)
+                        .attr("y", 22)
+                        .attr("dy", ".25em")
+                        .style("text-anchor", "start")
+                        .text("        Empty     ");
+
+                }
+                else{
+                    var clusterInfo ={};
+                    $scope.displayGroups.map(function(group){
+                        group.rows.map(function(row){
+                            var clusterIdArray=[];
+                            clusterIdArray = row['Desks'] == undefined ? [] : row["Desks"].split(",");
+                            if($.inArray(cluster[0][0].id, clusterIdArray)&& timeService.getTime()==row['formattedDate']){
+
+                                clusterInfo.date=row['Date'];
+                                clusterInfo.startTime=row['Time'];
+
+                                var endTime=new Date(row.formattedDate);
+                                endTime=endTime.setMinutes(endTime.getMinutes()+ parseInt(row.Duration));
+                                endTime=new Date(endTime);
+                                var hours=endTime.getHours();
+                                var minutes=endTime.getMinutes();
+                                var seconds="00";
+                                if(minutes==0){
+                                    minutes="00";
+                                }
+                                var array=[];
+                                array.push(hours);
+                                array.push(minutes);
+                                array.push(seconds);
+                                endTime=array.join(":");
+
+                                clusterInfo.endTime=endTime;
+                                clusterInfo.courseName=group.name;
+                                clusterInfo.type=row['Type'];
+
+                            }
+
+                        });
+
+                    });
+
+                    tooltip.append("text")
+                        .attr("x", 0)
+                        .attr("y", 25)
+                        .attr("dy", ".25em")
+                        .style("text-anchor", "start")
+                        .text("Course : "+clusterInfo.courseName);
+
+                    tooltip.append("text")
+                        .attr("x", 0)
+                        .attr("y",40 )
+                        .attr("dy", ".25em")
+                        .style("text-anchor", "start")
+                        .text("Date : "+clusterInfo.date);
+
+                    tooltip.append("text")
+                        .attr("x", 0)
+                        .attr("y",55 )
+                        .attr("dy", ".25em")
+                        .style("text-anchor", "start")
+                        .text("Time : "+clusterInfo.startTime+" - "+clusterInfo.endTime);
+
+                    tooltip.append("text")
+                        .attr("x", 0)
+                        .attr("y",70 )
+                        .attr("dy", ".25em")
+                        .style("text-anchor", "start")
+                        .text("Type : "+clusterInfo.type);
+
+
+
+                }
+
 
             });
-
-
             clusters.on('mouseout',function(){
 
                 var cluster = d3.select(this);

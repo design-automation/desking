@@ -11,24 +11,18 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 		return $('#graphPane').width();
 	}, function (newValue, oldValue, $scope) {
 
-		$scope.width = $("#graphPane").width();
-		if($scope.api==undefined ||$scope.pieApi==undefined ){
+		// $scope.width = $("#graphPane").width();
+		if($scope.api==undefined ||$scope.donutApi==undefined ){
 
 			return;
 		}
 
-        // $timeout(function(){
-        //
-        //
-        // },10);
+		if(Math.abs(newValue-$scope.width)/$scope.width>0.25){
+
+		}
 
         $scope.api.refresh();
-        $scope.pieApi.refresh();
-
-
-
-
-
+        $scope.donutApi.refresh();
 	}, true);
 
 
@@ -36,9 +30,9 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 
 		$scope.data = dataService.getChartData();
 		$scope.api.refresh();
-		$scope.pieApi.refresh();
+		$scope.donutApi.refresh();
 		timeService.setTime(timeService.getTimeline()[0]);
-		updatePiechart();
+		updateDonutchart();
 
 	}
 
@@ -96,17 +90,15 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 
 	};
 
-
-
-
 	$scope.data = dataService.getChartData();
 
-	var updatePiechart = function(){
+
+	var updateDonutchart = function(){
 
 
 		$scope.activeDate=timeService.getTime();
 
-		$scope.pieOptions = {
+		$scope.donutOptions = {
 			chart: {
 				type: 'pieChart',
 				height:  $scope.height/2,
@@ -133,19 +125,31 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 
 
 
-		$scope.pieData= $scope.data.map(function(data){
+		$scope.donutData= $scope.data.map(function(data){
 
-			return{ key:data['key'],
-				y:data['values'].map(function(time){
+			var obj={};
+			obj.key=data['key'];
+			obj.y=data['values'].map(function(time){
 
-					return (time[0]==$scope.activeDate)? +time[1] :0;
-				}).reduce(function(a,b){
-					return a + b;
-				},0)
+                return (time[0]==$scope.activeDate)? +time[1] :0;
+            }).reduce(function(a,b){
+                return a + b;
+            },0);
 
-			};
+			return obj;
+
+			// return{ key:data['key'],
+			// 	y:data['values'].map(function(time){
+            //
+			// 		return (time[0]==$scope.activeDate)? +time[1] :0;
+			// 	}).reduce(function(a,b){
+			// 		return a + b;
+			// 	},0)
+            //
+			// };
 
 		});
+
 
 		$scope.SDE3Level1Desks=132;
 		$scope.SDE3Level2Desks=264;
@@ -155,8 +159,8 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 		$scope.totalDesks=$scope.SDE3Level1Desks+$scope.SDE3Level2Desks+$scope.SDE4Level6Desks;
 		$scope.occupiedDesks=0;
 
-		for (i = 0; i < $scope.pieData.length; i++) {
-			$scope.occupiedDesks += $scope.pieData[i].y;
+		for (i = 0; i < $scope.donutData.length; i++) {
+			$scope.occupiedDesks += $scope.donutData[i].y;
 		}
 
 		if($scope.occupiedDesks>=0){
@@ -165,12 +169,12 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 				y: $scope.totalDesks-$scope.occupiedDesks
 
 			}
-			$scope.pieData.push(emptySeats);
+			$scope.donutData.push(emptySeats);
 		}
 
 	}
 
 	dataService.registerGraphObserverCallback(updateGraph);
-	timeService.registerObserverCallback(updatePiechart);
+	timeService.registerObserverCallback(updateDonutchart);
 
 }]);
