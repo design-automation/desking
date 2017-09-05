@@ -2,13 +2,13 @@
  * Created by sereb on 9/7/2017.
  */
 
-desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval', function ($scope, $filter, timeService, $interval) {
+desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval','$mdDateLocale', function ($scope, $filter, timeService, $interval,$mdDateLocale) {
 
 
-	$scope.activeDate = undefined;
-	$scope.sliderTimeline=[];
-	$scope.toggle =true;
-    $scope.opt="play"
+    $scope.activeDate = undefined;
+    $scope.sliderTimeline=[];
+    $scope.toggle =true;
+    $scope.opt="Play"
 	$scope.play=0;
 
 	Date.prototype.addTimeMinutes = function(time) {
@@ -19,6 +19,10 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 
 	//Angualar material Datepicker
+
+    $mdDateLocale.formatDate = function(date) {
+        return moment(date).format('DD-MM-YYYY');
+    };
 
 	$scope.myDate = new Date(timeService.getTime());
 	$scope.minDate = new Date();
@@ -155,34 +159,12 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	}
 
-	//UiB-DatePicker
 
 
 
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-    };
-
-
-    $scope.open2 = function() {
-        $scope.popup2.opened = true;
-    };
-
-    $scope.setDate = function(year, month, day) {
-        $scope.dt = new Date(year, month, day);
-    };
-
-    $scope.popup2 = {
-        opened: false
-    };
-
-
-
-
-    timeService.registerObserverCallback(updateSliderValue);
 
 	timeService.registerSliderObserverCallback(updateSlider);
+    timeService.registerObserverCallback(updateSliderValue);
 
 }]);
 

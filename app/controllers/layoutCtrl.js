@@ -276,7 +276,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
                             }
 
                         });
-                        
+
                         cluster.classed("occupied editing highlight", false);
                     }
 
@@ -371,8 +371,13 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
     }
 
     $scope.saveCurrentSelection=function(){
+
         displayService.setMode("display");
         displayService.updateJson();
+        var group=displayService.getSelectionGroup();
+        group.isOpen=true;
+        console.log(group.isOpen);
+
     }
 
     $scope.cancelCurrentSelection=function(){
@@ -384,7 +389,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
         $scope.clusters[0].map(function(element){
 
             var cluster = d3.select(element);
-
             if(cluster.classed(" occupied editing")){
                 cluster.classed("occupied editing", false);
                 var index = row.clusterIdArray.indexOf(cluster.id);

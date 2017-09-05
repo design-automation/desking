@@ -720,7 +720,6 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         console.log(clusterString);
 
         jsonData[group.name].map(function(row){
-            console.log(row);
             if( row['Date'] != undefined || row['Time'] != undefined){
                 var date = row['Date'].split("/");
                 var time = row['Time'].split(":");
