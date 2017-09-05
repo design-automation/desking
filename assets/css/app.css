@@ -115,17 +115,14 @@
 
 g.mouseover g rect {
     fill: rgb(247, 148, 32) !important;
-    stroke-width: 2;
+    stroke-width: 15;!important;
 }
 
 g.mouseoff g rect {
     /*stroke: #000000 !important;*/
 }
 
-g.deskClicked g rect {
-    fill: steelblue !important;
-    stroke:white !important ;
-}
+
 
 g.occupied g rect {
     fill: steelblue !important;
@@ -134,12 +131,24 @@ g.occupied g rect {
 }
 g.unoccupied g rect {
     fill: white !important;
+
+}
+
+/* For Highlighting the selected desks */
+
+g.highlight g rect {
+    fill: #A40204 !important;
+    /*stroke:white !important ;*/
+}
+
+g.editing g rect {
+    stroke:white !important ;
 }
 
 /* For Displaying whether desks need to be allocated or not*/
 
 .allotmentNeeded{
-    color: red;
+    color: #A40204;
 }
 .allotmentNotNeeded{
 
@@ -153,3 +162,21 @@ g.unoccupied g rect {
 button{
     font-family: Arial !important;
 }
+
+
+/* Display info in Layout */
+
+.selectedClassMode.selection{
+    color: red;
+}
+
+.selectedClassMode.display{
+    color:#4BAA4B;
+
+}
+
+
+
+
+
+

@@ -69,7 +69,7 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 			},
 			translate: function (value) {
-				return   $filter('date')(value, 'dd-MM-yyyy');;
+				return  $filter('date')(value, 'HH:mm:ss');
 			},
 			showTicks: 2
 		}
@@ -96,10 +96,10 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
         $scope.timeLine = timeService.getTimeline();
 
 		if($scope.toggle){
-            $scope.opt="play";
+            $scope.opt="Play";
 		}
 		else{
-            $scope.opt="stop";
+            $scope.opt="Stop";
 
         }
 
@@ -155,19 +155,32 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	}
 
+	//UiB-DatePicker
+
+
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+
+    $scope.open2 = function() {
+        $scope.popup2.opened = true;
+    };
+
+    $scope.setDate = function(year, month, day) {
+        $scope.dt = new Date(year, month, day);
+    };
+
+    $scope.popup2 = {
+        opened: false
+    };
 
 
 
 
-
-
-
-
-
-
-
-
-	timeService.registerObserverCallback(updateSliderValue);
+    timeService.registerObserverCallback(updateSliderValue);
 
 	timeService.registerSliderObserverCallback(updateSlider);
 

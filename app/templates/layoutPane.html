@@ -1,13 +1,18 @@
 <div ng-controller="layoutCtrl" class="svg-holder" id="svg1" ng-init="init()">
 
+
+    <pre ng-class='selectionButtonsDisplay==true ? "selectedClassMode selection" : "selectedClassMode display"'>Selected class is: <em><span>{{clickedRow.name }}  </span><span>{{clickedRow.Date}}   </span><span>{{clickedRow.Time}}</span></em></pre>
+    <!--<pre>Selected date is: <em>{{clickedRow. }}</em></pre>-->
+
+
     <!-- section for controls -->
     <section class="text-right" ng-show=selectionButtonsDisplay id="selectionButtons">
 
-        <button type="submit" style="float: right; margin-outside:5px " ng-click="cancelCurrentSelection()">Cancel</button>
-        <button type="submit" style="float: right" ng-click="saveCurrentSelection()" >Save</button>
+
+
+        <button type="submit" class="btn btn-md"  ng-click="cancelCurrentSelection()">Cancel</button>
+        <button type="submit" class="btn btn-md"  ng-click="saveCurrentSelection()" >Save</button>
 
     </section>
-
-
 
 </div>

@@ -313,6 +313,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
             	for(i=0;i<newgroup.headers.length;i++){
             		obj[newgroup.headers[i]]=row[newgroup.headers[i]];
 				}
+                obj.name=x;
 				return obj;
 			});
 
@@ -403,7 +404,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 
 		timeService.setTimeline(dateArray);
 
-		updateStackedAreaChart(chart);
+		// updateStackedAreaChart(chart);
 		// updateDisplayGroups();
 
 		notifyObservers();
@@ -574,6 +575,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
     // --------- Observers
     var observerCallbacks = [];
     var modeObserverCallbacks = [];
+    var clickObserverCallbacks=[];
 
 
     // register an observer
@@ -585,6 +587,11 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         modeObserverCallbacks.push(callback);
     };
 
+    // register an observer
+    p.registerClickObserverCallback = function(callback){
+        clickObserverCallbacks.push(callback);
+    };
+
 
     var notifyObservers = function(observers){
 
@@ -592,6 +599,8 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
             observers = observerCallbacks;
         else if(observers == "mode")
             observers = modeObserverCallbacks;
+        else if(observers == "click")
+            observers = clickObserverCallbacks;
 
         angular.forEach(observers, function(callback){
             callback();
@@ -632,6 +641,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
     }
 
     p.setSelectionRow= function(row){
+
         o.selectionRow=row;
         o.updatedRow=row;
         p.setMode(row.mode);
@@ -643,6 +653,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
 
     p.setClickedRow= function(row){
         o.clickedRow=row;
+        notifyObservers("click");
         return o.clickedRow;
     }
     p.getClickedRow= function(){

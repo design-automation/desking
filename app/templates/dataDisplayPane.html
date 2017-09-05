@@ -4,8 +4,8 @@
     <section class="text-right" id="controlButtons">
 
         <input type="file" name="excel" accept="xlsx" id="excelImport" style="visibility: hidden; position: absolute" >
-        <button type="submit" ng-click="getExcelFile()">Import</button>
-        <button type="submit" ng-click="saveExcelFile()">Export</button>
+        <button type="submit" class="btn btn-md " ng-click="getExcelFile()">Import</button>
+        <button type="submit" class="btn btn-md " ng-click="saveExcelFile()">Export</button>
 
 
     </section>
@@ -44,7 +44,7 @@
 
                     <div ng-repeat="row in group.rows" ng-class='activeDate==row["formattedDate"] ? "row lecture-item highlighted" : "row lecture-item"' ng-click="selectedRow(row)" >
                         <div class='col-sm-2 text-center' ng-if='$index <5' ng-repeat="head in group.headers">{{ row[head]}}</div>
-                        <div class='col-sm-2 text-center' ng-if='$index ==5' ng-repeat="head in group.headers" ng-class='row.desksAlloted < row.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > <span style='z-index:10' ng-click="selectDesks(group,row)"><u>{{row.desksAlloted}}</u></span>/{{row.totalDesksNeeded}}</div>
+                        <div class='col-sm-2 text-center' ng-if='$index ==5' ng-repeat="head in group.headers" ng-class='row.desksAlloted < row.totalDesksNeeded ? "allotmentNeeded" : "allotmentNotNeeded"' > <span style='z-index:10' ng-dblclick="selectDesks(group,row)"><u>{{row.desksAlloted}}</u></span>/{{row.totalDesksNeeded}}</div>
                     </div>
                 </div>
 

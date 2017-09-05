@@ -220,6 +220,8 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
     var selectDesks=function(group,row){
 
+        row.mode="selection";
+
         if(row.mode=="selection" ){
             displayService.setSelectionGroup(group);
             displayService.setSelectionRow(row);
@@ -234,7 +236,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
     var updateGroups = function(){
 
-        var updatedGroup=displayService.getGroup();
+        var updatedGroup=displayService.getUpdatedGroup();
 
         $scope.display.groups.map(function(group){
 
