@@ -177,4 +177,9 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 	// dataService.registerGraphObserverCallback(updateGraph);
 	// timeService.registerObserverCallback(updateDonutchart);
 
+
+
+
+
+
 }]);

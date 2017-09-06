@@ -27,16 +27,24 @@
 
 .lecture-item{
     border-bottom: 1px dashed #ccc;
+    font-family: Helvetica !important;
 }
 
 .lecture-item.highlighted{
     background-color: #4BAA4B;
+    font-family: Helvetica !important;
 }
 
 .lecture-item:hover{
     background: #ccc;
+    font-family: Helvetica !important;
 }
 
+.lecture-item.heading{
+    background-color: #ddd;
+    font-weight: bold;
+    font-family: Helvetica !important;
+}
 
 /*CSS for navigation bar*/
 
@@ -55,16 +63,12 @@
     height: 100%;
 }
 
-
 .svg-holder svg{
     /*display: inline-block;*/
     height:inherit;
     width:inherit;
     /*align-items: stretch;*/
-
 }
-
-
 
 /*CSS for UI -layout*/
 
@@ -86,10 +90,14 @@
       padding:18px;
 
   }
-
 .playButton button {
     margin-left: 15px;
+}
 
+/*bootstrapSlider*/
+.bootstrapSlider{
+    height:55px;
+    padding:18px;
 }
 
 
@@ -122,11 +130,8 @@ g.mouseoff g rect {
     /*stroke: #000000 !important;*/
 }
 
-
-
 g.occupied g rect {
     fill: steelblue !important;
-
 
 }
 g.unoccupied g rect {
@@ -137,12 +142,18 @@ g.unoccupied g rect {
 /* For Highlighting the selected desks */
 
 g.highlight g rect {
-    fill: #A40204 !important;
+    fill: #4BAA4B !important;
     /*stroke:white !important ;*/
 }
 
 g.editing g rect {
     stroke:white !important ;
+}
+
+g.selected g rect {
+    fill: #4BAA4B !important;
+
+
 }
 
 /* For Displaying whether desks need to be allocated or not*/
@@ -155,25 +166,24 @@ g.editing g rect {
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    font-family: Arial !important;
+    font-family: Helvetica !important;
 
 }
 
 button{
-    font-family: Arial !important;
+    font-family: Helvetica !important;
 }
 
 
 /* Display info in Layout */
 
-.selectedClassMode.selection{
-    color: red;
+.layoutInfo{
+    font-family: Helvetica !important;
+    font-size: 14px;
 }
 
-.selectedClassMode.display{
-    color:#4BAA4B;
 
-}
+
 
 
 

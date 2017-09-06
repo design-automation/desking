@@ -232,7 +232,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
                     var cluster = d3.select(this);
                     if(!cluster.classed("editing")  ){
                         row.clusterIdArray.push(cluster[0][0].id);
-                        cluster.classed(" occupied editing", true);
+                        cluster.classed(" selected editing", true);
                         div.transition()
                             .duration(500)
                             .style("opacity", 0);
@@ -277,7 +277,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
                         });
 
-                        cluster.classed("occupied editing highlight", false);
+                        cluster.classed("occupied editing highlight selected", false);
                     }
 
                     displayService.setUpdatedRow(row);
@@ -389,8 +389,8 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
         $scope.clusters[0].map(function(element){
 
             var cluster = d3.select(element);
-            if(cluster.classed(" occupied editing")){
-                cluster.classed("occupied editing", false);
+            if(cluster.classed(" selected editing")){
+                cluster.classed("selected editing", false);
                 var index = row.clusterIdArray.indexOf(cluster.id);
                 row.clusterIdArray.splice(index, 1);
             }
@@ -468,10 +468,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		$scope.clusters[0].map(function(cluster){
 
 			var resetCluster=d3.select(cluster);
-			resetCluster.classed("occupied", false);
-			resetCluster.classed("mouseover", false);
-            resetCluster.classed("highlight", false);
-            resetCluster.classed("editing", false);
+			resetCluster.classed("occupied mouseover highlight editing selected ", false);
 
 			$scope.totalClustersOccupied.map(function(Id){
 

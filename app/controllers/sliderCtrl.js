@@ -11,6 +11,7 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
     $scope.opt="Play"
 	$scope.play=0;
 
+
 	Date.prototype.addTimeMinutes = function(time) {
 		var dat = new Date(this.valueOf())
 		dat.setMinutes(dat.getMinutes()+time);
@@ -33,23 +34,17 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 		$scope.myDate.getDate()+30
 	);
 
-
 	$scope.onlyWeekdaysPredicate = function(date) {
 		var day = date.getDay();
 		return day !== 0 && day !== 6;
 	};
-
 
 	$scope.$watch("myDate",function(newVal,oldVal){
 
 		$scope.sliderTimeline=popualteSliderTimeline(new Date(newVal));
 		$scope.slider_translate.options.stepsArray = $scope.sliderTimeline;
 
-
 	});
-
-
-
 
 	//Slider config with custom display function
 	$scope.timeLine=[];
@@ -135,7 +130,6 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 
 	};
 
-
 	var popualteSliderTimeline = function(date){
 
 		var timeArray = new Array();
@@ -150,19 +144,12 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 		stopDate.setSeconds(0);
 		stopDate.setMilliseconds(0);
 
-
 		while (currentDate <= stopDate) {
-			timeArray.push( new Date(currentDate).getTime());
+			timeArray.push(new Date(currentDate).getTime());
 			currentDate.setMinutes(currentDate.getMinutes()+15);
 		}
 		return timeArray;
-
 	}
-
-
-
-
-
 	timeService.registerSliderObserverCallback(updateSlider);
     timeService.registerObserverCallback(updateSliderValue);
 
