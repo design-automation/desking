@@ -4,8 +4,7 @@
 
 desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeout','displayService', function ($scope, dataService, timeService,$timeout,displayService) {
 
-
-	$scope.activeDate = 1025409600000;
+	$scope.activeDate = new Date().getTime();
 	$scope.rowCollection = undefined;
     $scope.selectionButtonsDisplay=false;
     $scope.clusterIdArray=[];
@@ -288,7 +287,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
     }
 
-
     $scope.init=function(){
         insertSVG();
     }
@@ -376,8 +374,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
         displayService.updateJson();
         var group=displayService.getSelectionGroup();
         group.isOpen=true;
-        console.log(group.isOpen);
-
     }
 
     $scope.cancelCurrentSelection=function(){
@@ -480,7 +476,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		});
 	}
 
-
 	// var desksNeeded = function(){
     //
 	// 	$scope.rowCollection = dataService.getRows();
@@ -513,7 +508,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 	// 		return subdoc;
 	// 	}
 	// }
-
 
 	// fetches the document for the given embedding_element
 	// function fillSVGElements(desks) {
@@ -586,7 +580,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
     //
     //
 	// }
-
 
 	timeService.registerObserverCallback(timeChanged);
 	dataService.registerObserverCallback(dataChanged);
