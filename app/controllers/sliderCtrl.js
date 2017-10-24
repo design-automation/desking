@@ -25,13 +25,13 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
         return moment(date).format('DD-MM-YYYY');
     };
 
-	$scope.myDate = new Date(timeService.getTime());
+	$scope.myDate = new Date();
 	$scope.minDate = new Date();
 
 	$scope.maxDate = new Date(
 		$scope.myDate.getFullYear(),
 		$scope.myDate.getMonth(),
-		$scope.myDate.getDate()+30
+		$scope.myDate.getDate()+120
 	);
 
 	$scope.onlyWeekdaysPredicate = function(date) {
@@ -40,11 +40,13 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 	};
 
 	$scope.$watch("myDate",function(newVal,oldVal){
-
+		
 		$scope.sliderTimeline=popualteSliderTimeline(new Date(newVal));
 		$scope.slider_translate.options.stepsArray = $scope.sliderTimeline;
 
 	});
+
+
 
 	//Slider config with custom display function
 	$scope.timeLine=[];
@@ -77,8 +79,9 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 	var updateSlider = function(){
 		// $scope.slider_translate.options.stepsArray = timeService.getTimeline();
 		$scope.timeLine=timeService.getTimeline();
-		$scope.minDate = new Date(timeService.getTimeline()[0]);
-		$scope.myDate =$scope.minDate;
+        $scope.minDate = new Date(timeService.getTimeline()[0]);
+        var currentDate=new Date( new Date().getTime());
+		$scope.myDate = $scope.minDate;
 		$scope.maxDate = new Date(timeService.getTimeline()[timeService.getTimeline().length-1]);
 	}
 

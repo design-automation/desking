@@ -141,6 +141,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			 "values" : [ [ 1025409600000 , 0] , [ 1028088000000 , 1] , [ 1030766400000 , 1] , [ 1033358400000 , 1] , [ 1036040400000 , 1] , [ 1038632400000 , 1] , [ 1041310800000 , 0] , [ 1043989200000 , 0] , [ 1046408400000 , 0] , [ 1049086800000 , 2] , [ 1051675200000 , 2] , [ 1054353600000 , 2] , [ 1056945600000 , 2] , [ 1059624000000 , 2] , [ 1062302400000 , 2] , [ 1064894400000 , 2] , [ 1067576400000 , 2] , [ 1070168400000 , 2] , [ 1072846800000 , 1] , [ 1075525200000 , 1] , [ 1078030800000 , 2] , [ 1080709200000 , 1] , [ 1083297600000 , 1] , [ 1085976000000 , 1] , [ 1088568000000 , 1] , [ 1091246400000 , 1] , [ 1093924800000 , 1] , [ 1096516800000 , 1] , [ 1099195200000 , 1] , [ 1101790800000 , 1] , [ 1104469200000 , 3] , [ 1107147600000 , 3] , [ 1109566800000 , 3] , [ 1112245200000 , 3] , [ 1114833600000 , 3] , [ 1117512000000 , 3] , [ 1120104000000 , 4] , [ 1122782400000 , 4] , [ 1125460800000 , 4] , [ 1128052800000 , 4] , [ 1130734800000 , 4] , [ 1133326800000 , 5] , [ 1136005200000 , 3] , [ 1138683600000 , 3] , [ 1141102800000 , 3] , [ 1143781200000 , 2] , [ 1146369600000 , 2] , [ 1149048000000 , 2] , [ 1151640000000 , 3] , [ 1154318400000 , 3] , [ 1156996800000 , 3] , [ 1159588800000 , 2] , [ 1162270800000 , 2] , [ 1164862800000 , 2] , [ 1167541200000 , 1] , [ 1170219600000 , 1] , [ 1172638800000 , 1] , [ 1175313600000 , 2] , [ 1177905600000 , 2] , [ 1180584000000 , 2] , [ 1183176000000 , 3] , [ 1185854400000 , 3] , [ 1188532800000 , 3] , [ 1191124800000 , 4] , [ 1193803200000 , 4] , [ 1196398800000 , 4] , [ 1199077200000 , 5] , [ 1201755600000 , 5] , [ 1204261200000 , 5] , [ 1206936000000 , 3] , [ 1209528000000 , 3] , [ 1212206400000 , 3] , [ 1214798400000 , 4] , [ 1217476800000 , 4] , [ 1220155200000 , 4] , [ 1222747200000 , 3] , [ 1225425600000 , 3] , [ 1228021200000 , 3] , [ 1230699600000 , 1] , [ 1233378000000 , 1] , [ 1235797200000 , 1] , [ 1238472000000 , 0] , [ 1241064000000 , 0] , [ 1243742400000 ,2] , [ 1246334400000 , 2] , [ 1249012800000 , 2] , [ 1251691200000 , 2] , [ 1254283200000 , 1] , [ 1256961600000 , 1] , [ 1259557200000 , 1] , [ 1262235600000 , 0] , [ 1264914000000 , 0] , [ 1267333200000 , 0] , [ 1270008000000 , 0] , [ 1272600000000 , 0] , [ 1275278400000 , 0] , [ 1277870400000 , 0] , [ 1280548800000 , 0] , [ 1283227200000 , 0] , [ 1285819200000 , 0] , [ 1288497600000 , 1] , [ 1291093200000 , 1] , [ 1293771600000 , 1] , [ 1296450000000 , 0] , [ 1298869200000 , 0] , [ 1301544000000 , 0] , [ 1304136000000 , 0] , [ 1306814400000 , 0] , [ 1309406400000 , 0] , [ 1312084800000 , 0] , [ 1314763200000 , 2] , [ 1317355200000 , 0] , [ 1320033600000 , 0] , [ 1322629200000 , 0] , [ 1325307600000 , 0] , [ 1327986000000 , 0] , [ 1330491600000 , 0] , [ 1333166400000 , 0] , [ 1335758400000 , 0]]
 			 }*/	], // to be replaced, dummy data
         displayGroups:[],
+        restructuredData:[],
 		jsonData:[]
 	}
 
@@ -150,6 +151,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 	var observerCallbacks = [];
 	var graphObserverCallbacks = [];
     var groupsObserverCallbacks = [];
+    var restructuredDataObserverCallbacks =[];
 
 	// call this when you know data has been changed
 	var notifyObservers = function(observers){
@@ -160,6 +162,8 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			observers = graphObserverCallbacks;
         else if(observers == "groupsUpdated")
             observers = groupsObserverCallbacks;
+        else if(observers == "restructuredDataUpdated")
+            observers = restructuredDataObserverCallbacks;
 
 		angular.forEach(observers, function(callback){
 			callback();
@@ -179,6 +183,11 @@ desking.factory("dataService", ['timeService', function(timeService) {
     // register an observer
     p.registerGroupsObserverCallback = function(callback){
         groupsObserverCallbacks.push(callback);
+    };
+
+    // register an observer
+    p.registerRestructuredDataObserverCallback = function(callback){
+        restructuredDataObserverCallbacks.push(callback);
     };
 
 
@@ -212,6 +221,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 		var rows=[];
 		var chart = [];
 		var displayGroups =[];
+
 
 
 		for(x in jsonData){
@@ -294,6 +304,8 @@ desking.factory("dataService", ['timeService', function(timeService) {
             // 	chart[Object.keys(row)[3]][row['formattedDate']] += parseInt(row[Object.keys(row)[3]]);
         }
 
+
+
         rows.sort(function(a,b){
             if (a['formattedDate'] === b['formattedDate']) {
                 return 0;
@@ -338,12 +350,9 @@ desking.factory("dataService", ['timeService', function(timeService) {
                         newdate.setSeconds(+time[2]);
                         newdate.setMilliseconds(0);
 
-
                         row['formattedDate'] = newdate.getTime();
 
                     }
-
-
 
                     row.clusterIdArray =row['Desks'] == undefined ? [] : row['Desks'].split(",");
                     row.totalDesksNeeded=row[newgroup.headers[4]];
@@ -369,17 +378,13 @@ desking.factory("dataService", ['timeService', function(timeService) {
                     else{
                         row.mode="display"
                     }
-
                 });
-
-
 			}
 
 			// jsonData[x].map(function(obj){
 			// 	obj.name=x;
 			// 	rows.push(obj);
 			// });
-
             displayGroups.push(newgroup);
 		}
 
@@ -401,10 +406,10 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			// }
 		}
 
-
 		timeService.setTimeline(dateArray);
 
-		// updateStackedAreaChart(chart);
+		updateStackedAreaChart(chart);
+        restructureData(jsonData);
 		// updateDisplayGroups();
 
 		notifyObservers();
@@ -414,6 +419,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 	}
     p.updateJsonData =function(jsonData){
         o.jsonData =jsonData;
+        restructureData(jsonData);
         return o.jsonData;
     }
 
@@ -424,16 +430,21 @@ desking.factory("dataService", ['timeService', function(timeService) {
         return o.floors;
     }
 
-
-
-
-
+    p.setRestructuredData =function(restructuredData){
+        o.restructuredData=restructuredData;
+        notifyObservers("restructuredDataUpdated");
+        return o.restructuredData;
+    }
+    p.getRestructuredData = function(){
+        return o.restructuredData;
+    }
 
 	var updateStackedAreaChart = function(data){
 
 		o.chartData = [];
 		c=[];
 		var timelineRange = timeService.getTimeline();
+
 
 		for(key in data){
 			var obj = { "key":key, "values": []};
@@ -454,11 +465,73 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			c.push(obj1);
 		}
 
-		// c = o.chartData;
+		c = o.chartData;
 
 		notifyObservers("graph");
 
 	}
+
+    var restructureData = function(jsonData){
+
+        o.crossFilterData = [];
+        var facts=[];
+        for(x in jsonData){
+            if(x=="Overview"){
+                continue;
+            }
+
+            jsonData[x].map(function(row){
+                var fact={}
+
+                fact.Name = x;
+                fact.Type = row['Type'];
+                fact.Date = row['Date'];
+
+                var date = row['Date'] == undefined ? [] :  row['Date'].split("/");
+                var time = row['Time'] == undefined ? [] :  row['Time'].split(":");
+
+                var startTime = new Date();
+                startTime.setDate(date[0]);
+                startTime.setMonth(date[1]-1);
+                startTime.setYear(date[2]);
+                startTime.setHours(+time[0]);
+                startTime.setMinutes(+time[1]);
+                startTime.setSeconds(+time[2]);
+                startTime.setMilliseconds(0);
+                var endTime=startTime.addTimeMinutes(+row['Duration']);
+
+                fact.FormattedClassStartTime = startTime.getTime();
+                fact.FormattedClassEndTime = endTime.getTime();
+
+                var headers=Object.keys(row);
+                fact.StudentGroup = headers[4];
+
+                fact.DesksNeeded = row[fact.StudentGroup];
+                fact.AllocatedDesks = row['Desks'] == undefined ? [] : row['Desks'].split(",");
+                fact.DesksAllocated = 0;
+                var clusters = d3.selectAll('g g.cluster');
+                clusters[0].map(function(cluster){
+
+                    if(fact.AllocatedDesks.length>0){
+                        fact.AllocatedDesks.map(function(Id){
+
+                            if(Id==cluster.id){
+                                var desksAllotedCluster=d3.select(cluster);
+                                fact.DesksAllocated+=desksAllotedCluster.selectAll('g rect')[0].length;
+                            }
+                        });
+                    }
+
+                });
+
+                facts.push(fact);
+            });
+        }
+        p.setRestructuredData(facts);
+    }
+
+
+
 
 	// var updateDisplayGroups = function(){
 	// 	o.displayGroups=[];

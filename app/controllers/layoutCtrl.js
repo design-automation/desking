@@ -4,8 +4,7 @@
 
 desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeout','displayService', function ($scope, dataService, timeService,$timeout,displayService) {
 
-
-	$scope.activeDate = 1025409600000;
+	$scope.activeDate = new Date().getTime();
 	$scope.rowCollection = undefined;
     $scope.selectionButtonsDisplay=false;
     $scope.clusterIdArray=[];
@@ -288,7 +287,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
     }
 
-
     $scope.init=function(){
         insertSVG();
     }
@@ -376,8 +374,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
         displayService.updateJson();
         var group=displayService.getSelectionGroup();
         group.isOpen=true;
-        console.log(group.isOpen);
-
     }
 
     $scope.cancelCurrentSelection=function(){
@@ -418,6 +414,16 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
         displayService.setUpdatedGroup(group);
         occupiedClusters();
     }
+
+    $scope.qrMode=function(){
+
+        console.log("QR mode selected");
+        load();
+
+
+    }
+
+
 
     var occupiedClusters = function(){
 
@@ -480,7 +486,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		});
 	}
 
-
 	// var desksNeeded = function(){
     //
 	// 	$scope.rowCollection = dataService.getRows();
@@ -513,7 +518,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 	// 		return subdoc;
 	// 	}
 	// }
-
 
 	// fetches the document for the given embedding_element
 	// function fillSVGElements(desks) {
@@ -587,6 +591,111 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
     //
 	// }
 
+    //QR scanner
+
+    var gCtx = null;
+    var gCanvas = null;
+
+    var imageData = null;
+    var ii=0;
+    var jj=0;
+    var c=0;
+
+    var dragenter =function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
+    var dragover = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
+    var drop = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        var dt = e.dataTransfer;
+        var files = dt.files;
+
+        handleFiles(files);
+    }
+
+    var handleFiles = function(f) {
+        var o=[];
+        for(var i =0;i<f.length;i++)
+        {
+            var reader = new FileReader();
+
+            reader.onload = (function(theFile) {
+                return function(e) {
+                    qrcode.decode(e.target.result);
+                };
+            })(f[i]);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f[i]);	}
+    }
+
+    var read = function(a) {
+        alert(a);
+    }
+
+    var load =function()
+    {
+        initCanvas(640,480);
+        qrcode.callback = read;
+        // qrcode.decode("meqrthumb.png");
+
+    }
+
+    var initCanvas = function (ww,hh)    {
+
+        var div=d3.select("body").append("canvas").attr("id", "qr-canvas").style("opacity", 0);
+        gCanvas = document.getElementById("qr-canvas");
+        gCanvas.addEventListener("dragenter", dragenter, false);
+        gCanvas.addEventListener("dragover", dragover, false);
+        gCanvas.addEventListener("drop", drop, false);
+        var w = ww;
+        var h = hh;
+        gCanvas.style.width = w + "px";
+        gCanvas.style.height = h + "px";
+        gCanvas.width = w;
+        gCanvas.height = h;
+        gCtx = gCanvas.getContext("2d");
+        gCtx.clearRect(0, 0, w, h);
+        imageData = gCtx.getImageData( 0,0,320,240);
+        console.log("initCanvas intiated");
+    }
+
+    var passLine = function(stringPixels) {
+        //a = (intVal >> 24) & 0xff;
+
+        var coll = stringPixels.split("-");
+
+        for(var i=0;i<320;i++) {
+            var intVal = parseInt(coll[i]);
+            r = (intVal >> 16) & 0xff;
+            g = (intVal >> 8) & 0xff;
+            b = (intVal ) & 0xff;
+            imageData.data[c+0]=r;
+            imageData.data[c+1]=g;
+            imageData.data[c+2]=b;
+            imageData.data[c+3]=255;
+            c+=4;
+        }
+
+        if(c>=320*240*4) {
+            c=0;
+            gCtx.putImageData(imageData, 0,0);
+        }
+    }
+
+    var captureToCanvas =function() {
+        flash = document.getElementById("embedflash");
+        flash.ccCapture();
+        qrcode.decode();
+    }
 
 	timeService.registerObserverCallback(timeChanged);
 	dataService.registerObserverCallback(dataChanged);
