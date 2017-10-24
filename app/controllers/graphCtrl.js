@@ -392,15 +392,16 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
         $scope.rowData=dataService.getRows();
         $scope.timeline = timeService.getTimeline();
         $scope.activeDate = $scope.timeline[0];
-        drawMainChart();
+        // drawMainChart();
         // drawSubBarChart();
-        drawSubPieChart($scope.activeDate,$scope.data);
+        // drawSubPieChart($scope.activeDate,$scope.data);
     }
 
     var updateCurrentTime = function(){
         $scope.activeDate = timeService.getTime();
-        drawSubPieChart($scope.activeDate,$scope.data);
+        // drawSubPieChart($scope.activeDate,$scope.data);
         drawRestructuredSubChart($scope.activeDate);
+        drawRestructuredPieChart($scope.activeDate);
 
     }
 
@@ -487,7 +488,17 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .on('pretransition', function(mainChart) {
                 mainChart.selectAll("rect.bar").on("click", function (d) {
                     console.log(d.data);
-                    drawRestructuredSubChart(d.data.key);
+                    var startTime = new Date(d.data.key);
+                    startTime.setHours(9);
+                    startTime.setMinutes(0);
+                    startTime.setSeconds(0);
+                    startTime.setMilliseconds(0);
+                    console.log(startTime);
+                    timeService.setTime(startTime.getTime());
+                    console.log(new Date($scope.activeDate));
+                    //
+                    // drawRestructuredSubChart(d.data.key);
+                    // drawRestructuredPieChart(d.data.key);
                     mainChart.filter(null)
                         .filter(d.data.key)
                         .redrawGroup();
@@ -575,6 +586,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
                 subBarChart.selectAll("rect.bar").on("click", function (d) {
                     console.log(d.data);
                     drawRestructuredPieChart(d.data.key);
+                    console.log(d.data.key);
                     // drawSubPieChart(d.data.key,$scope.data);
                 });
 
