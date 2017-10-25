@@ -493,6 +493,10 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             // .xAxisPadding(900000)
             .controlsUseVisibility(true)
             .mouseZoomable(true)
+            .title(function(d) {
+                var formatDate = d3.time.format("%e %b %Y")
+                return formatDate(new Date(d.key)) + ' : ' + d.value;
+            })
             .on('pretransition', function(mainChart) {
                 mainChart.selectAll("rect.bar").on("click", function (d) {
 
