@@ -74,7 +74,7 @@ desking.factory("timeService", function() {
 
 	p.setTime = function(time){
 		o.time = time;
-		notifyObservers();
+        notifyObservers();
 		return o.time;
 	}
 

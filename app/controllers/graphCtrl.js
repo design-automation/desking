@@ -398,10 +398,17 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
     }
 
     var updateCurrentTime = function(){
-        $scope.activeDate = timeService.getTime();
-        // drawSubPieChart($scope.activeDate,$scope.data);
-        drawRestructuredSubChart($scope.activeDate);
-        drawRestructuredPieChart($scope.activeDate);
+
+        if($scope.activeDate!=timeService.getTime()){
+
+            drawRestructuredSubChart(timeService.getTime());
+            $scope.activeDate = timeService.getTime();
+
+        }
+        // $scope.activeDate = timeService.getTime();
+        // // drawSubPieChart($scope.activeDate,$scope.data);
+
+        // drawRestructuredPieChart($scope.activeDate);
 
     }
 
@@ -467,7 +474,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             function(){},
             function(){ return 0; });
 
-        console.log(updatedFactsDimesion.top(10));
+        // console.log(updatedFactsDimesion.top(10));
 
         var mainChart = dc.barChart(".mainChart");
 
@@ -476,6 +483,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .height($scope.height/2)
             .x(d3.time.scale().domain([new Date($scope.timeline[0]), new Date($scope.timeline[$scope.timeline.lenght-1])]))
             .xUnits(d3.time.days)
+            .y(d3.scale.linear().domain([0,$scope.maxDesks+50]))
             .brushOn(false)
             .xAxisLabel('Timeline')
             .yAxisLabel("Max Desks Needed in the Day")
@@ -487,16 +495,10 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .mouseZoomable(true)
             .on('pretransition', function(mainChart) {
                 mainChart.selectAll("rect.bar").on("click", function (d) {
+
+                    //console.log(d.data.key,"TimeService updated from main Graph");
                     console.log(d.data);
-                    var startTime = new Date(d.data.key);
-                    startTime.setHours(9);
-                    startTime.setMinutes(0);
-                    startTime.setSeconds(0);
-                    startTime.setMilliseconds(0);
-                    console.log(startTime);
-                    timeService.setTime(startTime.getTime());
-                    console.log(new Date($scope.activeDate));
-                    //
+                    timeService.setTime(d.data.key);
                     // drawRestructuredSubChart(d.data.key);
                     // drawRestructuredPieChart(d.data.key);
                     mainChart.filter(null)
@@ -584,7 +586,8 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .valueAccessor(function(d) {return +d.value;})
             .on('pretransition', function(subBarChart) {
                 subBarChart.selectAll("rect.bar").on("click", function (d) {
-                    console.log(d.data);
+                    // console.log(d.data);
+                    timeService.setTime(d.data.key);
                     drawRestructuredPieChart(d.data.key);
                     console.log(d.data.key);
                     // drawSubPieChart(d.data.key,$scope.data);

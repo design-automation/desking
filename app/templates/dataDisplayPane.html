@@ -1,14 +1,6 @@
 <div ng-controller="dataDisplayCtrl" ng-init="populateTable()"  >
 
-    <!-- section for controls -->
-    <section class="text-right" id="controlButtons">
 
-        <input type="file" name="excel" accept="xlsx" id="excelImport" style="visibility: hidden; position: absolute" >
-        <button type="submit" class="btn btn-md " ng-click="getExcelFile()">Import</button>
-        <button type="submit" class="btn btn-md " ng-click="saveExcelFile()">Export</button>
-
-
-    </section>
 
     <section ng-if='groups.length==0' style='height: 100%; width: 100%; margin: 0 auto;'>
         <div class="text-center" style='padding-top: 50px'>No data</div>
@@ -51,6 +43,15 @@
             </uib-accordion-group>
 
         </uib-accordion>
+
+    </section>
+    <!-- section for controls -->
+    <section class="text-right" id="controlButtons">
+
+        <input type="file" name="excel" accept="xlsx" id="excelImport" style="visibility: hidden; position: absolute" >
+        <button type="submit" class="btn btn-md " ng-click="getExcelFile()">Import</button>
+        <button type="submit" class="btn btn-md " ng-click="saveExcelFile()">Export</button>
+
 
     </section>
 

@@ -31,7 +31,7 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 	$scope.maxDate = new Date(
 		$scope.myDate.getFullYear(),
 		$scope.myDate.getMonth(),
-		$scope.myDate.getDate()+120
+		$scope.myDate.getDate()+240
 	);
 
 	$scope.onlyWeekdaysPredicate = function(date) {
@@ -40,9 +40,16 @@ desking.controller('sliderCtrl', ['$scope', '$filter', 'timeService','$interval'
 	};
 
 	$scope.$watch("myDate",function(newVal,oldVal){
-		
+
+        var time = new Date(newVal.getTime());
+        time.setHours(9);
+        time.setMinutes(0);
+        time.setSeconds(0);
+        time.setMilliseconds(0);
+
 		$scope.sliderTimeline=popualteSliderTimeline(new Date(newVal));
 		$scope.slider_translate.options.stepsArray = $scope.sliderTimeline;
+        // $scope.slider_translate.value=time.getTime();
 
 	});
 

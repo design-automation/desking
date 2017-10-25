@@ -20,6 +20,11 @@
     overflow: hidden;
 }
 
+.pane#graphPane{
+
+    overflow: hidden;
+}
+
 .panel-heading{
     border-radius: 0px;
     padding: 5px;
