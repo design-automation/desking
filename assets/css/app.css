@@ -136,7 +136,7 @@ g.mouseoff g rect {
 }
 
 g.occupied g rect {
-    fill: steelblue !important;
+    fill: #888888 !important;
 
 }
 g.unoccupied g rect {
