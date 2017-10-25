@@ -408,7 +408,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
         // $scope.activeDate = timeService.getTime();
         // // drawSubPieChart($scope.activeDate,$scope.data);
 
-        // drawRestructuredPieChart($scope.activeDate);
+        drawRestructuredPieChart(timeService.getTime());
 
     }
 
@@ -533,7 +533,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
                     'xlink:href': '#extra-line',
                     startOffset: '50%'
                 })
-                    .text('MaxDesks');
+                    .text('TotaL Desks');
             });
 
         mainChart.xAxis().ticks(5);

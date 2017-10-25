@@ -188,7 +188,15 @@ button{
 }
 
 
+/* Slider Pointer Color*/
+.rzslider .rz-pointer{
+    background-color: #CCC;
+}
 
+.rzslider .rz-pointer.rz-active:after{
+    background-color: #1F77B4;
+
+}
 
 
 
