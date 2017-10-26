@@ -401,13 +401,13 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 
         if($scope.activeDate!=timeService.getTime()){
 
-            drawRestructuredSubChart(timeService.getTime());
-            $scope.activeDate = timeService.getTime();
+
 
         }
         // $scope.activeDate = timeService.getTime();
         // // drawSubPieChart($scope.activeDate,$scope.data);
-
+        $scope.activeDate = timeService.getTime();
+        drawRestructuredSubChart(timeService.getTime());
         drawRestructuredPieChart(timeService.getTime());
 
     }
@@ -420,6 +420,8 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
     }
 
     var drawRestructuredMainChart = function(){
+
+        console.log("drawing main chart");
 
         $scope.width = $("#graphPane").width();
         $scope.height = $("#graphPane").height();
@@ -488,8 +490,10 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .xAxisLabel('Timeline')
             .yAxisLabel("Max Desks Needed in the Day")
             .dimension(dateDimesion)
+            .ordinalColors(['#888888'])
             .group(dateGroup1)
             .elasticX(true)
+
             // .xAxisPadding(900000)
             .controlsUseVisibility(true)
             .mouseZoomable(true)
@@ -500,8 +504,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .on('pretransition', function(mainChart) {
                 mainChart.selectAll("rect.bar").on("click", function (d) {
 
-                    //console.log(d.data.key,"TimeService updated from main Graph");
-                    console.log(d.data);
+                    console.log(d.data.key, "time service updated by clicking on main bar chart");
                     timeService.setTime(d.data.key);
                     // drawRestructuredSubChart(d.data.key);
                     // drawRestructuredPieChart(d.data.key);
@@ -533,7 +536,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
                     'xlink:href': '#extra-line',
                     startOffset: '50%'
                 })
-                    .text('TotaL Desks');
+                    .text(' TotaL Desks ');
             });
 
         mainChart.xAxis().ticks(5);
@@ -547,6 +550,8 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
     }
 
     var drawRestructuredSubChart = function(selectedDate){
+
+        console.log("Drawing sub bar chart");
         $scope.width = $("#graphPane").width();
         $scope.height = $("#graphPane").height();
 
@@ -586,14 +591,16 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .yAxisLabel("DesksAllocated!")
             .dimension(formattedDateDimension)
             .renderLabel(true)
+            .ordinalColors(['#CCC'])
             .group(formattedDateGroup)
             .valueAccessor(function(d) {return +d.value;})
             .on('pretransition', function(subBarChart) {
                 subBarChart.selectAll("rect.bar").on("click", function (d) {
                     // console.log(d.data);
+                    console.log(d.data.key, "time service updated by clicking on sub bar chart");
                     timeService.setTime(d.data.key);
                     drawRestructuredPieChart(d.data.key);
-                    console.log(d.data.key);
+
                     // drawSubPieChart(d.data.key,$scope.data);
                 });
 
@@ -608,13 +615,14 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 
     var drawRestructuredPieChart = function(selectedDate){
 
+        console.log(" drawing pie chart")
+
         $scope.width = $("#graphPane").width();
         $scope.height = $("#graphPane").height();
         radius = Math.min($scope.width, $scope.height) / 2;
 
         $scope.restructuredData = dataService.getRestructuredData();
 
-        console.log($scope.restructuredData);
 
         var facts = crossfilter($scope.restructuredData);
         var desksAllocatedKey = function(fact){return +fact.DesksAllocated;};
@@ -626,13 +634,13 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
         var formattedDateFilterDimension = facts.dimension(formattedTimeKey);
 
         formattedDateFilterDimension.filter(selectedDate);
-        console.log(formattedDateFilterDimension.top(Infinity));
+        // console.log(formattedDateFilterDimension.top(Infinity));
 
         var updatedFacts=crossfilter(formattedDateFilterDimension.top(Infinity));
         var nameDimension = updatedFacts.dimension(nameKey);
         var nameGroup = nameDimension.group().reduceSum(desksAllocatedKey);
 
-        console.log(nameGroup.all());
+        // console.log(nameGroup.all());
 
         var formattedDateGroup = formattedDateDimension.group(function(fact){return fact.Name;});
 

@@ -37,7 +37,7 @@
       "Date": "11/08/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -45,7 +45,7 @@
       "Date": "18/08/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -53,7 +53,7 @@
       "Date": "25/08/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -61,7 +61,7 @@
       "Date": "08/09/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -69,7 +69,7 @@
       "Date": "15/09/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -77,7 +77,7 @@
       "Date": "22/09/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -85,7 +85,7 @@
       "Date": "06/10/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -93,7 +93,7 @@
       "Date": "13/10/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -101,7 +101,7 @@
       "Date": "20/10/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -109,7 +109,7 @@
       "Date": "27/10/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -117,7 +117,7 @@
       "Date": "03/11/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -125,7 +125,7 @@
       "Date": "10/11/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     },
     {
@@ -133,7 +133,7 @@
       "Date": "17/11/2017",
       "Time": "9:00:00",
       "Duration": "90",
-      "Year 1": "60",
+      "Students": "60",
       "Desks": "l2-c7,l2-c8,l2-c9,l2-c16,l2-c17"
     }
   ],
@@ -143,7 +143,7 @@
       "Date": "07/08/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -151,7 +151,7 @@
       "Date": "14/08/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -159,7 +159,7 @@
       "Date": "21/08/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -167,7 +167,7 @@
       "Date": "28/08/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -175,7 +175,7 @@
       "Date": "04/09/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -183,7 +183,7 @@
       "Date": "11/09/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -191,7 +191,7 @@
       "Date": "18/09/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -199,7 +199,7 @@
       "Date": "02/10/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -207,7 +207,7 @@
       "Date": "09/10/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -215,7 +215,7 @@
       "Date": "16/10/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -223,7 +223,7 @@
       "Date": "23/10/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -231,7 +231,7 @@
       "Date": "30/10/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -239,7 +239,7 @@
       "Date": "06/11/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     },
     {
@@ -247,7 +247,7 @@
       "Date": "13/11/2017",
       "Time": "11:00:00",
       "Duration": "60",
-      "Year 2": "50",
+      "Students": "50",
       "Desks": "l2-c10,l2-c11,l2-c18,l2-c19,l2-c20"
     }
   ],
@@ -257,7 +257,7 @@
       "Date": "08/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -265,7 +265,7 @@
       "Date": "15/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -273,7 +273,7 @@
       "Date": "22/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -281,7 +281,7 @@
       "Date": "29/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -289,7 +289,7 @@
       "Date": "05/09/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -297,7 +297,7 @@
       "Date": "12/09/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -305,7 +305,7 @@
       "Date": "19/09/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -313,7 +313,7 @@
       "Date": "03/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -321,7 +321,7 @@
       "Date": "10/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -329,7 +329,7 @@
       "Date": "17/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -337,7 +337,7 @@
       "Date": "24/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -345,7 +345,7 @@
       "Date": "31/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -353,7 +353,7 @@
       "Date": "07/11/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     },
     {
@@ -361,7 +361,7 @@
       "Date": "14/11/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45",
+      "Students": "45",
       "Desks": "l1-c6,l1-c7,l1-c10,l1-c11"
     }
   ],
@@ -371,7 +371,7 @@
       "Date": "16/08/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -379,7 +379,7 @@
       "Date": "23/08/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -387,7 +387,7 @@
       "Date": "30/08/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -395,7 +395,7 @@
       "Date": "06/09/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -403,7 +403,7 @@
       "Date": "13/09/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -411,7 +411,7 @@
       "Date": "20/09/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -419,7 +419,7 @@
       "Date": "04/10/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -427,7 +427,7 @@
       "Date": "11/10/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -435,7 +435,7 @@
       "Date": "25/10/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -443,7 +443,7 @@
       "Date": "01/11/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -451,7 +451,7 @@
       "Date": "08/11/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     },
     {
@@ -459,7 +459,7 @@
       "Date": "15/11/2017",
       "Time": "14:30:00",
       "Duration": "120",
-      "Year 4": "40",
+      "Students": "40",
       "Desks": "l6-c7,l6-c8,l6-c9,l6-c10"
     }
   ],
@@ -469,7 +469,7 @@
       "Date": "10/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -477,7 +477,7 @@
       "Date": "17/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -485,7 +485,7 @@
       "Date": "24/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -493,7 +493,7 @@
       "Date": "31/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -501,7 +501,7 @@
       "Date": "07/09/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -509,7 +509,7 @@
       "Date": "14/09/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -517,7 +517,7 @@
       "Date": "21/09/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -525,7 +525,7 @@
       "Date": "05/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -533,7 +533,7 @@
       "Date": "12/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -541,7 +541,7 @@
       "Date": "19/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -549,7 +549,7 @@
       "Date": "26/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -557,7 +557,7 @@
       "Date": "02/11/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -565,7 +565,7 @@
       "Date": "09/11/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     },
     {
@@ -573,7 +573,7 @@
       "Date": "16/11/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Year 5": "35",
+      "Students": "35",
       "Desks": "l6-c1,l6-c2,l6-c3"
     }
   ],
@@ -583,7 +583,7 @@
       "Date": "10/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -591,7 +591,7 @@
       "Date": "17/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -599,7 +599,7 @@
       "Date": "24/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -607,7 +607,7 @@
       "Date": "31/08/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -615,7 +615,7 @@
       "Date": "07/09/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -623,7 +623,7 @@
       "Date": "14/09/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -631,7 +631,7 @@
       "Date": "21/09/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -639,7 +639,7 @@
       "Date": "05/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -647,7 +647,7 @@
       "Date": "12/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -655,7 +655,7 @@
       "Date": "19/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -663,7 +663,7 @@
       "Date": "26/10/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -671,7 +671,7 @@
       "Date": "02/11/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -679,7 +679,7 @@
       "Date": "09/11/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     },
     {
@@ -687,7 +687,7 @@
       "Date": "16/11/2017",
       "Time": "10:00:00",
       "Duration": "60",
-      "Mdesign": "30",
+      "Students": "30",
       "Desks": "l1-c1,l1-c2,l1-c5"
     }
   ],
@@ -697,98 +697,112 @@
       "Date": "07/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "14/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "21/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "28/08/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "04/09/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "11/09/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "18/09/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "02/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "09/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "16/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "23/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "30/10/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "06/11/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     },
     {
       "Type": "Lecture",
       "Date": "13/11/2017",
       "Time": "9:30:00",
       "Duration": "60",
-      "Year 3": "45"
+      "Students": "45",
+      "Desks": "l2-c10,l2-c11,l2-c18,l2-c19"
     }
   ]
 }

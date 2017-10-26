@@ -293,7 +293,10 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
 	var timeChanged = function(){
 		$scope.activeDate = timeService.getTime();
+		console.log("time change is noticed and occupied clusters are changed");
+        console.log("active date: ",$scope.activeDate );
 		occupiedClusters();
+
 		// desksNeeded();
 	}
 
@@ -427,6 +430,8 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
     var occupiedClusters = function(){
 
+        console.log("occupied clusters function is called");
+
 		$scope.totalClustersOccupied=[];
 
 		$scope.clusterIdArray=[];
@@ -470,6 +475,8 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		else{
 			return;
 		}
+
+		console.log("total clausters occupied : ",$scope.totalClustersOccupied);
 
 		$scope.clusters[0].map(function(cluster){
 
