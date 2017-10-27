@@ -210,6 +210,11 @@ pre.layoutInfo{
     padding: 2.5px;
 }
 
+.selectedBar{
+    fill: red;;
+
+}
+
 
 
 

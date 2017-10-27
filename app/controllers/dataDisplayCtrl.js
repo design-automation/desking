@@ -242,7 +242,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
         $scope.display.groups.map(function(group){
 
-        	if(group.name==updatedGroup.name){
+        	if(group.Name==updatedGroup.Name){
                 group=updatedGroup;
 			}
 

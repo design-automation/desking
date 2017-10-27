@@ -7,7 +7,7 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 	$scope.activeDate = new Date().getTime();
 	$scope.rowCollection = undefined;
     $scope.selectionButtonsDisplay=false;
-    $scope.clusterIdArray=[];
+    $scope.filledClusters=[];
 
 	Date.prototype.addTimeMinutes = function(time) {
 		var dat = new Date(this.valueOf())
@@ -73,39 +73,91 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
                 }
                 else{
                     var clusterInfo ={};
-                    $scope.displayGroups.map(function(group){
-                        group.rows.map(function(row){
-                            var clusterIdArray=[];
-                            clusterIdArray = row['Desks'] == undefined ? [] : row["Desks"].split(",");
-                            if($.inArray(cluster[0][0].id, clusterIdArray)&& timeService.getTime()==row['formattedDate']){
+                    // $scope.displayGroups.map(function(group){
+                    //     group.rows.map(function(row){
+                    //         var clusterIdArray=[];
+                    //         clusterIdArray = row['Desks'] == undefined ? [] : row["Desks"].split(",");
+                    //
+                    //         if($.inArray(cluster[0][0].id, clusterIdArray)&& timeService.getTime()==row['formattedDate']){
+                    //
+                    //             console.log( cluster[0][0].id +" : ");
+                    //             console.log(clusterIdArray);
+                    //
+                    //             clusterInfo.date=row['Date'];
+                    //             clusterInfo.startTime=row['Time'];
+                    //
+                    //             var endTime=new Date(row.formattedDate);
+                    //             endTime=endTime.setMinutes(endTime.getMinutes()+ parseInt(row.Duration));
+                    //             endTime=new Date(endTime);
+                    //             var hours=endTime.getHours();
+                    //             var minutes=endTime.getMinutes();
+                    //             var seconds="00";
+                    //             if(minutes==0){
+                    //                 minutes="00";
+                    //             }
+                    //             var array=[];
+                    //             array.push(hours);
+                    //             array.push(minutes);
+                    //             array.push(seconds);
+                    //             endTime=array.join(":");
+                    //
+                    //             clusterInfo.endTime=endTime;
+                    //             clusterInfo.courseName=group.Name;
+                    //             clusterInfo.type=row['Type'];
+                    //
+                    //         }
+                    //
+                    //     });
+                    //
+                    // });
 
-                                clusterInfo.date=row['Date'];
-                                clusterInfo.startTime=row['Time'];
+                    $scope.filledClusters.map(function(row){
 
-                                var endTime=new Date(row.formattedDate);
-                                endTime=endTime.setMinutes(endTime.getMinutes()+ parseInt(row.Duration));
-                                endTime=new Date(endTime);
-                                var hours=endTime.getHours();
-                                var minutes=endTime.getMinutes();
-                                var seconds="00";
-                                if(minutes==0){
-                                    minutes="00";
-                                }
-                                var array=[];
-                                array.push(hours);
-                                array.push(minutes);
-                                array.push(seconds);
-                                endTime=array.join(":");
 
-                                clusterInfo.endTime=endTime;
-                                clusterInfo.courseName=group.name;
-                                clusterInfo.type=row['Type'];
+                        var clusterIdArray=row['Desks'];
 
+
+                        if($.inArray(cluster[0][0].id,clusterIdArray)>=0){
+
+                            clusterInfo.date=row['Date'];
+                            clusterInfo.startTime=row['Time'];
+
+                            var date = row['Date'].split("/");
+                            var time = row['Time'].split(":");
+
+                            var newdate = new Date();
+                            newdate.setDate(date[0]);
+                            newdate.setMonth(date[1]-1);
+                            newdate.setYear(date[2]);
+                            newdate.setHours(+time[0]);
+                            newdate.setMinutes(+time[1]);
+                            newdate.setSeconds(+time[2]);
+                            newdate.setMilliseconds(0);
+
+                            var endTime=new Date(row.FormattedClassStartTime);
+                            endTime=endTime.setMinutes(endTime.getMinutes()+ parseInt(row.Duration));
+                            endTime=new Date(endTime);
+                            var hours=endTime.getHours();
+                            var minutes=endTime.getMinutes();
+                            var seconds="00";
+                            if(minutes==0){
+                                minutes="00";
                             }
+                            var array=[];
+                            array.push(hours);
+                            array.push(minutes);
+                            array.push(seconds);
+                            endTime=array.join(":");
 
-                        });
+                            clusterInfo.endTime=endTime;
+                            clusterInfo.courseName=row['Name'];
+                            console.log(clusterInfo.courseName);
+                            clusterInfo.type=row['Type'];
+                        }
+
 
                     });
+
 
                     tooltip.append("text")
                         .attr("x", 0)
@@ -291,14 +343,11 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
         insertSVG();
     }
 
-	var timeChanged = function(){
-		$scope.activeDate = timeService.getTime();
-		console.log("time change is noticed and occupied clusters are changed");
-        console.log("active date: ",$scope.activeDate );
-		occupiedClusters();
-
-		// desksNeeded();
-	}
+	var timeChanged = function() {
+        $scope.activeDate = timeService.getTime();
+        occupiedClusters();
+        // desksNeeded();
+    }
 
 	var dataChanged = function(){
 		$scope.rowCollection = dataService.getRows();
@@ -430,11 +479,9 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
     var occupiedClusters = function(){
 
-        console.log("occupied clusters function is called");
-
 		$scope.totalClustersOccupied=[];
 
-		$scope.clusterIdArray=[];
+		$scope.filledClusters=[];
 
 
 		if($scope.rowCollection!=undefined){
@@ -467,7 +514,18 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 
                     } );
 
+                    var filledCluster={};
+                    filledCluster.Name=row['Name'];
+                    filledCluster.Type=row['Type'];
+                    filledCluster.Date=row['Date'];
+                    filledCluster.Time=row['Time'];
+                    filledCluster.FormattedClassStartTime=row['formattedDate']
+                    filledCluster.Duration=row['Duration'];
+                    filledCluster.Desks=clusterIdArray;
+                    $scope.filledClusters.push(filledCluster);
+
 				}
+
 
             });
 
@@ -475,8 +533,6 @@ desking.controller('layoutCtrl', ['$scope', 'dataService', 'timeService','$timeo
 		else{
 			return;
 		}
-
-		console.log("total clausters occupied : ",$scope.totalClustersOccupied);
 
 		$scope.clusters[0].map(function(cluster){
 

@@ -401,13 +401,20 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
 
         if($scope.activeDate!=timeService.getTime()){
 
+            var activeDate =new Date($scope.activeDate);
+            var newDate = new Date(timeService.getTime());
 
+            if(newDate.getMonth()!=activeDate.getMonth() ||newDate.getDate()!=activeDate.getDate()){
+
+                console.log("need to draw sub bar chart");
+                drawRestructuredSubChart(timeService.getTime());
+            }
 
         }
         // $scope.activeDate = timeService.getTime();
         // // drawSubPieChart($scope.activeDate,$scope.data);
         $scope.activeDate = timeService.getTime();
-        drawRestructuredSubChart(timeService.getTime());
+
         drawRestructuredPieChart(timeService.getTime());
 
     }
@@ -504,13 +511,28 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .on('pretransition', function(mainChart) {
                 mainChart.selectAll("rect.bar").on("click", function (d) {
 
-                    console.log(d.data.key, "time service updated by clicking on main bar chart");
+                    console.log(d);
+                    var bars =mainChart.selectAll("rect.bar");
+
+                    bars[0].map(function(bar){
+                        var resetBar=d3.select(bar);
+                        resetBar.classed("selectedBar ", false);
+                    });
+
+                    // mainChart.filter(null)
+                    //     .filter(d.data.key)
+                    //     // .redrawGroup();
+
+                    // mainChart.redrawGroup();
+
+
+                    var bar = d3.select(this);
+                    bar.classed("selectedBar", true);
+
                     timeService.setTime(d.data.key);
                     // drawRestructuredSubChart(d.data.key);
                     // drawRestructuredPieChart(d.data.key);
-                    mainChart.filter(null)
-                        .filter(d.data.key)
-                        .redrawGroup();
+
                 });
 
                 var left_y = $scope.maxDesks, right_y = $scope.maxDesks; // use real statistics here!
@@ -593,12 +615,26 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
             .renderLabel(true)
             .ordinalColors(['#CCC'])
             .group(formattedDateGroup)
+            .title(function(d) {
+                var formatDate = d3.time.format("%e %b %Y")
+                return formatDate(new Date(d.key)) + ' : ' + d.value;
+            })
             .valueAccessor(function(d) {return +d.value;})
             .on('pretransition', function(subBarChart) {
                 subBarChart.selectAll("rect.bar").on("click", function (d) {
                     // console.log(d.data);
-                    console.log(d.data.key, "time service updated by clicking on sub bar chart");
+                    var bars =subBarChart.selectAll("rect.bar");
+
+                    bars[0].map(function(bar){
+                        var resetBar=d3.select(bar);
+                        resetBar.classed("selectedBar ", false);
+                    });
+                    
+                    var bar = d3.select(this);
+                    bar.classed("selectedBar", true);
+
                     timeService.setTime(d.data.key);
+
                     drawRestructuredPieChart(d.data.key);
 
                     // drawSubPieChart(d.data.key,$scope.data);
