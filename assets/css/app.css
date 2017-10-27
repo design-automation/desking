@@ -198,6 +198,19 @@ button{
 
 }
 
+/*Display controls*/
+
+#displayControls{
+    padding: 5px 5px;
+
+}
+
+pre.layoutInfo{
+    margin: 5px;
+    padding: 2.5px;
+}
+
+
 
 
 
