@@ -629,7 +629,7 @@ desking.controller('graphCtrl', ['dataService', 'timeService', '$scope','$timeou
                         var resetBar=d3.select(bar);
                         resetBar.classed("selectedBar ", false);
                     });
-                    
+
                     var bar = d3.select(this);
                     bar.classed("selectedBar", true);
 
