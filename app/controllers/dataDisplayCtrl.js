@@ -191,7 +191,9 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
 	var selectedRow = function(row){
 
+		console.log(row['formattedDate']," time service updated by clicking in the row of display pane");
 		timeService.setTime(row['formattedDate']);
+		//console.log("updated time", timeService.getTime());
 		displayService.setClickedRow(row);
 
 	}
@@ -240,7 +242,7 @@ desking.controller('dataDisplayCtrl',['$scope','timeService','dataService','disp
 
         $scope.display.groups.map(function(group){
 
-        	if(group.name==updatedGroup.name){
+        	if(group.Name==updatedGroup.Name){
                 group=updatedGroup;
 			}
 

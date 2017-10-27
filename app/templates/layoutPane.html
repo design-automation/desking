@@ -1,9 +1,11 @@
-<div ng-controller="layoutCtrl" class="svg-holder" id="svg1" ng-init="init()">
+<div ng-controller="layoutCtrl"  ng-init="init()">
 
 
     <pre class="layoutInfo">Selection: <span>{{clickedRow.name }}  </span><span>{{clickedRow.Date}}   </span><span>{{clickedRow.Time}}</span></pre>
     <!--<pre>Selected date is: <em>{{clickedRow. }}</em></pre>-->
+    <div  class="svg-holder" id="svg1">
 
+    </div>
 
     <!-- section for controls -->
     <section class="text-right" ng-show=selectionButtonsDisplay id="selectionButtons">

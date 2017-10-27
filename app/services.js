@@ -74,7 +74,7 @@ desking.factory("timeService", function() {
 
 	p.setTime = function(time){
 		o.time = time;
-		notifyObservers();
+        notifyObservers();
 		return o.time;
 	}
 
@@ -234,7 +234,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
                 for(i=0;i<headers.length;i++){
                     obj[headers[i]]=row[headers[i]];
                 }
-                obj.name=x;
+                obj.Name=x;
                 rows.push(obj);
 
             });
@@ -318,14 +318,14 @@ desking.factory("dataService", ['timeService', function(timeService) {
         p.setRows(rows);
 
 		for(x in jsonData){
-            var newgroup = {name: x};
+            var newgroup = {Name: x};
             newgroup.headers=Object.keys(jsonData[x][0]);
             newgroup.rows=jsonData[x].map(function(row){
             	var obj={}
             	for(i=0;i<newgroup.headers.length;i++){
             		obj[newgroup.headers[i]]=row[newgroup.headers[i]];
 				}
-                obj.name=x;
+                obj.Name=x;
 				return obj;
 			});
 
@@ -382,7 +382,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
 			}
 
 			// jsonData[x].map(function(obj){
-			// 	obj.name=x;
+			// 	obj.Name=x;
 			// 	rows.push(obj);
 			// });
             displayGroups.push(newgroup);
@@ -540,7 +540,7 @@ desking.factory("dataService", ['timeService', function(timeService) {
     //
      //    for(x in o.jsonData){
     //
-     //        var newgroup = {name: x};
+     //        var newgroup = {Name: x};
      //        newgroup.headers=Object.keys(o.jsonData[x][0]);
      //        newgroup.rows=o.jsonData[x];
      //        if(x!=="Overview"){
@@ -740,7 +740,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         o.groups=dataService.getDisplayGroups();
 
         o.groups.map(function(group){
-            if(group.name==o.updatedGroup.name){
+            if(group.Name==o.updatedGroup.Name){
                 group=o.updatedGroup;
             }
         });
@@ -761,7 +761,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         o.groups=dataService.getDisplayGroups();
 
         o.groups.map(function(group){
-            if(group.name==o.selectionGroup.name){
+            if(group.Name==o.selectionGroup.Name){
 
                 group.rows.map(function(row){
                     if(row['formattedDate']==o.updatedRow['formattedDate']){
@@ -792,7 +792,7 @@ desking.factory("displayService",['timeService','dataService',function(timeServi
         var clusterString=updatedRow.clusterIdArray.toString();
         console.log(clusterString);
 
-        jsonData[group.name].map(function(row){
+        jsonData[group.Name].map(function(row){
             if( row['Date'] != undefined || row['Time'] != undefined){
                 var date = row['Date'].split("/");
                 var time = row['Time'].split(":");

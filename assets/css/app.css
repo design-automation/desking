@@ -20,6 +20,11 @@
     overflow: hidden;
 }
 
+.pane#graphPane{
+
+    overflow: hidden;
+}
+
 .panel-heading{
     border-radius: 0px;
     padding: 5px;
@@ -131,7 +136,7 @@ g.mouseoff g rect {
 }
 
 g.occupied g rect {
-    fill: steelblue !important;
+    fill: #888888 !important;
 
 }
 g.unoccupied g rect {
@@ -183,6 +188,32 @@ button{
 }
 
 
+/* Slider Pointer Color*/
+.rzslider .rz-pointer{
+    background-color: #CCC;
+}
+
+.rzslider .rz-pointer.rz-active:after{
+    background-color: #1F77B4;
+
+}
+
+/*Display controls*/
+
+#displayControls{
+    padding: 5px 5px;
+
+}
+
+pre.layoutInfo{
+    margin: 5px;
+    padding: 2.5px;
+}
+
+.selectedBar{
+    fill: red;;
+
+}
 
 
 
